@@ -11,5 +11,5 @@ void printHeader() {
         }
         free(line);
     }
-    free(fp);
+    fclose(fp);
 }
