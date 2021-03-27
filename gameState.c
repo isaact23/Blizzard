@@ -2,7 +2,7 @@
 #include "gameState.h"
 
 // Returns pointer to dynamically allocated board in opening state.
-gameState* openingBoard() {
+gameState* openingGameState() {
     // Initialize empty board
     gameState* state = malloc(sizeof(gameState));
 
@@ -61,7 +61,7 @@ gameState* openingBoard() {
 };
 
 // Frees memory in a *gameState.
-void freeBoard(gameState* state) {
+void freeGameState(gameState* state) {
     for (int i = 0; i < 8; i++) {
         free(state -> pieces[i]);
     }
@@ -70,7 +70,7 @@ void freeBoard(gameState* state) {
 };
 
 // Prints a *gameState to terminal.
-void printBoard(gameState* state) {
+void printGameState(gameState* state) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             printf("%c", state -> pieces[7 - i][j]);

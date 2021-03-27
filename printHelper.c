@@ -3,9 +3,13 @@
 
 // Print the program header, which includes BLIZZARD ascii art
 void printHeader() {
-    printf("\n");
-    // Load BLIZZARD ASCII art
-    FILE* fp = fopen("blizzard_ascii.txt", 'r');
-    printf("\n");
-    printf("Blizzard chess engine, written by Isaac Thompson in C. Version 1.0.\n");
+    FILE* fp = fopen(HEADER_FILENAME, "r");
+    if (fp != NULL) {
+        char* line = malloc(70 * sizeof(char));
+        while (fgets(line, 70, fp) != NULL) {
+            printf("%s", line);
+        }
+        free(line);
+    }
+    free(fp);
 }

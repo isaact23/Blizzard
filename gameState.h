@@ -23,12 +23,12 @@ struct _move {
 typedef struct _move move;
 
 // Returns pointer to dynamically allocated opening gameState.
-gameState* openingBoard();
+gameState* openingGameState();
 
-// Frees memory in a *gameState.
-void freeBoard(gameState* state);
+// Frees memory in a gameState.
+void freeGameState(gameState* state);
 
 // Prints a gameState to the terminal.
-void printBoard(gameState* state);
+void printGameState(gameState* state);
 
 #endif
