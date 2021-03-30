@@ -1,1 +1,1 @@
-gcc -o main main.c moveLister.c gameState.c printHelper.c
+gcc -o main main.c moveList.c moveLister.c gameState.c printHelper.c
