@@ -1,0 +1,1 @@
+gcc -o main main.c moveLister.c gameState.c printHelper.c

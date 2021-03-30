@@ -2,7 +2,7 @@
 #define GAMESTATE_H
 
 // Store all data in FEN for game state
-struct _gameState {
+struct _GameState {
     char** pieces; // 8x8 board (indexed by rows then cols)
     uint8_t turn;
     uint8_t wck, wcq, bck, bcq; // Castling availability. 0 if unavailable.
@@ -10,25 +10,15 @@ struct _gameState {
     uint16_t halfmove_counter;
     uint16_t fullmove_counter;
 };
-typedef struct _gameState gameState;
+typedef struct _GameState GameState;
 
-// Store data for a move
-struct _move {
-    uint8_t from_x;
-    uint8_t from_y;
-    uint8_t to_x;
-    uint8_t to_y;
-    uint8_t promotion;
-};
-typedef struct _move move;
+// Returns pointer to dynamically allocated opening GameState.
+GameState* openingGameState();
 
-// Returns pointer to dynamically allocated opening gameState.
-gameState* openingGameState();
+// Frees memory in a GameState.
+void freeGameState(GameState* state);
 
-// Frees memory in a gameState.
-void freeGameState(gameState* state);
-
-// Prints a gameState to the terminal.
-void printGameState(gameState* state);
+// Prints a GameState to the terminal.
+void printGameState(GameState* state);
 
 #endif

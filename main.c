@@ -5,7 +5,7 @@
 // Run the chess program.
 int main() {
     printHeader();
-    gameState* state = openingGameState();
+    GameState* state = openingGameState();
     printGameState(state);
     freeGameState(state);
 }

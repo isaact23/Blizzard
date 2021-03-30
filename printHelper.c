@@ -1,7 +1,8 @@
 #include "main.h"
 #include "printHelper.h"
 
-// Print the program header, which includes BLIZZARD ascii art
+// Print header from file
+// Not conveninet to encode directly in C due to escape sequences
 void printHeader() {
     FILE* fp = fopen(HEADER_FILENAME, "r");
     if (fp != NULL) {
