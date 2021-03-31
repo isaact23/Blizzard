@@ -26,15 +26,3 @@ char getPieceCharacter(uint8_t piece) {
         default: { return ' '; }
     }
 };
-#define WK 1
-#define WQ 2
-#define WB 3
-#define WN 4
-#define WR 5
-#define WP 6
-#define BK 7
-#define BQ 8
-#define BB 9
-#define BN 10
-#define BR 11
-#define BP 12
