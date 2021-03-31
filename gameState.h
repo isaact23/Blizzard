@@ -1,9 +1,14 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include "pieces.h"
+
 // Store all data in FEN for game state
 struct _GameState {
-    char** pieces; // 8x8 board (indexed by rows then cols)
+    uint8_t** pieces; // 8x8 board (indexed by rows then cols)
     uint8_t turn;
     uint8_t wck, wcq, bck, bcq; // Castling availability. 0 if unavailable.
     uint8_t en_passant_file; // Column of en passant. Greater than 7 if unavailable.

@@ -1,5 +1,11 @@
 #include "moveList.h"
 
+// Print a move
+void printMove(Move* move) {
+    printf("From (%d, %d) to (%d, %d) promotion %d\n",
+        move -> from_x, move -> from_y, move -> to_x, move -> to_y, move -> promotion);
+};
+
 // Get empty MoveList
 MoveList* emptyMoveList() {
     MoveList* moveList = malloc(sizeof(MoveList));
@@ -12,7 +18,14 @@ MoveList* emptyMoveList() {
 };
 
 // Add a Move to a MoveList
-void addMove(MoveList* moveList, Move* move) {
+void addMove(MoveList* moveList, uint8_t from_x, uint8_t from_y, uint8_t to_x, uint8_t to_y, uint8_t promotion) {
+    Move* move = malloc(sizeof(Move));
+    move -> from_x = from_x;
+    move -> from_y = from_y;
+    move -> to_x = to_x;
+    move -> to_y = to_y;
+    move -> promotion = promotion;
+
     // Allocate more memory if needed
     if (moveList -> moveCount >= moveList -> arraySize) {
         moveList -> arraySize *= 2;
@@ -31,6 +44,7 @@ void freeMoveList(MoveList* moveList) {
     for (int i = 0; i < moveList -> moveCount; i++) {
         free(moveList -> moveArray[i]);
     }
-    // Free array
+    // Free remaining memory
     free(moveList -> moveArray);
+    free(moveList);
 };

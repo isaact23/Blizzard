@@ -1,1 +1,1 @@
-gcc -o main main.c moveList.c moveLister.c gameState.c printHelper.c
+gcc -W -Wall -ggdb3 -O0 -o main main.c pieces.c moveList.c moveLister.c gameState.c printHelper.c

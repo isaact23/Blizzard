@@ -1,4 +1,3 @@
-#include "main.h"
 #include "gameState.h"
 
 // Returns pointer to dynamically allocated board in opening state.
@@ -17,9 +16,9 @@ GameState* openingGameState() {
         {BP, BP, BP, BP, BP, BP, BP, BP},
         {BR, BN, BB, BQ, BK, BB, BN, BR}
     };*/
-    char** pieces = malloc(sizeof(char*) * 8);
+    uint8_t** pieces = malloc(sizeof(uint8_t*) * 8);
     for (int i = 0; i < 8; i++) {
-        pieces[i] = malloc(sizeof(char) * 8);
+        pieces[i] = malloc(sizeof(uint8_t) * 8);
     }
     pieces[0][0] = WR;
     pieces[0][1] = WN;
@@ -73,7 +72,7 @@ void freeGameState(GameState* state) {
 void printGameState(GameState* state) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            printf("%c", state -> pieces[7 - i][j]);
+            printf("%c", getPieceCharacter(state -> pieces[7 - i][j]));
             if (j < 7) {
                 printf(" | ");
             }

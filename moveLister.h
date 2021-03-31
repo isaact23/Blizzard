@@ -1,7 +1,8 @@
 #ifndef MOVELISTER_H
 #define MOVELISTER_H
 
-#include "main.h"
+#include "pieces.h"
+#include "moveList.h"
 #include "gameState.h"
 
 // Return pointer to list of all possible moves for gameState state, or NULL if failed.
