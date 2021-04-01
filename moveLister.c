@@ -9,7 +9,7 @@ MoveList* listMoves(GameState* gameState) {
     // Iterate through all squares on the chessboard, listing move for each piece
     for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {
-            char piece = gameState -> pieces[x][y];
+            uint8_t piece = gameState -> pieces[x][y];
             if (gameState -> turn == WHITE) {
                 if (piece == WK) {
                     
