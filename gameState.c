@@ -60,6 +60,43 @@ GameState* openingGameState() {
     return state;
 };
 
+// Apply a move to the GameState.
+void applyMoveToGameState(GameState* state, Move* move) {
+    state -> pieces[move -> to_x][move -> to_y] = state -> pieces[move -> from_x][move -> from_y];
+    state -> pieces[move -> from_x][move -> from_y] = EMPTY;
+    if (state -> turn == WHITE) {
+        state -> turn = BLACK;
+    } else {
+        state -> turn = WHITE;
+    }
+}
+
+// Get fitness level for a GameState.
+int32_t getFitness(GameState* state) {
+    int32_t fitness = 0;
+    uint8_t** pieces = state -> pieces;
+    for (uint8_t x = 0; x < 8; x++) {
+        uint8_t* col = pieces[x];
+        for (uint8_t y = 0; y < 8; y++) {
+            switch (col[y]) {
+                case WP: { fitness += (100 + y); break; }
+                case WB: { fitness += 300; break; }
+                case WN: { fitness += 300; break; }
+                case WR: { fitness += 500; break; }
+                case WQ: { fitness += 900; break; }
+                case WK: { fitness += 1000000; break; }
+                case BP: { fitness -= (100 + y); break; }
+                case BB: { fitness -= 300; break; }
+                case BN: { fitness -= 300; break; }
+                case BR: { fitness -= 500; break; }
+                case BQ: { fitness -= 900; break; }
+                case BK: { fitness -= 1000000; break; }
+            }
+        }
+    }
+    return fitness;
+};
+
 // Frees memory in a *gameState.
 void freeGameState(GameState* state) {
     for (int i = 0; i < 8; i++) {

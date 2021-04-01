@@ -17,7 +17,11 @@ MoveList* listMoves(GameState* gameState) {
                     listPawnMoves(gameState, moveList, x, y);
                 }
             } else {
-
+                if (piece == WK) {
+                    
+                } else if (piece == BP) {
+                    listPawnMoves(gameState, moveList, x, y);
+                }
             }
         }
     }

@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "pieces.h"
+#include "moveList.h"
 
 // Store all data in FEN for game state
 struct _GameState {
@@ -19,6 +20,12 @@ typedef struct _GameState GameState;
 
 // Returns pointer to dynamically allocated opening GameState.
 GameState* openingGameState();
+
+// Apply a move to the GameState.
+void applyMoveToGameState(GameState* state, Move* move);
+
+// Get fitness level for a GameState.
+int32_t getFitness(GameState* state);
 
 // Frees memory in a GameState.
 void freeGameState(GameState* state);
