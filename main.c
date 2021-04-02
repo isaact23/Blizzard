@@ -4,12 +4,11 @@
 int main() {
     printHeader();
     GameState* gameState = openingGameState();
-    MoveList* moveList = listMoves(gameState);
-    applyMoveToGameState(gameState, moveList -> moveArray[11]);
-    freeMoveList(moveList);
-    MoveList* moveList2 = listMoves(gameState);
-    applyMoveToGameState(gameState, moveList2 -> moveArray[11]);
+    Tree* gameTree = createGameTree(gameState);
+
     printGameState(gameState);
-    freeMoveList(moveList2);
+
+    // Free dynamically allocated memory
     freeGameState(gameState);
+    freeTree(gameTree);
 }
