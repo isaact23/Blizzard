@@ -5,6 +5,7 @@ int main() {
     printHeader();
     GameState* gameState = openingGameState();
     Tree* gameTree = createGameTree(gameState);
+    evaluateGameTree(gameTree);
 
     printGameState(gameState);
 
