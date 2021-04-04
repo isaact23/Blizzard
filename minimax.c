@@ -1,5 +1,7 @@
 #include "minimax.h"
 
+// Have evaluateNode() update the gameState array as needed without seg faults
+
 // Create a game Tree with a single GameState
 Tree* createGameTree(GameState* gameState) {
     Tree* tree = malloc(sizeof(Tree));
@@ -62,6 +64,11 @@ void addChildToNode(Node* node, Node* child) {
 // Evaluate a node. Returns fitness of node.
 // TODO: Alpha beta pruning AND terminal nodes.
 int32_t evaluateNode(Node* node, GameState* gameState, uint16_t depth) {
+    // Apply this node's move to the gameState.
+    if (node -> move != NULL) {
+        applyMoveToGameState(gameState, node -> move);
+    }
+
     // If depth is 0, just evaluate this gameState and return.
     if (depth == 0) {
         node -> fitness = getFitness(gameState);
@@ -77,15 +84,22 @@ int32_t evaluateNode(Node* node, GameState* gameState, uint16_t depth) {
         }
         node -> childrenCreated = 1;
     }
-    // Evaluate each node.
+    // Set bestFitness to worst case scenario.
     int32_t bestFitness;
     if (gameState -> turn == WHITE) {
         bestFitness = INT32_MAX;
     } else {
         bestFitness = INT32_MIN;
     }
+    // Evaluate each child node.
     for (uint16_t i = 0; i < node -> childCount; i++) {
-        int32_t fitness = evaluateNode(node -> children[i], gameState + sizeof(GameState), depth - 1);
+        // Copy this node's gameState to the next layer.
+        *((&gameState) + sizeof(GameState*)) = copyGameState(gameState);
+
+        // Evaluate child node.
+        int32_t fitness = evaluateNode(node -> children[i], *((&gameState) + sizeof(GameState*)), depth - 1);
+
+        // Determine if the child node is the strongest node evaluated so far.
         if (gameState -> turn == WHITE) {
             if (fitness < bestFitness) {
                 bestFitness = fitness;

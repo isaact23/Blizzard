@@ -27,6 +27,9 @@ void applyMoveToGameState(GameState* state, Move* move);
 // Get fitness level for a GameState.
 int32_t getFitness(GameState* state);
 
+// Return a pointer to an identical gameState to the provided one.
+GameState* copyGameState(GameState* state);
+
 // Frees memory in a GameState.
 void freeGameState(GameState* state);
 

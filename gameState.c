@@ -97,6 +97,31 @@ int32_t getFitness(GameState* state) {
     return fitness;
 };
 
+// Return a pointer to an identical gameState to the provided one.
+GameState* copyGameState(GameState* state) {
+    GameState* newState = malloc(sizeof(GameState));
+
+    // Copy all pieces on the board
+    newState -> pieces = malloc(sizeof(uint8_t*) * 8);
+    for (uint8_t x = 0; x < 8; x++) {
+        newState -> pieces[x] = malloc(sizeof(uint8_t) * 8);
+        for (uint8_t y = 0; y < 8; y++) {
+            newState -> pieces[x][y] = state -> pieces[x][y];
+        }
+    }
+    // Copy remaining data
+    newState -> turn = state -> turn;
+    newState -> wck = state -> wck;
+    newState -> wcq = state -> wcq;
+    newState -> bck = state -> bck;
+    newState -> bcq = state -> bcq;
+    newState -> en_passant_file = state -> en_passant_file;
+    newState -> halfmove_counter = state -> halfmove_counter;
+    newState -> fullmove_counter = state -> fullmove_counter;
+    
+    return newState;
+}
+
 // Frees memory in a *gameState.
 void freeGameState(GameState* state) {
     for (int i = 0; i < 8; i++) {
