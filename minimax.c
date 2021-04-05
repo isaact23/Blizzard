@@ -1,10 +1,5 @@
 #include "minimax.h"
 
-// ISSUE: *((&gameState) + sizeof(GameState*)) = copyGameState(gameState);
-// Fix by passing a pointer to the array, then just accessing by index
-// ISSUE: Double free in freeTree()
-// ISSUE: Attempted to realloc memory not initialized by createNode()
-
 // Create a game Tree with a single GameState
 Tree* createGameTree(GameState* gameState) {
     Tree* tree = malloc(sizeof(Tree));
@@ -27,7 +22,6 @@ void evaluateGameTree(Tree* tree) {
     // Add a layer to the tree
     tree -> depth++;
     Node* root = tree -> root;
-    //GameState* firstGameState = tree -> gameStateArray[0];
     uint16_t depth = tree -> depth;
     int32_t result = evaluateNode(root, tree -> gameStateArray, 0, depth);
 };
@@ -38,12 +32,13 @@ Move* getBestMove(Tree* tree) {
     return tree -> root -> bestChild -> move;
 };
 
-// Free dynamically allocated memory in a Tree
+// Free dynamically allocated memory in a Tree, EXCEPT for the first GameState.
 void freeTree(Tree* tree) {
     freeNode(tree -> root);
-    for (uint16_t i = 0; i < tree -> gameStateArraySize; i++) {
+    for (uint16_t i = 1; i < tree -> gameStateArraySize; i++) {
         freeGameState(tree -> gameStateArray[i]);
     }
+    free(tree -> gameStateArray);
     free(tree);
 };
 
@@ -101,9 +96,9 @@ int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uin
     // Set bestFitness to worst case scenario.
     int32_t bestFitness;
     if (gameState -> turn == WHITE) {
-        bestFitness = INT32_MAX;
-    } else {
         bestFitness = INT32_MIN;
+    } else {
+        bestFitness = INT32_MAX;
     }
     // Evaluate each child node.
     for (uint16_t i = 0; i < node -> childCount; i++) {
@@ -117,11 +112,11 @@ int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uin
 
         // Determine if the child node is the strongest node evaluated so far.
         if (gameState -> turn == WHITE) {
-            if (fitness < bestFitness) {
+            if (fitness > bestFitness) {
                 bestFitness = fitness;
                 node -> bestChild = node -> children[i];
             }
-        } else if (fitness > bestFitness) {
+        } else if (fitness < bestFitness) {
             bestFitness = fitness;
             node -> bestChild = node -> children[i];
         }

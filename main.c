@@ -4,11 +4,17 @@
 int main() {
     printHeader();
     GameState* gameState = openingGameState();
+    for (int i = 0; i < 10; i++) {
+        Tree* gameTree = createGameTree(gameState);
+        for (int j = 0; j < 4; j++) {
+            evaluateGameTree(gameTree);
+        }
+        Move* bestMove = getBestMove(gameTree);
+        applyMoveToGameState(gameState, bestMove);
+        freeTree(gameTree);
+    }
     printGameState(gameState);
-    Tree* gameTree = createGameTree(gameState);
-    evaluateGameTree(gameTree);
 
     // Free dynamically allocated memory.
-    // Since gameState is part of the tree, gameState is also freed.
-    freeTree(gameTree);
+    freeGameState(gameState);
 }
