@@ -81,14 +81,14 @@ int32_t getFitness(GameState* state) {
             switch (col[y]) {
                 case WP: { fitness += (100 + y); break; }
                 case WB: { fitness += 300; break; }
-                case WN: { fitness += 300; break; }
-                case WR: { fitness += 500; break; }
+                case WN: { fitness += (300 + (y * 10)); break; }
+                case WR: { fitness += (500 + (y * 50)); break; }
                 case WQ: { fitness += 900; break; }
                 case WK: { fitness += 1000000; break; }
-                case BP: { fitness -= (100 + y); break; }
+                case BP: { fitness -= (100 - y); break; }
                 case BB: { fitness -= 300; break; }
-                case BN: { fitness -= 300; break; }
-                case BR: { fitness -= 500; break; }
+                case BN: { fitness -= (300 - (y * 10)); break; }
+                case BR: { fitness -= (500 - (y * 50)); break; }
                 case BQ: { fitness -= 900; break; }
                 case BK: { fitness -= 1000000; break; }
             }

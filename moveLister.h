@@ -19,6 +19,6 @@ static void listBishopMoves(GameState* gameState, MoveList* moveList, int x, int
 // List queen moves at coordinate (x, y) and update moveList.
 static void listQueenMoves(GameState* gameState, MoveList* moveList, int x, int y);
 // List king moves at coordinate (x, y) and update moveList.
-static void listRookMoves(GameState* gameState, MoveList* moveList, int x, int y);
+static void listKingMoves(GameState* gameState, MoveList* moveList, int x, int y);
 
 #endif

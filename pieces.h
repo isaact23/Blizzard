@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 // Player numbers
-#define WHITE 0
-#define BLACK 1
+#define WHITE 1
+#define BLACK 2
 
 // Piece type numbers
 #define EMPTY 0

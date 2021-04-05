@@ -15,12 +15,16 @@ MoveList* listMoves(GameState* gameState) {
                     
                 } else if (piece == WP) {
                     listPawnMoves(gameState, moveList, x, y);
+                } else if (piece == WN) {
+                    listKnightMoves(gameState, moveList, x, y);
                 }
             } else {
-                if (piece == WK) {
+                if (piece == BK) {
                     
                 } else if (piece == BP) {
                     listPawnMoves(gameState, moveList, x, y);
+                } else if (piece == BN) {
+                    listKnightMoves(gameState, moveList, x, y);
                 }
             }
         }
@@ -126,3 +130,114 @@ static void listPawnMoves(GameState* gameState, MoveList* moveList, int x, int y
     }
 }
 
+// List rook moves at coordinate (x, y) and update moveList.
+static void listRookMoves(GameState* gameState, MoveList* moveList, int x, int y) {
+    uint8_t** pieces = gameState -> pieces;
+    uint8_t color = getPieceColor(pieces[x][y]);
+    // Left
+    for (int8_t i = x - 1; i >= 0; i--) {
+        uint8_t obstacleColor = getPieceColor(pieces[i][y]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, i, y, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        }
+    }
+    // Right
+    for (int8_t i = x + 1; i < 8; i++) {
+        uint8_t obstacleColor = getPieceColor(pieces[i][y]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, i, y, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        }
+    }
+    // Down
+    for (int8_t i = y - 1; i >= 0; i--) {
+        uint8_t obstacleColor = getPieceColor(pieces[x][i]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, x, i, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        }
+    }
+    // Up
+    for (int8_t i = y + 1; i < 8; i++) {
+        uint8_t obstacleColor = getPieceColor(pieces[x][i]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, x, i, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        }
+    }
+};
+
+// List knight moves at coordinate (x, y) and update moveList.
+static void listKnightMoves(GameState* gameState, MoveList* moveList, int x, int y) {
+    uint8_t** pieces = gameState -> pieces;
+    uint8_t color = getPieceColor(pieces[x][y]);
+    if (x > 0) {
+        if (y > 1) {
+            if (getPieceColor(pieces[x - 1][y - 2]) != color) {
+                addMove(moveList, x, y, x - 1, y - 2, 0);
+            }
+        }
+        if (y < 6) {
+            if (getPieceColor(pieces[x - 1][y + 2]) != color) {
+                addMove(moveList, x, y, x - 1, y + 2, 0);
+            }
+        }
+        if (x > 1) {
+            if (y > 0) {
+                if (getPieceColor(pieces[x - 2][y - 1]) != color) {
+                    addMove(moveList, x, y, x - 2, y - 1, 0);
+                }
+            }
+            if (y < 7) {
+                if (getPieceColor(pieces[x - 2][y + 1]) != color) {
+                    addMove(moveList, x, y, x - 2, y + 1, 0);
+                }
+            }
+        }
+    }
+    if (x < 7) {
+        if (y > 1) {
+            if (getPieceColor(pieces[x + 1][y - 2]) != color) {
+                addMove(moveList, x, y, x + 1, y - 2, 0);
+            }
+        }
+        if (y < 6) {
+            if (getPieceColor(pieces[x + 1][y + 2]) != color) {
+                addMove(moveList, x, y, x + 1, y + 2, 0);
+            }
+        }
+        if (x < 6) {
+            if (y > 0) {
+                if (getPieceColor(pieces[x + 2][y - 1]) != color) {
+                    addMove(moveList, x, y, x + 2, y - 1, 0);
+                }
+            }
+            if (y < 7) {
+                if (getPieceColor(pieces[x + 2][y + 1]) != color) {
+                    addMove(moveList, x, y, x + 2, y + 1, 0);
+                }
+            }
+        }
+    }
+};
+// List bishop moves at coordinate (x, y) and update moveList.
+static void listBishopMoves(GameState* gameState, MoveList* moveList, int x, int y) {
+
+};
+// List queen moves at coordinate (x, y) and update moveList.
+static void listQueenMoves(GameState* gameState, MoveList* moveList, int x, int y) {
+
+};
+// List king moves at coordinate (x, y) and update moveList.
+static void listKingMoves(GameState* gameState, MoveList* moveList, int x, int y) {
+
+};
