@@ -33,7 +33,7 @@ void evaluateGameTree(Tree* tree) {
 };
 
 // Get the best move in the game Tree. Return NULL if none available
-Move* getBestMoveFromTree(Tree* tree) {
+Move* getBestMove(Tree* tree) {
     if (tree -> root -> bestChild == NULL) { return NULL; }
     return tree -> root -> bestChild -> move;
 };
