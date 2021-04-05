@@ -23,20 +23,6 @@
 #define BR 11
 #define BP 12
 
-/*#define EE ' '
-#define WK 'K'
-#define WQ 'Q'
-#define WB 'B'
-#define WN 'N'
-#define WR 'R'
-#define WP 'P'
-#define BK 'k'
-#define BQ 'q'
-#define BB 'b'
-#define BN 'n'
-#define BR 'r'
-#define BP 'p'*/
-
 // Determine piece color. Return 0 if white, 1 if black, or 2 if empty.
 uint8_t getPieceColor(uint8_t piece);
 

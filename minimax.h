@@ -2,6 +2,7 @@
 #define MINIMAX_H
 
 #define DEFAULT_GAME_STATE_ARRAY_SIZE 2
+#define DEFAULT_CHILD_ARRAY_SIZE 2
 
 #include <stdint.h>
 #include "moveList.h"
@@ -49,7 +50,7 @@ Node* createNode(Move* move);
 void addChildToNode(Node* node, Node* child);
 
 // Evaluate a node. Returns fitness of node
-int32_t evaluateNode(Node* node, GameState* gameState, uint16_t depth);
+int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uint16_t depth);
 
 // Free dynamically allocated memory in a Node
 void freeNode(Node* node);

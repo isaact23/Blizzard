@@ -1,11 +1,15 @@
 #include "minimax.h"
 
-// Have evaluateNode() update the gameState array as needed without seg faults
+// ISSUE: *((&gameState) + sizeof(GameState*)) = copyGameState(gameState);
+// Fix by passing a pointer to the array, then just accessing by index
+// ISSUE: Double free in freeTree()
+// ISSUE: Attempted to realloc memory not initialized by createNode()
 
 // Create a game Tree with a single GameState
 Tree* createGameTree(GameState* gameState) {
     Tree* tree = malloc(sizeof(Tree));
-    tree -> root = createNode(NULL);
+    Node* root = createNode(NULL);
+    tree -> root = root;
     tree -> gameStateArray = malloc(DEFAULT_GAME_STATE_ARRAY_SIZE * sizeof(GameState*));
     tree -> gameStateArray[0] = gameState;
     tree -> gameStateArraySize = DEFAULT_GAME_STATE_ARRAY_SIZE;
@@ -22,7 +26,10 @@ void evaluateGameTree(Tree* tree) {
     }
     // Add a layer to the tree
     tree -> depth++;
-    evaluateNode(tree -> root, tree -> gameStateArray[0], tree -> depth);
+    Node* root = tree -> root;
+    //GameState* firstGameState = tree -> gameStateArray[0];
+    uint16_t depth = tree -> depth;
+    int32_t result = evaluateNode(root, tree -> gameStateArray, 0, depth);
 };
 
 // Get the best move in the game Tree. Return NULL if none available
@@ -33,15 +40,19 @@ Move* getBestMoveFromTree(Tree* tree) {
 
 // Free dynamically allocated memory in a Tree
 void freeTree(Tree* tree) {
-
+    freeNode(tree -> root);
+    for (uint16_t i = 0; i < tree -> gameStateArraySize; i++) {
+        freeGameState(tree -> gameStateArray[i]);
+    }
+    free(tree);
 };
 
 // Create a node
 Node* createNode(Move* move) {
     Node* node = malloc(sizeof(Node));
     node -> move = move;
-    //node -> children = malloc(DEFAULT_CHILD_ARRAY_SIZE * sizeof(Node*));
-    //node -> childArraySize = DEFAULT_CHILD_ARRAY_SIZE;
+    node -> children = malloc(DEFAULT_CHILD_ARRAY_SIZE * sizeof(Node*));
+    node -> childArraySize = DEFAULT_CHILD_ARRAY_SIZE;
     node -> bestChild = NULL;
     node -> childCount = 0;
     node -> childrenCreated = 0;
@@ -63,7 +74,10 @@ void addChildToNode(Node* node, Node* child) {
 
 // Evaluate a node. Returns fitness of node.
 // TODO: Alpha beta pruning AND terminal nodes.
-int32_t evaluateNode(Node* node, GameState* gameState, uint16_t depth) {
+int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uint16_t depth) {
+    // Get the gameState at this node's layer
+    GameState* gameState = gameStateArray[layer];
+
     // Apply this node's move to the gameState.
     if (node -> move != NULL) {
         applyMoveToGameState(gameState, node -> move);
@@ -94,10 +108,12 @@ int32_t evaluateNode(Node* node, GameState* gameState, uint16_t depth) {
     // Evaluate each child node.
     for (uint16_t i = 0; i < node -> childCount; i++) {
         // Copy this node's gameState to the next layer.
-        *((&gameState) + sizeof(GameState*)) = copyGameState(gameState);
+        //*((&gameState) + sizeof(GameState*)) = copyGameState(gameState);
+        gameStateArray[layer + 1] = copyGameState(gameState);
 
         // Evaluate child node.
-        int32_t fitness = evaluateNode(node -> children[i], *((&gameState) + sizeof(GameState*)), depth - 1);
+        //int32_t fitness = evaluateNode(node -> children[i], *((&gameState) + sizeof(GameState*)), depth - 1);
+        int32_t fitness = evaluateNode(node -> children[i], gameStateArray, layer + 1, depth - 1);
 
         // Determine if the child node is the strongest node evaluated so far.
         if (gameState -> turn == WHITE) {
@@ -116,5 +132,12 @@ int32_t evaluateNode(Node* node, GameState* gameState, uint16_t depth) {
 
 // Free dynamically allocated memory in a Node
 void freeNode(Node* node) {
-
+    if (node != NULL) {
+        free(node -> move);
+        for (uint16_t i = 0; i < node -> childCount; i++) {
+            free(node -> children[i]);
+        }
+        // No need to free bestChild because it's included in the above array.
+        free(node);
+    }
 };
