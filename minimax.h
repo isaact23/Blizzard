@@ -20,6 +20,8 @@ struct _Node {
     uint16_t childCount;
     uint8_t childrenCreated;
     int32_t fitness;
+    int32_t alpha;
+    int32_t beta;
 };
 
 // Stores the evaluated game tree.
@@ -50,7 +52,7 @@ Node* createNode(Move* move);
 void addChildToNode(Node* node, Node* child);
 
 // Evaluate a node. Returns fitness of node
-int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uint16_t depth);
+int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uint16_t depth, int32_t alpha, int32_t beta);
 
 // Free dynamically allocated memory in a Node
 void freeNode(Node* node);

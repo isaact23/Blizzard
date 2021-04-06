@@ -23,7 +23,7 @@ void evaluateGameTree(Tree* tree) {
     tree -> depth++;
     Node* root = tree -> root;
     uint16_t depth = tree -> depth;
-    int32_t result = evaluateNode(root, tree -> gameStateArray, 0, depth);
+    int32_t result = evaluateNode(root, tree -> gameStateArray, 0, depth, INT32_MIN, INT32_MAX);
 };
 
 // Get the best move in the game Tree. Return NULL if none available
@@ -35,7 +35,7 @@ Move* getBestMove(Tree* tree) {
 // Free dynamically allocated memory in a Tree, EXCEPT for the first GameState.
 void freeTree(Tree* tree) {
     freeNode(tree -> root);
-    for (uint16_t i = 1; i < tree -> gameStateArraySize; i++) {
+    for (uint16_t i = 1; i < tree -> depth + 1; i++) {
         freeGameState(tree -> gameStateArray[i]);
     }
     free(tree -> gameStateArray);
@@ -69,20 +69,25 @@ void addChildToNode(Node* node, Node* child) {
 
 // Evaluate a node. Returns fitness of node.
 // TODO: Alpha beta pruning AND terminal nodes.
-int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uint16_t depth) {
+int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uint16_t depth, int32_t alpha, int32_t beta) {
     // Get the gameState at this node's layer
     GameState* gameState = gameStateArray[layer];
-
-    // Apply this node's move to the gameState.
-    if (node -> move != NULL) {
-        applyMoveToGameState(gameState, node -> move);
-    }
 
     // If depth is 0, just evaluate this gameState and return.
     if (depth == 0) {
         node -> fitness = getFitness(gameState);
         return node -> fitness;
     }
+
+    // Set node alpha/beta values
+    node -> alpha = alpha;
+    node -> beta = beta;
+
+    // Apply this node's move to the gameState.
+    if (node -> move != NULL) {
+        applyMoveToGameState(gameState, node -> move);
+    }
+    
     // If children don't exist, create them.
     if (node -> childrenCreated == 0) {
         MoveList* moveList = listMoves(gameState);
@@ -93,6 +98,7 @@ int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uin
         }
         node -> childrenCreated = 1;
     }
+
     // Set bestFitness to worst case scenario.
     int32_t bestFitness;
     if (gameState -> turn == WHITE) {
@@ -108,17 +114,34 @@ int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uin
 
         // Evaluate child node.
         //int32_t fitness = evaluateNode(node -> children[i], *((&gameState) + sizeof(GameState*)), depth - 1);
-        int32_t fitness = evaluateNode(node -> children[i], gameStateArray, layer + 1, depth - 1);
+        int32_t fitness = evaluateNode(node -> children[i], gameStateArray, layer + 1, depth - 1, node -> alpha, node -> beta);
 
         // Determine if the child node is the strongest node evaluated so far.
         if (gameState -> turn == WHITE) {
+            // Node has value of child with highest fitness
             if (fitness > bestFitness) {
                 bestFitness = fitness;
                 node -> bestChild = node -> children[i];
             }
-        } else if (fitness < bestFitness) {
-            bestFitness = fitness;
-            node -> bestChild = node -> children[i];
+            // Alpha is always highest fitness value
+            if (fitness > node -> alpha) {
+                node -> alpha = fitness;
+            }
+        } else {
+            // Node has value of child with lowest fitness
+            if (fitness < bestFitness) {
+                bestFitness = fitness;
+                node -> bestChild = node -> children[i];
+            }
+            // Beta is always lowest fitness value
+            if (fitness < node -> beta) {
+                node -> beta = fitness;
+            }
+        }
+
+        // If alpha is greater than beta, stop searching on this branch.
+        if (node -> alpha >= node -> beta) {
+            break;
         }
     }
     node -> fitness = bestFitness;
