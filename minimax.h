@@ -1,14 +1,15 @@
 #ifndef MINIMAX_H
 #define MINIMAX_H
 
-#define DEFAULT_GAME_STATE_ARRAY_SIZE 2
-#define DEFAULT_CHILD_ARRAY_SIZE 2
-
 #include <stdint.h>
+#include <stdio.h>
 #include "moveList.h"
 #include "moveLister.h"
 #include "gameState.h"
 #include "pieces.h"
+
+#define DEFAULT_GAME_STATE_ARRAY_SIZE 2
+#define DEFAULT_CHILD_ARRAY_SIZE 2
 
 // Stores a single chess move and descendants.
 typedef struct _Node Node;

@@ -5,17 +5,6 @@ GameState* openingGameState() {
     // Initialize empty board
     GameState* state = malloc(sizeof(GameState));
 
-    // Initialize piece starting positions
-    /*char piecesInit[8][8] = {
-        {WR, WN, WB, WQ, WK, WB, WN, WR},
-        {WP, WP, WP, WP, WP, WP, WP, WP},
-        {EE, EE, EE, EE, EE, EE, EE, EE},
-        {EE, EE, EE, EE, EE, EE, EE, EE},
-        {EE, EE, EE, EE, EE, EE, EE, EE},
-        {EE, EE, EE, EE, EE, EE, EE, EE},
-        {BP, BP, BP, BP, BP, BP, BP, BP},
-        {BR, BN, BB, BQ, BK, BB, BN, BR}
-    };*/
     uint8_t** pieces = malloc(sizeof(uint8_t*) * 8);
     for (int i = 0; i < 8; i++) {
         pieces[i] = malloc(sizeof(uint8_t) * 8);
@@ -54,6 +43,7 @@ GameState* openingGameState() {
     state -> bck = 1;
     state -> bcq = 1;
     state -> en_passant_file = 8;
+    state -> gameResult = ACTIVE;
     state -> halfmove_counter = 0;
     state -> fullmove_counter = 0;
 
@@ -62,6 +52,13 @@ GameState* openingGameState() {
 
 // Apply a move to the GameState.
 void applyMoveToGameState(GameState* state, Move* move) {
+    // If king is captured, game is over.
+    uint8_t captured = state -> pieces[move -> to_x][move -> to_y];
+    if (captured == WK || captured == BK) {
+        state -> gameResult = GAME_OVER;
+    }
+
+    // Move the piece
     state -> pieces[move -> to_x][move -> to_y] = state -> pieces[move -> from_x][move -> from_y];
     state -> pieces[move -> from_x][move -> from_y] = EMPTY;
     if (state -> turn == WHITE) {
@@ -80,16 +77,16 @@ int32_t getFitness(GameState* state) {
         for (uint8_t y = 0; y < 8; y++) {
             switch (col[y]) {
                 case WP: { fitness += (100 + y); break; }
-                case WB: { fitness += 300; break; }
+                case WB: { fitness += (300 + (y * 10)); break; }
                 case WN: { fitness += (300 + (y * 10)); break; }
-                case WR: { fitness += (500 + (y * 50)); break; }
-                case WQ: { fitness += 900; break; }
+                case WR: { fitness += (500 + (y * 30)); break; }
+                case WQ: { fitness += (900 + (y * 50)); break; }
                 case WK: { fitness += 1000000; break; }
                 case BP: { fitness -= (100 - y); break; }
-                case BB: { fitness -= 300; break; }
+                case BB: { fitness -= (300 - (y * 10)); break; }
                 case BN: { fitness -= (300 - (y * 10)); break; }
-                case BR: { fitness -= (500 - (y * 50)); break; }
-                case BQ: { fitness -= 900; break; }
+                case BR: { fitness -= (500 - (y * 30)); break; }
+                case BQ: { fitness -= (900 - (y * 50)); break; }
                 case BK: { fitness -= 1000000; break; }
             }
         }

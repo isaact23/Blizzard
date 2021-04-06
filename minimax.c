@@ -28,8 +28,9 @@ void evaluateGameTree(Tree* tree) {
 
 // Get the best move in the game Tree. Return NULL if none available
 Move* getBestMove(Tree* tree) {
-    if (tree -> root -> bestChild == NULL) { return NULL; }
-    return tree -> root -> bestChild -> move;
+    Node* bestChild = tree -> root -> bestChild;
+    if (bestChild == NULL) { return NULL; }
+    return bestChild -> move;
 };
 
 // Free dynamically allocated memory in a Tree, EXCEPT for the first GameState.
@@ -73,12 +74,6 @@ int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uin
     // Get the gameState at this node's layer
     GameState* gameState = gameStateArray[layer];
 
-    // If depth is 0, just evaluate this gameState and return.
-    if (depth == 0) {
-        node -> fitness = getFitness(gameState);
-        return node -> fitness;
-    }
-
     // Set node alpha/beta values
     node -> alpha = alpha;
     node -> beta = beta;
@@ -86,6 +81,12 @@ int32_t evaluateNode(Node* node, GameState** gameStateArray, uint16_t layer, uin
     // Apply this node's move to the gameState.
     if (node -> move != NULL) {
         applyMoveToGameState(gameState, node -> move);
+    }
+
+    // If this is a terminal node, stop evaluation here.
+    if (depth == 0 || gameState -> gameResult == GAME_OVER) {
+        node -> fitness = getFitness(gameState);
+        return node -> fitness;
     }
     
     // If children don't exist, create them.

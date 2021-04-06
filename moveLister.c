@@ -7,24 +7,38 @@ MoveList* listMoves(GameState* gameState) {
     MoveList* moveList = emptyMoveList();
 
     // Iterate through all squares on the chessboard, listing move for each piece
-    for (int x = 0; x < 8; x++) {
-        for (int y = 0; y < 8; y++) {
+    for (uint8_t x = 0; x < 8; x++) {
+        for (uint8_t y = 0; y < 8; y++) {
             uint8_t piece = gameState -> pieces[x][y];
-            if (gameState -> turn == WHITE) {
-                if (piece == WK) {
-                    
-                } else if (piece == WP) {
-                    listPawnMoves(gameState, moveList, x, y);
-                } else if (piece == WN) {
-                    listKnightMoves(gameState, moveList, x, y);
-                }
-            } else {
-                if (piece == BK) {
-                    
-                } else if (piece == BP) {
-                    listPawnMoves(gameState, moveList, x, y);
-                } else if (piece == BN) {
-                    listKnightMoves(gameState, moveList, x, y);
+            if (piece != EMPTY) {
+                if (gameState -> turn == WHITE) {
+                    if (piece == WK) {
+                        listKingMoves(gameState, moveList, x, y);
+                    } else if (piece == WP) {
+                        listPawnMoves(gameState, moveList, x, y);
+                    } else if (piece == WN) {
+                        listKnightMoves(gameState, moveList, x, y);
+                    } else if (piece == WB) {
+                        listBishopMoves(gameState, moveList, x, y);
+                    } else if (piece == WR) {
+                        listRookMoves(gameState, moveList, x, y);
+                    } else { // Queen
+                        listQueenMoves(gameState, moveList, x, y);
+                    }
+                } else {
+                    if (piece == BK) {
+                        listKingMoves(gameState, moveList, x, y);
+                    } else if (piece == BP) {
+                        listPawnMoves(gameState, moveList, x, y);
+                    } else if (piece == BN) {
+                        listKnightMoves(gameState, moveList, x, y);
+                    } else if (piece == BB) {
+                        listBishopMoves(gameState, moveList, x, y);
+                    } else if (piece == BR) {
+                        listRookMoves(gameState, moveList, x, y);
+                    } else { // Queen
+                        listQueenMoves(gameState, moveList, x, y);
+                    }
                 }
             }
         }
@@ -34,7 +48,7 @@ MoveList* listMoves(GameState* gameState) {
 }
 
 // List pawn moves at coordinate (x, y) and update moveList.
-static void listPawnMoves(GameState* gameState, MoveList* moveList, int x, int y) {
+static void listPawnMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
     uint8_t** pieces = gameState -> pieces;
     if (pieces[x][y] == WP) {
         // Move forward 1
@@ -130,54 +144,8 @@ static void listPawnMoves(GameState* gameState, MoveList* moveList, int x, int y
     }
 }
 
-// List rook moves at coordinate (x, y) and update moveList.
-static void listRookMoves(GameState* gameState, MoveList* moveList, int x, int y) {
-    uint8_t** pieces = gameState -> pieces;
-    uint8_t color = getPieceColor(pieces[x][y]);
-    // Left
-    for (int8_t i = x - 1; i >= 0; i--) {
-        uint8_t obstacleColor = getPieceColor(pieces[i][y]);
-        if (obstacleColor != color) {
-            addMove(moveList, x, y, i, y, 0);
-            if (obstacleColor != EMPTY) {
-                break;
-            }
-        }
-    }
-    // Right
-    for (int8_t i = x + 1; i < 8; i++) {
-        uint8_t obstacleColor = getPieceColor(pieces[i][y]);
-        if (obstacleColor != color) {
-            addMove(moveList, x, y, i, y, 0);
-            if (obstacleColor != EMPTY) {
-                break;
-            }
-        }
-    }
-    // Down
-    for (int8_t i = y - 1; i >= 0; i--) {
-        uint8_t obstacleColor = getPieceColor(pieces[x][i]);
-        if (obstacleColor != color) {
-            addMove(moveList, x, y, x, i, 0);
-            if (obstacleColor != EMPTY) {
-                break;
-            }
-        }
-    }
-    // Up
-    for (int8_t i = y + 1; i < 8; i++) {
-        uint8_t obstacleColor = getPieceColor(pieces[x][i]);
-        if (obstacleColor != color) {
-            addMove(moveList, x, y, x, i, 0);
-            if (obstacleColor != EMPTY) {
-                break;
-            }
-        }
-    }
-};
-
 // List knight moves at coordinate (x, y) and update moveList.
-static void listKnightMoves(GameState* gameState, MoveList* moveList, int x, int y) {
+static void listKnightMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
     uint8_t** pieces = gameState -> pieces;
     uint8_t color = getPieceColor(pieces[x][y]);
     if (x > 0) {
@@ -229,15 +197,172 @@ static void listKnightMoves(GameState* gameState, MoveList* moveList, int x, int
         }
     }
 };
+
+// If NOT same color,
+    // Capture
+    // If opposite color,
+        // Break
+
+// List rook moves at coordinate (x, y) and update moveList.
+static void listRookMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
+    uint8_t** pieces = gameState -> pieces;
+    uint8_t color = getPieceColor(pieces[x][y]);
+    uint8_t obstacleColor;
+
+    // Left
+    for (int8_t i = x - 1; i >= 0; i--) {
+        obstacleColor = getPieceColor(pieces[i][y]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, i, y, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    // Right
+    for (int8_t i = x + 1; i < 8; i++) {
+        obstacleColor = getPieceColor(pieces[i][y]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, i, y, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    // Down
+    for (int8_t i = y - 1; i >= 0; i--) {
+        obstacleColor = getPieceColor(pieces[x][i]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, x, i, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    // Up
+    for (int8_t i = y + 1; i < 8; i++) {
+        obstacleColor = getPieceColor(pieces[x][i]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, x, i, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+};
+
 // List bishop moves at coordinate (x, y) and update moveList.
-static void listBishopMoves(GameState* gameState, MoveList* moveList, int x, int y) {
+static void listBishopMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
+    uint8_t** pieces = gameState -> pieces;
+    uint8_t color = getPieceColor(pieces[x][y]);
+    uint8_t obstacleColor;
 
+    // Down-left
+    for (uint8_t i = 1; i <= x && i <= y; i++) {
+        uint8_t obstacleColor = getPieceColor(pieces[x - i][y - i]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, x - i, y - i, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    // Up-left
+    for (uint8_t i = 1; i <= x && i <= 7 - y; i++) {
+        uint8_t obstacleColor = getPieceColor(pieces[x - i][y + i]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, x - i, y + i, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    // Down-right
+    for (uint8_t i = 1; i <= 7 - x && i <= y; i++) {
+        uint8_t obstacleColor = getPieceColor(pieces[x + i][y - i]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, x + i, y - i, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    // Up-right
+    for (uint8_t i = 1; i <= 7 - x && i <= 7 - y; i++) {
+        uint8_t obstacleColor = getPieceColor(pieces[x + i][y + i]);
+        if (obstacleColor != color) {
+            addMove(moveList, x, y, x + i, y + i, 0);
+            if (obstacleColor != EMPTY) {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
 };
+
 // List queen moves at coordinate (x, y) and update moveList.
-static void listQueenMoves(GameState* gameState, MoveList* moveList, int x, int y) {
-
+static void listQueenMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
+    listRookMoves(gameState, moveList, x, y);
+    listBishopMoves(gameState, moveList, x, y);
 };
-// List king moves at coordinate (x, y) and update moveList.
-static void listKingMoves(GameState* gameState, MoveList* moveList, int x, int y) {
 
+// List king moves at coordinate (x, y) and update moveList.
+static void listKingMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
+    uint8_t** pieces = gameState -> pieces;
+    uint8_t color = getPieceColor(pieces[x][y]);
+    if (x > 0) {
+        if (color != getPieceColor(pieces[x - 1][y])) {
+            addMove(moveList, x, y, x - 1, y, 0);
+        }
+        if (y > 0) {
+            if (color != getPieceColor(pieces[x - 1][y - 1])) {
+                addMove(moveList, x, y, x - 1, y - 1, 0);
+            }
+        }
+        if (y < 7) {
+            if (color != getPieceColor(pieces[x - 1][y + 1])) { 
+                addMove(moveList, x, y, x - 1, y + 1, 0);
+            }
+        }
+    }
+    if (y > 0) {
+        if (color != getPieceColor(pieces[x][y - 1])) {
+            addMove(moveList, x, y, x, y - 1, 0);
+        }
+    }
+    if (y < 7) {
+        if (color != getPieceColor(pieces[x][y + 1])) {
+            addMove(moveList, x, y, x, y + 1, 0);
+        }
+    }
+    if (x < 7) {
+        if (color != getPieceColor(pieces[x + 1][y])) {
+            addMove(moveList, x, y, x + 1, y, 0);
+        }
+        if (y > 0) {
+            if (color != getPieceColor(pieces[x + 1][y - 1])) {
+                addMove(moveList, x, y, x + 1, y - 1, 0);
+            }
+        }
+        if (y < 7) {
+            if (color != getPieceColor(pieces[x + 1][y + 1])) { 
+                addMove(moveList, x, y, x + 1, y + 1, 0);
+            }
+        }
+    }
 };

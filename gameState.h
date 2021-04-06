@@ -7,6 +7,10 @@
 #include "pieces.h"
 #include "moveList.h"
 
+// Game results
+#define ACTIVE 0
+#define GAME_OVER 1
+
 // Store all data in FEN for game state
 struct _GameState {
     uint8_t** pieces; // 8x8 board (indexed by rows then cols)
@@ -15,6 +19,7 @@ struct _GameState {
     uint8_t en_passant_file; // Column of en passant. Greater than 7 if unavailable.
     uint16_t halfmove_counter;
     uint16_t fullmove_counter;
+    uint8_t gameResult; // 0 if continuing, 1 if over
 };
 typedef struct _GameState GameState;
 
