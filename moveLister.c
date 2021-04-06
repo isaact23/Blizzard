@@ -196,12 +196,7 @@ static void listKnightMoves(GameState* gameState, MoveList* moveList, uint8_t x,
             }
         }
     }
-};
-
-// If NOT same color,
-    // Capture
-    // If opposite color,
-        // Break
+}
 
 // List rook moves at coordinate (x, y) and update moveList.
 static void listRookMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
