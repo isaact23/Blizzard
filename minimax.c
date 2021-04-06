@@ -30,6 +30,9 @@ void evaluateGameTree(Tree* tree) {
 Move* getBestMove(Tree* tree) {
     Node* bestChild = tree -> root -> bestChild;
     if (bestChild == NULL) { return NULL; }
+    for (int i = 0; i < tree -> root -> childCount; i++) {
+        printMove(tree -> root -> children[i] -> move);
+    }
     return bestChild -> move;
 };
 
