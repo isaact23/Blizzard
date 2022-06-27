@@ -1,1 +1,0 @@
-gcc -ggdb3 -o main main.c pieces.c moveList.c moveLister.c gameState.c printHelper.c minimax.c
