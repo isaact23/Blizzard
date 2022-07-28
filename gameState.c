@@ -95,6 +95,7 @@ int32_t getFitness(GameState* state) {
 };
 
 // Return a pointer to an identical gameState to the provided one.
+// TODO: Shorten code - use memcpy or something
 GameState* copyGameState(GameState* state) {
     GameState* newState = malloc(sizeof(GameState));
 
