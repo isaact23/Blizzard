@@ -252,7 +252,7 @@ static void listRookMoves(GameState* gameState, MoveList* moveList, uint8_t x, u
             break;
         }
     }
-};
+}
 
 // List bishop moves at coordinate (x, y) and update moveList.
 static void listBishopMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
@@ -308,13 +308,13 @@ static void listBishopMoves(GameState* gameState, MoveList* moveList, uint8_t x,
             break;
         }
     }
-};
+}
 
 // List queen moves at coordinate (x, y) and update moveList.
 static void listQueenMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
     listRookMoves(gameState, moveList, x, y);
     listBishopMoves(gameState, moveList, x, y);
-};
+}
 
 // List king moves at coordinate (x, y) and update moveList.
 static void listKingMoves(GameState* gameState, MoveList* moveList, uint8_t x, uint8_t y) {
@@ -360,4 +360,4 @@ static void listKingMoves(GameState* gameState, MoveList* moveList, uint8_t x, u
             }
         }
     }
-};
+}

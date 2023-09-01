@@ -11,20 +11,6 @@
 #define DEFAULT_GAME_STATE_ARRAY_SIZE 2
 #define DEFAULT_CHILD_ARRAY_SIZE 2
 
-// Stores a single chess move and descendants.
-typedef struct _Node Node;
-struct _Node {
-    Move* move;
-    Node** children;
-    Node* bestChild;
-    uint16_t childArraySize;
-    uint16_t childCount;
-    uint8_t childrenCreated;
-    int32_t fitness;
-    int32_t alpha;
-    int32_t beta;
-};
-
 // Stores the evaluated game tree.
 typedef struct _Tree Tree;
 struct _Tree {
@@ -45,9 +31,6 @@ Move* getBestMove(Tree* tree);
 
 // Free dynamically allocated memory in a Tree
 void freeTree(Tree* tree);
-
-// Create a node
-Node* createNode(Move* move);
 
 // Add a child to a node
 void addChildToNode(Node* node, Node* child);

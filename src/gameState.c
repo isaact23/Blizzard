@@ -48,7 +48,7 @@ GameState* openingGameState() {
     state -> fullmove_counter = 0;
 
     return state;
-};
+}
 
 // Apply a move to the GameState.
 void applyMoveToGameState(GameState* state, Move* move) {
