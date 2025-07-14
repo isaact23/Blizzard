@@ -6,6 +6,13 @@ void printMove(Move* move) {
         move -> from_x, move -> from_y, move -> to_x, move -> to_y, move -> promotion);
 };
 
+// Print all moves in a MoveList
+void printMoves(MoveList* moveList) {
+    for (int i = 0; i < moveList -> moveCount; i++) {
+        printMove(moveList -> moveArray[i]);
+    }
+}
+
 // Get empty MoveList
 MoveList* emptyMoveList() {
     MoveList* moveList = malloc(sizeof(MoveList));
