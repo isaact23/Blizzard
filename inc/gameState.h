@@ -14,7 +14,7 @@
 
 // Store all data in FEN for game state
 struct _GameState {
-    uint8_t** pieces; // 8x8 board (indexed by rows then cols)
+    uint8_t pieces[8][8]; // 8x8 board (indexed by x then y)
     uint8_t turn;
     uint8_t wck, wcq, bck, bcq; // Castling availability. 0 if unavailable.
     uint8_t en_passant_file; // Column of en passant. Greater than 7 if unavailable.

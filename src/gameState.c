@@ -5,36 +5,30 @@ GameState* openingGameState() {
     // Initialize empty board
     GameState* state = malloc(sizeof(GameState));
 
-    uint8_t** pieces = malloc(sizeof(uint8_t*) * 8);
-    for (int i = 0; i < 8; i++) {
-        pieces[i] = malloc(sizeof(uint8_t) * 8);
-    }
     // Convention is pieces[x][y].
-    pieces[0][0] = WR;
-    pieces[1][0] = WN;
-    pieces[2][0] = WB;
-    pieces[3][0] = WQ;
-    pieces[4][0] = WK;
-    pieces[5][0] = WB;
-    pieces[6][0] = WN;
-    pieces[7][0] = WR;
+    state->pieces[0][0] = WR;
+    state->pieces[1][0] = WN;
+    state->pieces[2][0] = WB;
+    state->pieces[3][0] = WQ;
+    state->pieces[4][0] = WK;
+    state->pieces[5][0] = WB;
+    state->pieces[6][0] = WN;
+    state->pieces[7][0] = WR;
     for (int i = 0; i < 8; i++) {
-        pieces[i][1] = WP;
+        state->pieces[i][1] = WP;
         for (int j = 2; j < 6; j++) {
-            pieces[i][j] = EE;
+            state->pieces[i][j] = EE;
         }
-        pieces[i][6] = BP;
+        state->pieces[i][6] = BP;
     }
-    pieces[0][7] = BR;
-    pieces[1][7] = BN;
-    pieces[2][7] = BB;
-    pieces[3][7] = BQ;
-    pieces[4][7] = BK;
-    pieces[5][7] = BB;
-    pieces[6][7] = BN;
-    pieces[7][7] = BR;
-
-    state -> pieces = pieces;
+    state->pieces[0][7] = BR;
+    state->pieces[1][7] = BN;
+    state->pieces[2][7] = BB;
+    state->pieces[3][7] = BQ;
+    state->pieces[4][7] = BK;
+    state->pieces[5][7] = BB;
+    state->pieces[6][7] = BN;
+    state->pieces[7][7] = BR;
 
     // Initialize default FEN
     state -> turn = WHITE;
@@ -71,22 +65,20 @@ void applyMoveToGameState(GameState* state, Move* move) {
 // Get fitness level for a GameState.
 int32_t getFitness(GameState* state) {
     int32_t fitness = 0;
-    uint8_t** pieces = state -> pieces;
     for (uint8_t x = 0; x < 8; x++) {
-        uint8_t* col = pieces[x];
         for (uint8_t y = 0; y < 8; y++) {
-            switch (col[y]) {
+            switch (state -> pieces[x][y]) {
                 case WP: { fitness += (100 + y); break; }
-                case WB: { fitness += (300 + (y * 10)); break; }
-                case WN: { fitness += (300 + (y * 10)); break; }
-                case WR: { fitness += (500 + (y * 30)); break; }
-                case WQ: { fitness += (900 + (y * 50)); break; }
+                case WB: { fitness += (300 + (y * 2)); break; }
+                case WN: { fitness += (300 + (y * 2)); break; }
+                case WR: { fitness += (500 + (y * 3)); break; }
+                case WQ: { fitness += (900 + (y * 3)); break; }
                 case WK: { fitness += 1000000; break; }
                 case BP: { fitness -= (100 - y); break; }
-                case BB: { fitness -= (300 - (y * 10)); break; }
-                case BN: { fitness -= (300 - (y * 10)); break; }
-                case BR: { fitness -= (500 - (y * 30)); break; }
-                case BQ: { fitness -= (900 - (y * 50)); break; }
+                case BB: { fitness -= (300 - (y * 2)); break; }
+                case BN: { fitness -= (300 - (y * 2)); break; }
+                case BR: { fitness -= (500 - (y * 3)); break; }
+                case BQ: { fitness -= (900 - (y * 3)); break; }
                 case BK: { fitness -= 1000000; break; }
             }
         }
@@ -97,18 +89,7 @@ int32_t getFitness(GameState* state) {
 // Return a pointer to an identical gameState to the provided one.
 GameState* copyGameState(GameState* state) {
     GameState* newState = malloc(sizeof(GameState));
-
-    // Copy old state to new state
     memcpy(newState, state, sizeof(GameState));
-
-    // Copy all pieces on the board (deep copy)
-    newState -> pieces = malloc(sizeof(uint8_t*) * 8);
-    for (uint8_t x = 0; x < 8; x++) {
-        newState -> pieces[x] = malloc(sizeof(uint8_t) * 8);
-        for (uint8_t y = 0; y < 8; y++) {
-            newState -> pieces[x][y] = state -> pieces[x][y];
-        }
-    }
     
     return newState;
 }

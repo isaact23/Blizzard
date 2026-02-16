@@ -14,7 +14,7 @@ void printMoves(MoveList* moveList) {
 }
 
 // Get empty MoveList
-MoveList* emptyMoveList() {
+MoveList* createMoveList() {
     MoveList* moveList = malloc(sizeof(MoveList));
     if (moveList == NULL) { return NULL; }
     moveList -> moveArray = malloc(DEFAULT_MOVELIST_SIZE * sizeof(Move*));
