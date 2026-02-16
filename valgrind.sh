@@ -1,0 +1,1 @@
+valgrind --leak-check=full --log-file="vlog.txt" ./blizzard

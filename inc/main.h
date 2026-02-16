@@ -9,6 +9,5 @@
 #include "gameState.h"
 #include "printHelper.h"
 #include "moveLister.h"
-#include "minimax.h"
 
 #endif

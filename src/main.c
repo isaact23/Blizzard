@@ -4,6 +4,6 @@
 int main() {
     printHeader();
     GameState* gameState = openingGameState();
-
+    printGameState(gameState);
     freeGameState(gameState);
 }

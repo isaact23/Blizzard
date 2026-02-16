@@ -20,18 +20,18 @@
 // Piece type colors
 #define EMPTY 0
 #define EE 0
-#define WK KING   | WHITE
-#define WQ QUEEN  | WHITE
-#define WB BISHOP | WHITE
-#define WN KNIGHT | WHITE
-#define WR ROOK   | WHITE
-#define WP PAWN   | WHITE
-#define BK KING   | BLACK
-#define BQ QUEEN  | BLACK
-#define BB BISHOP | BLACK
-#define BN KNIGHT | BLACK
-#define BR ROOK   | BLACK
-#define BP PAWN   | BLACK
+#define WK KING   | WHITE_BIT
+#define WQ QUEEN  | WHITE_BIT
+#define WB BISHOP | WHITE_BIT
+#define WN KNIGHT | WHITE_BIT
+#define WR ROOK   | WHITE_BIT
+#define WP PAWN   | WHITE_BIT
+#define BK KING   | BLACK_BIT
+#define BQ QUEEN  | BLACK_BIT
+#define BB BISHOP | BLACK_BIT
+#define BN KNIGHT | BLACK_BIT
+#define BR ROOK   | BLACK_BIT
+#define BP PAWN   | BLACK_BIT
 
 // Determine piece color.
 uint8_t getPieceColor(uint8_t piece);
