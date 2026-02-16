@@ -22,7 +22,7 @@ MoveList* listMoves(GameState* state) {
                         listBishopMoves(state, moveList, x, y);
                     } else if (piece == WR) {
                         listRookMoves(state, moveList, x, y);
-                    } else { // Queen
+                    } else if (piece == WQ) {
                         listQueenMoves(state, moveList, x, y);
                     }
                 } else {
@@ -36,7 +36,7 @@ MoveList* listMoves(GameState* state) {
                         listBishopMoves(state, moveList, x, y);
                     } else if (piece == BR) {
                         listRookMoves(state, moveList, x, y);
-                    } else { // Queen
+                    } else if (piece == BQ) {
                         listQueenMoves(state, moveList, x, y);
                     }
                 }

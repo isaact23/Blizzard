@@ -96,10 +96,6 @@ GameState* copyGameState(GameState* state) {
 
 // Frees memory in a GameState.
 void freeGameState(GameState* state) {
-    for (int i = 0; i < 8; i++) {
-        free(state -> pieces[i]);
-    }
-    free(state -> pieces);
     free(state);
 };
 
