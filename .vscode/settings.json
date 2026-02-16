@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "movelist.h": "c",
+        "pieces.h": "c"
+    }
+}

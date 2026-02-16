@@ -1,10 +1,10 @@
 #include "pieces.h"
 
-// Determine piece color. Return 0 if white or 1 if black.
+// Determine piece color.
 uint8_t getPieceColor(uint8_t piece) {
-    if (piece == 0) { return 2; } // Empty
-    if (piece < 7) { return 0; } // White
-    return 1; // Black
+    if (piece & WHITE_BIT) return WHITE;
+    if (piece & BLACK_BIT) return BLACK;
+    return EMPTY;
 }
 
 // Get piece character from piece number

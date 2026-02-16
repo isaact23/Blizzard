@@ -4,8 +4,10 @@
 #include <stdint.h>
 
 // Piece colors
-#define WHITE 1 << 3
-#define BLACK 2 << 3
+#define WHITE_BIT 1 << 3
+#define BLACK_BIT 1 << 4
+#define WHITE 1
+#define BLACK 2
 
 // Piece types
 #define KING 0
@@ -31,7 +33,7 @@
 #define BR ROOK   | BLACK
 #define BP PAWN   | BLACK
 
-// Determine piece color. Return 0 if white, 1 if black, or 2 if empty.
+// Determine piece color.
 uint8_t getPieceColor(uint8_t piece);
 
 // Get piece character from piece number
