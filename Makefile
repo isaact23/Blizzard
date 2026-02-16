@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-ggdb3 -O0 -I./inc
-SRC = src/gameState.c src/moveList.c src/moveLister.c src/pieces.c src/printHelper.c
+SRC = src/gameState.c src/moveList.c src/moveLister.c src/node.c src/pieces.c src/printHelper.c
 TESTS = test/testPieces.c
 
 blizzard: $(SRC) src/main.c
