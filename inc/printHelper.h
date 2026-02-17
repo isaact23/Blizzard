@@ -1,5 +1,5 @@
-#ifndef PRINTHELPER_H
-#define PRINTHELPER_H
+#ifndef __PRINTHELPER_H__
+#define __PRINTHELPER_H__
 
 #define HEADER_FILENAME "blizzard_header.txt"
 

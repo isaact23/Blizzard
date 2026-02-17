@@ -1,5 +1,5 @@
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
+#ifndef __GAMESTATE_H__
+#define __GAMESTATE_H__
 
 #include <stdio.h>
 #include <stdint.h>

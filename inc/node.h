@@ -1,5 +1,5 @@
-#ifndef NODE_H
-#define NODE_H
+#ifndef __NODE_H__
+#define __NODE_H__
 
 #include "gameState.h"
 #include "moveList.h"

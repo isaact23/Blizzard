@@ -1,5 +1,5 @@
-#ifndef MOVELIST_H
-#define MOVELIST_H
+#ifndef __MOVELIST_H__
+#define __MOVELIST_H__
 
 #include <stdio.h>
 #include <stdlib.h>

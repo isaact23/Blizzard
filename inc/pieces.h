@@ -1,5 +1,5 @@
-#ifndef PIECES_H
-#define PIECES_H
+#ifndef __PIECES_H__
+#define __PIECES_H__
 
 #include <stdint.h>
 
