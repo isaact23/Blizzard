@@ -37,7 +37,7 @@ GameState* openingGameState() {
     state -> bck = 1;
     state -> bcq = 1;
     state -> en_passant_file = 8;
-    state -> gameResult = ACTIVE;
+    state -> isTerminal = false;
     state -> halfmove_counter = 0;
     state -> fullmove_counter = 0;
 
@@ -49,7 +49,7 @@ void applyMoveToGameState(GameState* state, Move* move) {
     // If king is captured, game is over.
     uint8_t captured = state -> pieces[move -> to_x][move -> to_y];
     if (captured == WK || captured == BK) {
-        state -> gameResult = GAME_OVER;
+        state -> isTerminal = true;
     }
 
     // Move the piece
@@ -113,4 +113,5 @@ void printGameState(GameState* state) {
             printf("--+---+---+---+---+---+---+--\n");
         }
     }
+    printf("\n\n");
 }

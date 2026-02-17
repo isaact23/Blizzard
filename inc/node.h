@@ -1,14 +1,19 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include "gameState.h"
+#include "moveList.h"
+#include "moveLister.h"
+#include <stdint.h>
+
 struct _Node {
     Move* move; // Move to get to this state
     int fitness;
     int child_count;
-    _Node* children;
-}
+    struct _Node* children;
+};
 typedef struct _Node Node;
 
-Move* getBestMove(GameState* state, int depth);
+int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move* moveOutput);
 
 #endif
