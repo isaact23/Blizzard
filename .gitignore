@@ -3,6 +3,8 @@
 *.o
 blizzard
 blizzard.code-workspace
-vlog.txt
+interface
 test*
+
+vlog.txt
 /async
