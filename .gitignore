@@ -1,10 +1,7 @@
 *.i
 *.s
 *.o
-blizzard
 blizzard.code-workspace
-interface
-test*
-
+bin
 vlog.txt
 /async

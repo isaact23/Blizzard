@@ -3,7 +3,7 @@ CFLAGS=-ggdb3 -O0 -I./inc -I./inc/interface
 SRC = src/gameState.c src/moveList.c src/moveLister.c src/node.c src/pieces.c src/printHelper.c
 TESTS = test/testPieces.c
 
-interface: src/interface/interface.c src/interface/split.c
+interface: src/interface/interface.c src/interface/split.c src/interface/readWrite.c
 	$(CC) -o $@ $^ $(CFLAGS)
 
 blizzard: $(SRC) src/main.c
