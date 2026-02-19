@@ -2,7 +2,6 @@
 #include "printHelper.h"
 
 // Print header from file
-// Not conveninet to encode directly in C due to escape sequences
 void printHeader() {
     FILE* fp = fopen(HEADER_FILENAME, "r");
     if (fp != NULL) {

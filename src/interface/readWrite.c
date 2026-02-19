@@ -24,7 +24,7 @@ static void evaluate(WordNode* command) {
 
 // Send a command to the frontend.
 void sendCommand(char* command) {
-    printf(command);
+    fprintf(stdout, command);
 }
 
 int main() {
