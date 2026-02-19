@@ -55,10 +55,10 @@ static void listPawnMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
             addMove(moveList, x, y, x, y + 1, 0);
             // Promotion
             if (y == 6) {
-                addMove(moveList, x, 6, x, 7, 1);
-                addMove(moveList, x, 6, x, 7, 2);
-                addMove(moveList, x, 6, x, 7, 3); 
-                addMove(moveList, x, 6, x, 7, 4); 
+                addMove(moveList, x, 6, x, 7, QUEEN);
+                addMove(moveList, x, 6, x, 7, ROOK);
+                addMove(moveList, x, 6, x, 7, BISHOP); 
+                addMove(moveList, x, 6, x, 7, KNIGHT); 
             }
         }
         // Move forward 2
@@ -70,10 +70,10 @@ static void listPawnMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
             addMove(moveList, x, y, x - 1, y + 1, 0);
             // Capture promotion (left)
             if (y == 6) {
-                addMove(moveList, x, 6, x - 1, 7, 1);
-                addMove(moveList, x, 6, x - 1, 7, 2);
-                addMove(moveList, x, 6, x - 1, 7, 3);
-                addMove(moveList, x, 6, x - 1, 7, 4);
+                addMove(moveList, x, 6, x - 1, 7, QUEEN);
+                addMove(moveList, x, 6, x - 1, 7, ROOK);
+                addMove(moveList, x, 6, x - 1, 7, BISHOP);
+                addMove(moveList, x, 6, x - 1, 7, KNIGHT);
             }
         }
         // Capture (right)
@@ -81,10 +81,10 @@ static void listPawnMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
             addMove(moveList, x, y, x + 1, y + 1, 0);
             // Capture promotion (right)
             if (y == 6) {
-                addMove(moveList, x, 6, x + 1, 7, 1);
-                addMove(moveList, x, 6, x + 1, 7, 2);
-                addMove(moveList, x, 6, x + 1, 7, 3);
-                addMove(moveList, x, 6, x + 1, 7, 4);
+                addMove(moveList, x, 6, x + 1, 7, QUEEN);
+                addMove(moveList, x, 6, x + 1, 7, ROOK);
+                addMove(moveList, x, 6, x + 1, 7, BISHOP);
+                addMove(moveList, x, 6, x + 1, 7, KNIGHT);
             }
         }
         // En passant
@@ -104,10 +104,10 @@ static void listPawnMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
             addMove(moveList, x, y, x, y - 1, 0);
             // Promotion
             if (y == 1) {
-                addMove(moveList, x, 1, x, 0, 1);
-                addMove(moveList, x, 1, x, 0, 2);
-                addMove(moveList, x, 1, x, 0, 3); 
-                addMove(moveList, x, 1, x, 0, 4); 
+                addMove(moveList, x, 1, x, 0, QUEEN);
+                addMove(moveList, x, 1, x, 0, ROOK);
+                addMove(moveList, x, 1, x, 0, BISHOP); 
+                addMove(moveList, x, 1, x, 0, KNIGHT); 
             }
         }
         // Move forward 2
@@ -119,10 +119,10 @@ static void listPawnMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
             addMove(moveList, x, y, x - 1, y - 1, 0);
             // Capture promotion (left)
             if (y == 1) {
-                addMove(moveList, x, 1, x - 1, 0, 1);
-                addMove(moveList, x, 1, x - 1, 0, 2);
-                addMove(moveList, x, 1, x - 1, 0, 3);
-                addMove(moveList, x, 1, x - 1, 0, 4);
+                addMove(moveList, x, 1, x - 1, 0, QUEEN);
+                addMove(moveList, x, 1, x - 1, 0, ROOK);
+                addMove(moveList, x, 1, x - 1, 0, BISHOP);
+                addMove(moveList, x, 1, x - 1, 0, KNIGHT);
             }
         }
         // Capture (right)
@@ -130,10 +130,10 @@ static void listPawnMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
             addMove(moveList, x, y, x + 1, y - 1, 0);
             // Capture promotion (right)
             if (y == 1) {
-                addMove(moveList, x, 1, x + 1, 0, 1);
-                addMove(moveList, x, 1, x + 1, 0, 2);
-                addMove(moveList, x, 1, x + 1, 0, 3);
-                addMove(moveList, x, 1, x + 1, 0, 4);
+                addMove(moveList, x, 1, x + 1, 0, QUEEN);
+                addMove(moveList, x, 1, x + 1, 0, ROOK);
+                addMove(moveList, x, 1, x + 1, 0, BISHOP);
+                addMove(moveList, x, 1, x + 1, 0, KNIGHT);
             }
         }
         // En passant

@@ -6,5 +6,6 @@
 #include <stdio.h>
 
 void testPieces();
+void testAlgToMove();
 
 #endif

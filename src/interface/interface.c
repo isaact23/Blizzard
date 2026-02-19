@@ -1,4 +1,4 @@
-#include "interface.h"
+#include "interface/interface.h"
 
 static bool debugMode = false;
 
@@ -9,10 +9,14 @@ void uci() {
     sendCommand("id name Blizzard\n");
     sendCommand("id author Isaac Thompson\n");
     sendCommand("uciok\n");
-    sendCommand("copyprotection checking\n");
-    sendCommand("copyprotection ok\n");
-    sendCommand("registration checking\n");
-    sendCommand("registration ok\n");
+
+    // Set engine to start position
+    startPosition();
+
+    //sendCommand("copyprotection checking\n");
+    //sendCommand("copyprotection ok\n");
+    //sendCommand("registration checking\n");
+    //sendCommand("registration ok\n");
 }
 
 /* Enable/disable debug mode */
@@ -38,8 +42,13 @@ void ucinewgame() {
 }
 
 /* Set the chess board position. */
-void position(bool startPos, char* fen, int moveCount, char** moves) {
+void position(bool startPos, char* fen, char** moves, int moveCount) {
     fprintf(stderr, "Setting position\n");
+    if (startPos) {
+        startPosition();
+    } else {
+        setPosition(fen);
+    }
 }
 
 /* Start search. */

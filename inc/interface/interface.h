@@ -1,6 +1,7 @@
 #ifndef __INTERFACE_H__
 #define __INTERFACE_H__
 
+#include "engine.h"
 #include "readWrite.h"
 #include "searchSettings.h"
 

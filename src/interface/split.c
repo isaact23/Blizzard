@@ -1,4 +1,4 @@
-#include "split.h"
+#include "interface/split.h"
 
 static bool isWhitespace(char c) {
     return c == ' ' || c == '\t' || c == '\n';

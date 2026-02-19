@@ -1,4 +1,4 @@
-#include "readWrite.h"
+#include "interface/readWrite.h"
 
 // Process a Universal Chess Interface (UCI) command.
 static void evaluate(WordNode* command) {
