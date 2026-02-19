@@ -2,9 +2,23 @@
 
 // Process a Universal Chess Interface (UCI) command.
 static void evaluate(WordNode* command) {
-    while (command != NULL) {
-        printf("%s\n", command -> word);
-        command = command -> next;
+    if (command == NULL) return;
+    char* word1 = command -> word;
+
+    if (strcmp(word1, "uci") == 0) {
+        uci();
+    }
+    else if (strcmp(word1, "debug") == 0) {
+        WordNode* command2 = command -> next;
+        if (command2 == NULL) return;
+
+        char* word2 = command2 -> next -> word;
+        if (strcmp(word2, "on") == 0) {
+            debug(true);
+        }
+        else if (strcmp(word2, "off") == 0) {
+            debug(false);
+        }
     }
 }
 

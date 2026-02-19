@@ -1,5 +1,5 @@
-#ifndef __MOVELISTER_H__
-#define __MOVELISTER_H__
+#ifndef __MOVE_LISTER_H__
+#define __MOVE_LISTER_H__
 
 #include "pieces.h"
 #include "moveList.h"

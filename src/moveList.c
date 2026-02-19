@@ -1,11 +1,5 @@
 #include "moveList.h"
 
-// Print a move
-void printMove(Move* move) {
-    printf("From (%d, %d) to (%d, %d) promotion %d\n",
-        move -> from_x, move -> from_y, move -> to_x, move -> to_y, move -> promotion);
-};
-
 // Print all moves in a MoveList
 void printMoves(MoveList* moveList) {
     for (int i = 0; i < moveList -> moveCount; i++) {

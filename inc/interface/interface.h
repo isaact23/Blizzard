@@ -2,14 +2,14 @@
 #define __INTERFACE_H__
 
 #include "readWrite.h"
+#include "searchSettings.h"
 
 void uci();
 void debug(bool value);
 void isready();
 void setoption(char* name, char* value);
-void doregister();
 void ucinewgame();
-void position(bool startPos, char* fen, int moveCount, MoveNode* moveList);
+void position(bool startPos, char* fen, int moveCount, char** moves);
 void go(SearchSettings* settings);
 void stop();
 void ponderhit();
