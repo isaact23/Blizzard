@@ -32,14 +32,11 @@ GameState* openingGameState() {
 
     // Initialize default FEN
     state -> turn = WHITE;
-    state -> wck = 1;
-    state -> wcq = 1;
-    state -> bck = 1;
-    state -> bcq = 1;
-    state -> en_passant_file = 8;
+    state -> castleFlags = CAN_CASTLE_ALL;
+    state -> enPassantFile = 8;
     state -> isTerminal = false;
-    state -> halfmove_counter = 0;
-    state -> fullmove_counter = 0;
+    state -> halfMoves = 0;
+    state -> fullMoves = 0;
 
     return state;
 };

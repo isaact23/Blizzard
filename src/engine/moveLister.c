@@ -88,7 +88,7 @@ static void listPawnMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
             }
         }
         // En passant
-        uint8_t passantFile = state -> en_passant_file;
+        uint8_t passantFile = state -> enPassantFile;
         if (passantFile < 8 && y == 4) {
             if (x > 0 && passantFile == x - 1 && state -> pieces[x - 1][5] == EMPTY) {
                 addMove(moveList, x, 4, x - 1, 5, 0);
@@ -137,7 +137,7 @@ static void listPawnMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
             }
         }
         // En passant
-        uint8_t passantFile = state -> en_passant_file;
+        uint8_t passantFile = state -> enPassantFile;
         if (passantFile < 8 && y == 3) {
             if (x > 0 && passantFile == x - 1 && state -> pieces[x - 1][2] == EMPTY) {
                 addMove(moveList, x, 3, x - 1, 2, 0);
