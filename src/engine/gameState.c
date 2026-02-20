@@ -1,4 +1,4 @@
-#include "gameState.h"
+#include "engine/gameState.h"
 
 // Returns pointer to dynamically allocated board in opening state.
 GameState* openingGameState() {
@@ -73,13 +73,13 @@ int32_t getFitness(GameState* state) {
                 case WN: { fitness += (300 + (y * 2)); break; }
                 case WR: { fitness += (500 + (y * 3)); break; }
                 case WQ: { fitness += (900 + (y * 3)); break; }
-                case WK: { fitness += 1000000; break; }
+                case WK: { fitness += FITNESS_MAX; break; }
                 case BP: { fitness -= (100 - y); break; }
                 case BB: { fitness -= (300 - (y * 2)); break; }
                 case BN: { fitness -= (300 - (y * 2)); break; }
                 case BR: { fitness -= (500 - (y * 3)); break; }
                 case BQ: { fitness -= (900 - (y * 3)); break; }
-                case BK: { fitness -= 1000000; break; }
+                case BK: { fitness -= FITNESS_MAX; break; }
             }
         }
     }

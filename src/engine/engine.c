@@ -1,4 +1,5 @@
 #include "engine.h"
+#include "engine/gameState.h"
 
 static GameState* gameState;
 

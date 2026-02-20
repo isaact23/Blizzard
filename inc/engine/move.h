@@ -1,6 +1,9 @@
 #ifndef __MOVE_H__
 #define __MOVE_H__
 
+#include <stdint.h>
+#include <stdio.h>
+
 // Store data for a move
 struct _Move {
     uint8_t from_x;

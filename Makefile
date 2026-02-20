@@ -1,20 +1,20 @@
 CC=gcc
 CFLAGS=-ggdb3 -O0
-SRC = src/gameState.c src/moveList.c src/moveLister.c src/node.c src/pieces.c src/printHelper.c
+
+blizzard: bin/blizzard
+bin/blizzard: bin $(SRC) src/interface/*.c src/engine/*.c
+	$(CC) -o $@ $^ $(CFLAGS) -I./inc
 
 interface: bin/interface.o
-bin/interface.o: src/interface/*.c bin
+bin/interface.o: bin src/interface/*.c
 	$(CC) -o $@ $^ $(CFLAGS) -I./inc
+
+test: bin/test.o
+bin/test.o: bin src/engine/*.c test/*.c
+	$(CC) -o $@ $^ $(CFLAGS) -I./test -I./inc
 
 bin:
 	mkdir -p bin
-
-blizzard: $(SRC) src/main.c
-	$(CC) -o $@ $^ $(CFLAGS)
-
-test: test_blizzard
-test_blizzard: src/engine/*.c test/*.c
-	$(CC) -o $@ $^ $(CFLAGS) -I./test -I./inc
 
 clean:
 	rm -rf ./bin

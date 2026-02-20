@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "test.h"
-#include "pieces.h"
+#include "engine/pieces.h"
 
 void testPieces() {
     printf("Testing pieces\n");

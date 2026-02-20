@@ -1,4 +1,4 @@
-#include "pieces.h"
+#include "engine/pieces.h"
 
 // Determine piece color.
 uint8_t getPieceColor(uint8_t piece) {

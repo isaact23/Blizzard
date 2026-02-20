@@ -10,7 +10,7 @@ void debug(bool value);
 void isready();
 void setoption(char* name, char* value);
 void ucinewgame();
-void position(bool startPos, char* fen, int moveCount, char** moves);
+void position(bool startPos, char* fen, char** moves, int moveCount);
 void go(SearchSettings* settings);
 void stop();
 void ponderhit();

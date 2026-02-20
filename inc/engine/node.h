@@ -4,6 +4,7 @@
 #include "gameState.h"
 #include "moveList.h"
 #include "moveLister.h"
+#include "settings.h"
 #include <stdint.h>
 
 struct _Node {

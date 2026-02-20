@@ -1,4 +1,4 @@
-#include "move.h"
+#include "engine/move.h"
 
 // Print a move
 void printMove(Move* move) {

@@ -7,6 +7,7 @@
 #include <string.h>
 #include "pieces.h"
 #include "moveList.h"
+#include "settings.h>"
 
 // Store all data in FEN for game state
 struct _GameState {

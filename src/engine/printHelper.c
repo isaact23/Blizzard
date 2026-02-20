@@ -1,5 +1,4 @@
-#include "main.h"
-#include "printHelper.h"
+#include "engine/printHelper.h"
 
 // Print header from file
 void printHeader() {

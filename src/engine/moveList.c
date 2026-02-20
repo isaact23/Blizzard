@@ -1,4 +1,4 @@
-#include "moveList.h"
+#include "engine/moveList.h"
 
 // Print all moves in a MoveList
 void printMoves(MoveList* moveList) {
