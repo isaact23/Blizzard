@@ -8,7 +8,7 @@
 
 #define DEFAULT_MOVELIST_SIZE 10
 
-// Structure that stores multiple moves
+// Unordered structure that stores multiple moves
 struct _MoveList {
     Move** moveArray;
     uint16_t moveCount;

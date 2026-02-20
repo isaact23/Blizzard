@@ -47,7 +47,7 @@ void position(bool startPos, char* fen, char** moves, int moveCount) {
     if (startPos) {
         startPosition();
     } else {
-        setPosition(fen);
+        setPosition(fen, moves, moveCount);
     }
 }
 
