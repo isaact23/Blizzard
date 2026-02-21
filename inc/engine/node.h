@@ -1,10 +1,10 @@
 #ifndef __NODE_H__
 #define __NODE_H__
 
-#include "gameState.h"
-#include "moveList.h"
-#include "moveLister.h"
-#include "settings.h"
+#include "engine/gameState.h"
+#include "engine/moveList.h"
+#include "engine/moveLister.h"
+#include "engine/settings.h"
 #include <stdint.h>
 
 struct _Node {

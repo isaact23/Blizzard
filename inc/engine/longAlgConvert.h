@@ -5,6 +5,9 @@
 #include "engine/pieces.h"
 #include <stdlib.h>
 
+int fileCharToNum(char file);
+int rankCharToNum(char rank);
+
 /* Convert long algebraic notation to the internal move representation. */
 Move* longAlgToMove(char* moveStr);
 

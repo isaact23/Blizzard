@@ -2,18 +2,23 @@
 #include "engine/gameState.h"
 
 static GameState* gameState;
-static Node* root;
 
 void initialize() {
     gameState = NULL;
-    root = NULL;
 }
 
 void startPosition() {
+    // Erase existing game state
+    if (gameState != NULL) freeGameState(gameState);
 
+    gameState = openingGameState();
 }
 
-void setPosition(char* fen, Move* moves, int moveCount) {
+void setPosition(char* fen, char** moves, int moveCount) {
+    // Erase existing game state
+    if (gameState != NULL) freeGameState(gameState);
+
+    gameState = gameStateFromFen(fen);
 
 }
 

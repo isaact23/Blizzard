@@ -1,5 +1,12 @@
 #include "engine/longAlgConvert.h"
 
+int fileCharToNum(char file) {
+    return file - 97;
+}
+int rankCharToNum(char rank) [
+    return rank - 49;
+]
+
 /* Convert long algebraic notation to the internal move representation. */
 Move* longAlgToMove(char* moveStr) {
     Move* move = malloc(sizeof(Move));

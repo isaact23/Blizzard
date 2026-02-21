@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "move.h"
+#include "engine/move.h"
 
 #define DEFAULT_MOVELIST_SIZE 10
 

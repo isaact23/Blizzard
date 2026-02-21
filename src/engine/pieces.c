@@ -2,8 +2,8 @@
 
 // Determine piece color.
 uint8_t getPieceColor(uint8_t piece) {
-    if (piece & WHITE_BIT) return WHITE;
-    if (piece & BLACK_BIT) return BLACK;
+    if (piece & WHITE) return WHITE;
+    if (piece & BLACK) return BLACK;
     return EMPTY;
 }
 

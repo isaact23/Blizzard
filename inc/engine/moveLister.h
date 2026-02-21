@@ -1,9 +1,9 @@
 #ifndef __MOVE_LISTER_H__
 #define __MOVE_LISTER_H__
 
-#include "pieces.h"
-#include "moveList.h"
-#include "gameState.h"
+#include "engine/pieces.h"
+#include "engine/moveList.h"
+#include "engine/gameState.h"
 
 // Return pointer to list of all possible moves for gameState state, or NULL if failed.
 MoveList* listMoves(GameState* gameState);

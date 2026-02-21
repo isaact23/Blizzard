@@ -2,6 +2,9 @@
 
 // Returns pointer to dynamically allocated board in opening state.
 GameState* openingGameState() {
+    return gameStateFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    
+    /*
     // Initialize empty board
     GameState* state = malloc(sizeof(GameState));
 
@@ -39,7 +42,105 @@ GameState* openingGameState() {
     state -> fullMoves = 0;
 
     return state;
+    */
 };
+
+// Create a GameState from a given FEN (Forsyth-Edwards Notation)
+GameState* gameStateFromFen(char* fen) {
+    GameState* state = malloc(sizeof(GameState));
+    int y = 7;
+    int x = 0;
+    int i = 0;
+
+    // Read piece layout
+    while (fen[i] != ' ') {
+        switch (fen[i]) {
+            case '0': { break; }
+            case '1': { x += 1; break; }
+            case '2': { x += 2; break; }
+            case '3': { x += 3; break; }
+            case '4': { x += 4; break; }
+            case '5': { x += 5; break; }
+            case '6': { x += 6; break; }
+            case '7': { x += 7; break; }
+            case '8': { x += 8; break; }
+            case 'k': { state->pieces[x][y] = KING | BLACK; break; }
+            case 'q': { state->pieces[x][y] = QUEEN | BLACK; break; }
+            case 'r': { state->pieces[x][y] = ROOK | BLACK; break; }
+            case 'b': { state->pieces[x][y] = BISHOP | BLACK; break; }
+            case 'n': { state->pieces[x][y] = KNIGHT | BLACK; break; }
+            case 'p': { state->pieces[x][y] = PAWN | BLACK; break; }
+            case 'K': { state->pieces[x][y] = KING | WHITE; break; }
+            case 'Q': { state->pieces[x][y] = QUEEN | WHITE; break; }
+            case 'R': { state->pieces[x][y] = ROOK | WHITE; break; }
+            case 'B': { state->pieces[x][y] = BISHOP | WHITE; break; }
+            case 'N': { state->pieces[x][y] = KNIGHT | WHITE; break; }
+            case 'P': { state->pieces[x][y] = PAWN | WHITE; break; }
+            case '/': { x = 0; y--; break; }
+            default: {
+                error("Encountered unknown character %s in FEN string", fen[i]);
+            }
+        }
+        if (x > 7) {
+            x = 0; y--;
+        }
+        i++;
+    }
+    i++;
+
+    // Read turn
+    switch (fen[i]) {
+        case 'w': {state -> turn = WHITE; break;}
+        case 'b': {state -> turn = BLACK; break;}
+        default: {
+            error("Could not identify turn in FEN string");
+        }
+    }
+    i += 2;
+
+    // Read castling status
+    while (fen[i] != ' ') {
+        switch (fen[i]) {
+            case 'K': {state -> castleFlags |= CAN_CASTLE_WHITE_KINGSIDE; break;}
+            case 'Q': {state -> castleFlags |= CAN_CASTLE_WHITE_QUEENSIDE; break;}
+            case 'k': {state -> castleFlags |= CAN_CASTLE_BLACK_KINGSIDE; break;}
+            case 'q': {state -> castleFlags |= CAN_CASTLE_BLACK_QUEENSIDE; break;}
+            default: {
+                error("Could not identify castling status in FEN string");
+            }
+        }
+    }
+    i++;
+
+    // Read en passant status
+    if (fen[i] == '-') {
+        i += 2;
+    }
+    else {
+        state -> enPassantFile = fileCharToNum(fen[i]);
+        i += 3;
+    }
+
+    // Read halfmove
+    char numString[5];
+    int j = 0;
+    while (i != ' ') {
+        numString[j] = fen[i];
+        i++; j++;
+    }
+    numString[j] = '\0';
+    state -> halfMoves = (uint16_t) strtol(numString);
+    i++;
+
+    // Read full move
+    j = 0;
+    while (i != ' ') {
+        numString[j] = fen[i];
+        i++; j++;
+    }
+    numString[j] = '\0';
+    state -> fullMoves = (uint16_t) strtol(numString);
+}
 
 // Apply a move to the GameState.
 void applyMoveToGameState(GameState* state, Move* move) {

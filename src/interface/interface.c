@@ -10,8 +10,8 @@ void uci() {
     sendCommand("id author Isaac Thompson\n");
     sendCommand("uciok\n");
 
-    // Set engine to start position
-    startPosition();
+    // Initialize engine
+    initialize();
 
     //sendCommand("copyprotection checking\n");
     //sendCommand("copyprotection ok\n");
@@ -21,7 +21,7 @@ void uci() {
 
 /* Enable/disable debug mode */
 void debug(bool value) {
-    fprintf(stderr, "Set debug mode to %s\n", value);
+    info("Set debug mode to %s\n", value);
     debugMode = value;
 }
 

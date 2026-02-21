@@ -5,9 +5,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include "pieces.h"
-#include "moveList.h"
-#include "settings.h"
+#include "error.h"
+#include "engine/pieces.h"
+#include "engine/moveList.h"
+#include "engine/settings.h"
 
 #define CAN_CASTLE_WHITE_KINGSIDE (1 << 1)
 #define CAN_CASTLE_WHITE_QUEENSIDE (1 << 2)
@@ -29,6 +30,9 @@ typedef struct _GameState GameState;
 
 // Returns pointer to dynamically allocated opening GameState.
 GameState* openingGameState();
+
+// Create a GameState from a given FEN (Forsyth-Edwards Notation)
+GameState* gameStateFromFen(char* fen);
 
 // Apply a move to the GameState.
 void applyMoveToGameState(GameState* state, Move* move);
