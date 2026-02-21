@@ -32,12 +32,32 @@ static void evaluate(char** keywords, int keywordCount) {
     else if (strcmp(keywords[0], "position") == 0) {
         if (keywordCount < 2) return;
 
+        int moveIndex;
+        char* fen;
         if (strcmp(keywords[1], "startpos") == 0) {
-            startPosition();
+            fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+            moveIndex = 3;
         }
-        else {
-            
+        else if (strcmp(keywords[1], "fen") == 0) {
+            if (keywordCount < 3) return;
+            fen = keywords[2];
+            moveIndex = 4;
         }
+
+        // Set position to given FEN and use the remaining arguments as moves (long algebraic form).
+        position(fen, &keywords[moveIndex], keywordCount - moveIndex + 1);
+    }
+    else if (strcmp(keywords[0], "go") == 0) {
+        go();
+    }
+    else if (strcmp(keywords[0], "stop") == 0) {
+        stop();
+    }
+    else if (strcmp(keywords[0], "ponderhit") == 0) {
+        ponderhit();
+    }
+    else if (strcmp(keywords[0], "quit") == 0) {
+        quit();
     }
 }
 
@@ -59,5 +79,6 @@ int main() {
         int keywordCount;
         char** keywords = split(buffer, &keywordCount);
         evaluate(keywords, keywordCount);
+        freeWordList(keywords, keywordCount);
     }
 }

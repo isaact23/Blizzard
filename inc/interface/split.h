@@ -13,7 +13,7 @@ typedef struct _wordNode WordNode;
 // Split a string at whitespaces. Output the list of keywords and a keyword count.
 char** split(char* src, int* keywordCount);
 
-// Free memory from a linked list of words.
-//void freeWordList(WordNode* wordList);
+// Free memory from an array of words.
+void freeWordList(char** words, int wordCount);
 
 #endif

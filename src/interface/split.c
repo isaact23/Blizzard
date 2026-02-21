@@ -51,18 +51,14 @@ char** split(char* src, int* keywordCount) {
         keywords[i] = prev -> word;
         free(prev);
     }
-    
+
     *keywordCount = count;
     return keywords;
 }
 
-// Free memory from a linked list of words.
-/*void freeWordList(WordNode* wordList) {
-    WordNode* current = wordList;
-    while (current != NULL) {
-        WordNode* prev = current;
-        current = current -> next;
-        free(prev -> word);
-        free(prev);
+// Free memory from an array of words.
+void freeWordList(char** words, int wordCount) {
+    for (int i = 0; i < wordCount; i++) {
+        free(words[i]);
     }
-}*/
+}

@@ -20,19 +20,6 @@ void initialize() {
     threadId = -1;
 }
 
-void startPosition() {
-    // Critical section (stop operations on GameState)
-    stopSearch();
-    pthread_mutex_lock(&searchMutex);
-
-    // Erase existing game state
-    if (gameState != NULL) freeGameState(gameState);
-
-    gameState = openingGameState();
-
-    pthread_mutex_unlock(&searchMutex);
-}
-
 void setPosition(char* fen, char** moves, int moveCount) {
     // Critical section (stop operations on GameState)
     stopSearch();
@@ -51,6 +38,8 @@ void setPosition(char* fen, char** moves, int moveCount) {
         node = node -> next;
     }
     freeMoveSequence(moveSeq);
+
+    printGameState(gameState);
 
     pthread_mutex_unlock(&searchMutex);
 }
@@ -73,6 +62,14 @@ void startSearch() {
 void stopSearch() {
     //if (threadId == -1) return;
 
+}
+
+void shutdown() {
+    pthread_mutex_lock(&searchMutex);
+    freeGameState(gameState);
+    pthread_mutex_unlock(&searchMutex);
+
+    exit(0);
 }
 
 char* getBestMove() {

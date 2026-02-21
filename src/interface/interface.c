@@ -42,17 +42,13 @@ void ucinewgame() {
 }
 
 /* Set the chess board position. */
-void position(bool startPos, char* fen, char** moves, int moveCount) {
+void position(char* fen, char** moves, int moveCount) {
     info("Setting position");
-    if (startPos) {
-        startPosition();
-    } else {
-        setPosition(fen, moves, moveCount);
-    }
+    setPosition(fen, moves, moveCount);
 }
 
 /* Start search. */
-void go(SearchSettings* settings) {
+void go() {
     info("Starting search");
     startSearch();
 }
@@ -73,4 +69,5 @@ void ponderhit() {
 /* Clean up memory and stop the program. */
 void quit() {
     info("Quitting Blizzard");
+    shutdown();
 }

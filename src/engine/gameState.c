@@ -43,7 +43,7 @@ GameState* openingGameState() {
 
     return state;
     */
-};
+}
 
 // Create a GameState from a given FEN (Forsyth-Edwards Notation)
 GameState* gameStateFromFen(char* fen) {
@@ -56,14 +56,14 @@ GameState* gameStateFromFen(char* fen) {
     while (fen[i] != ' ') {
         switch (fen[i]) {
             case '0': { break; }
-            case '1': { x += 1; break; }
-            case '2': { x += 2; break; }
-            case '3': { x += 3; break; }
-            case '4': { x += 4; break; }
-            case '5': { x += 5; break; }
-            case '6': { x += 6; break; }
-            case '7': { x += 7; break; }
-            case '8': { x += 8; break; }
+            case '1': { break; }
+            case '2': { x += 1; break; }
+            case '3': { x += 2; break; }
+            case '4': { x += 3; break; }
+            case '5': { x += 4; break; }
+            case '6': { x += 5; break; }
+            case '7': { x += 6; break; }
+            case '8': { x += 7; break; }
             case 'k': { state->pieces[x][y] = KING | BLACK; break; }
             case 'q': { state->pieces[x][y] = QUEEN | BLACK; break; }
             case 'r': { state->pieces[x][y] = ROOK | BLACK; break; }
@@ -76,14 +76,12 @@ GameState* gameStateFromFen(char* fen) {
             case 'B': { state->pieces[x][y] = BISHOP | WHITE; break; }
             case 'N': { state->pieces[x][y] = KNIGHT | WHITE; break; }
             case 'P': { state->pieces[x][y] = PAWN | WHITE; break; }
-            case '/': { x = 0; y--; break; }
+            case '/': { x = -1; y--; break; }
             default: {
                 error("Encountered unknown character %s in FEN string", fen[i]);
             }
         }
-        if (x > 7) {
-            x = 0; y--;
-        }
+        x++;
         i++;
     }
     i++;
@@ -109,6 +107,7 @@ GameState* gameStateFromFen(char* fen) {
                 error("Could not identify castling status in FEN string");
             }
         }
+        i++;
     }
     i++;
 
@@ -140,6 +139,8 @@ GameState* gameStateFromFen(char* fen) {
     }
     numString[j] = '\0';
     state -> fullMoves = (uint16_t) atoi(numString);
+
+    return state;
 }
 
 // Apply a move to the GameState.

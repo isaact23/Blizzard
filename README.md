@@ -2,17 +2,15 @@
 
 A chess engine. Very cold. Brr.
 
+Rename engine functions to be prefixed with 'engine' (same with interface) (or remove interface.c altogether?)
 
 // Name moves
-// Get position from FEN and vice versa
 // Interact with player
 // Castling (including attacked square rule)
 // Stalemate detection
 // Threefold repetition
 // 50-move rule
 // Killing king is a terminal node
-
-// Split moveList into move and moveList
 
 ### AI Usage Disclosure  
 Logos were generated with Nano Banana.  
