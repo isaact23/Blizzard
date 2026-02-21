@@ -10,10 +10,11 @@ int rankCharToNum(char rank) [
 /* Convert long algebraic notation to the internal move representation. */
 Move* longAlgToMove(char* moveStr) {
     Move* move = malloc(sizeof(Move));
-    move->from_x = (uint8_t) (moveStr[0] - 97);
-    move->from_y = (uint8_t) (moveStr[1] - 49);
-    move->to_x = (uint8_t) (moveStr[2] - 97);
-    move->to_y = (uint8_t) (moveStr[3] - 49);
+    move->from_x = (uint8_t) fileCharToNum(moveStr[0]);
+    move->from_y = (uint8_t) rankCharToNum(moveStr[1]);
+    move->to_x = (uint8_t) fileCharToNum(moveStr[2]);
+    move->to_y = (uint8_t) rankCharToNum(moveStr[3]);
+    
     if (moveStr[4] == '\0') {
         move->promotion = 0;
     }
