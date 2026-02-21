@@ -3,9 +3,9 @@
 int fileCharToNum(char file) {
     return file - 97;
 }
-int rankCharToNum(char rank) [
+int rankCharToNum(char rank) {
     return rank - 49;
-]
+}
 
 /* Convert long algebraic notation to the internal move representation. */
 Move* longAlgToMove(char* moveStr) {
@@ -14,7 +14,7 @@ Move* longAlgToMove(char* moveStr) {
     move->from_y = (uint8_t) rankCharToNum(moveStr[1]);
     move->to_x = (uint8_t) fileCharToNum(moveStr[2]);
     move->to_y = (uint8_t) rankCharToNum(moveStr[3]);
-    
+
     if (moveStr[4] == '\0') {
         move->promotion = 0;
     }

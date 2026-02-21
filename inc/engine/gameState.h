@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "error.h"
+#include "engine/longAlgConvert.h"
 #include "engine/pieces.h"
 #include "engine/moveList.h"
 #include "engine/settings.h"

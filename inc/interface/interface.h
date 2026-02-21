@@ -2,8 +2,9 @@
 #define __INTERFACE_H__
 
 #include "engine.h"
-#include "readWrite.h"
-#include "searchSettings.h"
+#include "error.h"
+#include "interface/readWrite.h"
+#include "interface/searchSettings.h"
 
 void uci();
 void debug(bool value);

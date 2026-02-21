@@ -1,21 +1,22 @@
 CC=gcc
-CFLAGS=-ggdb3 -O0
+CFLAGS=-ggdb3 -O2
 
-blizzard: bin/blizzard
-bin/blizzard: bin/engine.o bin/interface.o
+all: bin bin/blizzard
+
+bin/blizzard: bin/engine.o bin/interface.o bin/error.o
 	$(CC) -o $@ $^
 
-engine: bin bin/engine.o
 bin/engine.o: src/engine/*.c
 	$(CC) -o $@ $^ $(CFLAGS) -r -I./inc
 
-interface: bin bin/interface.o
 bin/interface.o: src/interface/*.c
 	$(CC) -o $@ $^ $(CFLAGS) -r -I./inc
 
-test: bin bin/test.o
 bin/test.o: src/engine/*.c test/*.c
 	$(CC) -o $@ $^ $(CFLAGS) -I./test -I./inc
+
+bin/error.o: src/error.c
+	$(CC) -o $@ $^ $(CFLAGS) -r -I./inc
 
 bin:
 	mkdir -p bin

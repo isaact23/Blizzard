@@ -3,7 +3,7 @@
 // Returns pointer to dynamically allocated board in opening state.
 GameState* openingGameState() {
     return gameStateFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    
+
     /*
     // Initialize empty board
     GameState* state = malloc(sizeof(GameState));
@@ -122,24 +122,24 @@ GameState* gameStateFromFen(char* fen) {
     }
 
     // Read halfmove
-    char numString[5];
+    char numString[512];
     int j = 0;
-    while (i != ' ') {
+    while (fen[i] != ' ' && i < 512) {
         numString[j] = fen[i];
         i++; j++;
     }
     numString[j] = '\0';
-    state -> halfMoves = (uint16_t) strtol(numString);
+    state -> halfMoves = (uint16_t) atoi(numString);
     i++;
 
     // Read full move
     j = 0;
-    while (i != ' ') {
+    while (fen[i] != ' ' && i < 512) {
         numString[j] = fen[i];
         i++; j++;
     }
     numString[j] = '\0';
-    state -> fullMoves = (uint16_t) strtol(numString);
+    state -> fullMoves = (uint16_t) atoi(numString);
 }
 
 // Apply a move to the GameState.
