@@ -5,8 +5,9 @@ static bool isWhitespace(char c) {
 }
 
 // Split a string at whitespaces and return a linked list of trimmed words.
-WordNode* split(char* src) {
+char** split(char* src, int* keywordCount) {
     int i = 0;
+    int count = 0; // Word counter
     WordNode* head = NULL;
     WordNode* tail = NULL;
 
@@ -38,13 +39,25 @@ WordNode* split(char* src) {
             tail -> next = node;
             tail = node;
         }
+        count++;
     }
 
-    return head;
+    // Copy words from linked list to a pointer array
+    char** keywords = malloc(sizeof(char*) * count);
+    WordNode* cur = head;
+    for (int i = 0; i < count; i++) {
+        WordNode* prev = cur;
+        cur = cur -> next;
+        keywords[i] = prev -> word;
+        free(prev);
+    }
+    
+    *keywordCount = count;
+    return keywords;
 }
 
 // Free memory from a linked list of words.
-void freeWordList(WordNode* wordList) {
+/*void freeWordList(WordNode* wordList) {
     WordNode* current = wordList;
     while (current != NULL) {
         WordNode* prev = current;
@@ -52,4 +65,4 @@ void freeWordList(WordNode* wordList) {
         free(prev -> word);
         free(prev);
     }
-}
+}*/

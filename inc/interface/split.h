@@ -10,10 +10,10 @@ struct _wordNode {
 };
 typedef struct _wordNode WordNode;
 
-// Split a string at whitespaces and return a linked list of trimmed words.
-WordNode* split(char* src);
+// Split a string at whitespaces. Output the list of keywords and a keyword count.
+char** split(char* src, int* keywordCount);
 
 // Free memory from a linked list of words.
-void freeWordList(WordNode* wordList);
+//void freeWordList(WordNode* wordList);
 
 #endif

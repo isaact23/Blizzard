@@ -13,3 +13,8 @@ A chess engine. Very cold. Brr.
 // Killing king is a terminal node
 
 // Split moveList into move and moveList
+
+### AI Usage Disclosure  
+Logos were generated with Nano Banana.  
+AI was consulted over some concepts (like variable arguments), 
+but was never used to generate more than a few lines of code.
