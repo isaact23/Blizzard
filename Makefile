@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-ggdb3 -O2
+CFLAGS=-ggdb3 -O2 -pthread
 
 all: bin bin/blizzard
 

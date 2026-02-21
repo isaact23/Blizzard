@@ -5,45 +5,45 @@ static bool debugMode = false;
 /* First command sent from frontend. Switch to UCI mode (Universal Chess Interface).
  * Since that is this engine's only mode, simply identify self to the frontend. */
 void uci() {
-    fprintf(stderr, "Received UCI command\n");
-    sendCommand("id name Blizzard\n");
-    sendCommand("id author Isaac Thompson\n");
-    sendCommand("uciok\n");
+    info("Received UCI command");
+    sendCommand("id name Blizzard");
+    sendCommand("id author Isaac Thompson");
+    sendCommand("uciok");
 
     // Initialize engine
     initialize();
 
-    //sendCommand("copyprotection checking\n");
-    //sendCommand("copyprotection ok\n");
-    //sendCommand("registration checking\n");
-    //sendCommand("registration ok\n");
+    //sendCommand("copyprotection checking");
+    //sendCommand("copyprotection ok");
+    //sendCommand("registration checking");
+    //sendCommand("registration ok");
 }
 
 /* Enable/disable debug mode */
 void debug(bool value) {
-    info("Set debug mode to %s\n", value);
+    info("Set debug mode to %s", value);
     debugMode = value;
 }
 
 /* Wellness check */
 void isready() {
-    fprintf(stderr, "Blizzard is ready\n");
-    sendCommand("readyok\n");
+    info("Blizzard is ready");
+    sendCommand("readyok");
 }
 
 /* Set engine parameters */
 void setoption(char* name, char* value) {
-    fprintf(stderr, "Setting parameter %s to %s\n", name, value);
+    info("Setting parameter %s to %s", name, value);
 }
 
 /* Start a new game. */
 void ucinewgame() {
-    fprintf(stderr, "Starting new game\n");
+    info("Starting new game");
 }
 
 /* Set the chess board position. */
 void position(bool startPos, char* fen, char** moves, int moveCount) {
-    fprintf(stderr, "Setting position\n");
+    info("Setting position");
     if (startPos) {
         startPosition();
     } else {
@@ -53,21 +53,24 @@ void position(bool startPos, char* fen, char** moves, int moveCount) {
 
 /* Start search. */
 void go(SearchSettings* settings) {
-    fprintf(stderr, "Starting search\n");
+    info("Starting search");
+    startSearch();
 }
 
 /* Stop searching. */
 void stop() {
-    fprintf(stderr, "Stopping search\n");
+    info("Stopping search");
+    stopSearch();
+    sendCommand("bestmove %s", getBestMove());
 }
 
 /* Called when the user makes the predicted move. Switch from pondering to searching 
  * with the same search tree. */
 void ponderhit() {
-    fprintf(stderr, "Ponder hit\n");
+    info("Ponder hit");
 }
 
 /* Clean up memory and stop the program. */
 void quit() {
-    fprintf(stderr, "Quitting Blizzard\n");
+    info("Quitting Blizzard");
 }

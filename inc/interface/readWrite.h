@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "error.h"
 #include "interface.h"
 #include "searchSettings.h"
 #include "split.h"
@@ -10,6 +11,6 @@
 #define BUF_SIZE 512
 
 // Send a command to the frontend.
-void sendCommand(char* command);
+void sendCommand(char* command, ...);
 
 #endif

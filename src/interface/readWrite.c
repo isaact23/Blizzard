@@ -20,11 +20,32 @@ static void evaluate(WordNode* command) {
             debug(false);
         }
     }
+    else if (strcmp(word1, "isready")) {
+        isready();
+    }
+    else if (strcmp(word1, "setoption")) {
+        info("Setting option not yet supported");
+    }
+    else if (strcmp(word1, "register")) {
+        info("Register option not yet supported");
+    }
+    else if (strcmp(word1, "ucinewgame")) {
+        ucinewgame();
+    }
+    /*else if (strcmp(word1, "position")) {
+        WordNode* command2 = command -> next;
+        char* 
+    }*/
 }
 
 // Send a command to the frontend.
-void sendCommand(char* command) {
-    fprintf(stdout, command);
+void sendCommand(char* command, ...) {
+    char buf[512];
+    va_list args;
+    va_start(args, command);
+    vsnprintf(buf, 512, command, args);
+    fprintf(stdout, "%s\n", buf);
+    va_end(args);
 }
 
 int main() {
