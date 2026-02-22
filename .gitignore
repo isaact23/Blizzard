@@ -3,5 +3,6 @@
 *.o
 blizzard.code-workspace
 bin
+blizzard
 vlog.txt
 /async

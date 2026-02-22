@@ -39,13 +39,12 @@ static void evaluate(char** keywords, int keywordCount) {
             moveIndex = 3;
         }
         else if (strcmp(keywords[1], "fen") == 0) {
-            if (keywordCount < 3) return;
-            fen = keywords[2];
+            error("Fen not supported yet");
             moveIndex = 4;
         }
 
         // Set position to given FEN and use the remaining arguments as moves (long algebraic form).
-        position(fen, &keywords[moveIndex], keywordCount - moveIndex + 1);
+        position(fen, &keywords[moveIndex], keywordCount - moveIndex);
     }
     else if (strcmp(keywords[0], "go") == 0) {
         go();
@@ -67,7 +66,7 @@ void sendCommand(char* command, ...) {
     va_list args;
     va_start(args, command);
     vsnprintf(buf, 512, command, args);
-    fprintf(stdout, "%s\n", buf);
+    fprintf(stderr, "%s\n", buf);
     va_end(args);
 }
 

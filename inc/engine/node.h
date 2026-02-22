@@ -15,6 +15,6 @@ struct _Node {
 };
 typedef struct _Node Node;
 
-int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move* moveOutput);
+int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** moveOutput);
 
 #endif

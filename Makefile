@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-ggdb3 -O2 -pthread
 
-all: bin bin/blizzard
+all: bin blizzard
 
-bin/blizzard: bin/engine.o bin/interface.o bin/error.o
+blizzard: bin/engine.o bin/interface.o bin/error.o
 	$(CC) -o $@ $^
 
 bin/engine.o: src/engine/*.c
@@ -22,4 +22,4 @@ bin:
 	mkdir -p bin
 
 clean:
-	rm -rf ./bin
+	rm -rf ./bin blizzard

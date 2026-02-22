@@ -1,6 +1,6 @@
 #include "engine/node.h"
 
-int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move* moveOutput) {
+int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** moveOutput) {
     if (depth == 0 || state->isTerminal) {
         return getFitness(state);
     }
@@ -21,14 +21,14 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move* m
             if (childValue > value) {
                 value = childValue;
                 if (moveOutput != NULL)
-                    *moveOutput = *moves->moveArray[i];
+                    *moveOutput = moves->moveArray[i];
             }
             if (value >= b)
                 break;
             if (value > a)
                 a = value;
         }
-        freeMoveList(moves);
+        //freeMoveList(moves);
         return value;
     }
     else {
@@ -47,14 +47,14 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move* m
             if (childValue < value) {
                 value = childValue;
                 if (moveOutput != NULL)
-                    *moveOutput = *moves->moveArray[i];
+                    *moveOutput = moves->moveArray[i];
             }
             if (value <= a)
                 break;
             if (value < b)
                 b = value;
         }
-        freeMoveList(moves);
+        //freeMoveList(moves);
         return value;
     }
 }

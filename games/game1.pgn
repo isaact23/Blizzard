@@ -1,0 +1,23 @@
+[Event "Computer chess game"]
+[Site "shuffles-arch"]
+[Date "2026.02.22"]
+[Round "?"]
+[White "shuffles"]
+[Black "Blizzard"]
+[Result "0-1"]
+[BlackElo "2000"]
+[ECO "B20"]
+[Opening "Sicilian"]
+[Time "12:32:06"]
+[Variation "English (2.c4)"]
+[WhiteElo "2400"]
+[TimeControl "300"]
+[Termination "normal"]
+[PlyCount "30"]
+[WhiteType "human"]
+[BlackType "program"]
+
+1. e4 c5 2. c4 b5 3. d3 Qa5+ 4. Bd2 Qa6 5. Nc3 bxc4 6. dxc4 Qd6 7. Qe2 Na6
+8. O-O-O Rb8 9. b3 Qd4 10. Nf3 Qf6 11. g3 Rb4 12. Nd5 Qa1+ 13. Kc2 Qxa2+
+14. Kc1 Rxb3 15. Be3 Rb1# 0-1
+
