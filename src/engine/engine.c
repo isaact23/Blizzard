@@ -46,7 +46,7 @@ void setPosition(char* fen, char** moves, int moveCount) {
 
 void* searchThread(void* args) {
     pthread_mutex_lock(&searchMutex);
-    alphaBeta(gameState, 6, -FITNESS_MAX, FITNESS_MAX, gameState->turn == WHITE, &bestMove);
+    alphaBeta(gameState, 4, -FITNESS_MAX, FITNESS_MAX, gameState->turn == WHITE, &bestMove);
     pthread_mutex_unlock(&searchMutex);
 
     info("Search done");

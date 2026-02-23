@@ -127,31 +127,53 @@ void applyMoveToGameState(GameState* state, Move* move) {
         state -> turn = WHITE;
     }
 
-    // Castling
+    // Castling (TODO: CHECK CASTLE FLAGS BEFORE ADDING MOVES)
     if (move->from_x == 4) {
-        if (move->from_y == 0 && move->to_y == 0) {
-            if (move->to_x == 6) {
-                state -> pieces[7][0] = EMPTY;
-                state -> pieces[5][0] = WHITE | ROOK;
-                state -> castleFlags &= ~CAN_CASTLE_WHITE_KINGSIDE;
+        if (move->from_y == 0) {
+            if (move->to_y == 0) {
+                if (move->to_x == 6 && (state -> castleFlags & CAN_CASTLE_WHITE_KINGSIDE)) {
+                    state -> pieces[7][0] = EMPTY;
+                    state -> pieces[5][0] = WHITE | ROOK;
+                }
+                else if (move->to_x == 2 && (state -> castleFlags & CAN_CASTLE_WHITE_QUEENSIDE)) {
+                    state -> pieces[0][0] = EMPTY;
+                    state -> pieces[2][0] = WHITE | ROOK;
+                }
             }
-            else if (move->to_x == 2) {
-                state -> pieces[0][0] = EMPTY;
-                state -> pieces[2][0] = WHITE | ROOK;
-                state -> castleFlags &= ~CAN_CASTLE_WHITE_QUEENSIDE;
-            }
+            state -> castleFlags &= ~CAN_CASTLE_WHITE_KINGSIDE;
+            state -> castleFlags &= ~CAN_CASTLE_WHITE_QUEENSIDE;
         }
-        else if (move->from_y == 7 && move->to_y == 7) {
-            if (move->to_x == 6) {
-                state -> pieces[7][7] = EMPTY;
-                state -> pieces[5][7] = BLACK | ROOK;
-                state -> castleFlags &= ~CAN_CASTLE_BLACK_KINGSIDE;
+        else if (move->from_y == 7) {
+            if (move->to_y == 7) {
+                if (move->to_x == 6 && (state -> castleFlags & CAN_CASTLE_BLACK_KINGSIDE)) {
+                    state -> pieces[7][7] = EMPTY;
+                    state -> pieces[5][7] = BLACK | ROOK;
+                }
+                else if (move->to_x == 2 && (state -> castleFlags & CAN_CASTLE_BLACK_QUEENSIDE)) {
+                    state -> pieces[0][7] = EMPTY;
+                    state -> pieces[2][7] = BLACK | ROOK;
+                }
             }
-            else if (move->to_x == 2) {
-                state -> pieces[0][7] = EMPTY;
-                state -> pieces[2][7] = BLACK | ROOK;
-                state -> castleFlags &= ~CAN_CASTLE_BLACK_QUEENSIDE;
-            }
+            state -> castleFlags &= ~CAN_CASTLE_BLACK_KINGSIDE;
+            state -> castleFlags &= ~CAN_CASTLE_BLACK_QUEENSIDE;
+        }
+    }
+
+    // Rook movements cancel castle eligibility
+    if (move->from_x == 0) {
+        if (move->from_y == 0) {
+            state -> castleFlags &= ~CAN_CASTLE_WHITE_QUEENSIDE;
+        }
+        else if (move->from_y == 7) {
+            state -> castleFlags &= ~CAN_CASTLE_BLACK_QUEENSIDE;
+        }
+    }
+    else if (move->from_x == 7) {
+        if (move->from_y == 0) {
+            state -> castleFlags &= ~CAN_CASTLE_WHITE_KINGSIDE;
+        }
+        else if (move->from_y == 7) {
+            state -> castleFlags &= ~CAN_CASTLE_BLACK_KINGSIDE;
         }
     }
 }
@@ -178,7 +200,7 @@ int32_t getFitness(GameState* state) {
         }
     }
     return fitness;
-};
+}; 
 
 // Return a pointer to an identical gameState to the provided one.
 GameState* copyGameState(GameState* state) {

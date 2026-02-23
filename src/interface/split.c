@@ -22,10 +22,10 @@ char** split(char* src, int* keywordCount) {
         int end = i;
 
         // Copy the word into a buffer
-        int length = end - start;
+        int length = end - start + 1;
         char* word = malloc(sizeof(char) * length);
         strncpy(word, &src[start], length);
-        word[length] = '\0';
+        word[length - 1] = '\0';
 
         // Add the word to the linked list
         WordNode* node = malloc(sizeof(WordNode));
