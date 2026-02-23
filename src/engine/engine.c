@@ -5,6 +5,7 @@
 #include "engine/moveSequence.h"
 #include "engine/settings.h"
 #include "error.h"
+#include "interface/readWrite.h"
 #include "pthread.h"
 
 // Search mutex protects GameState and best Move
@@ -45,10 +46,13 @@ void setPosition(char* fen, char** moves, int moveCount) {
 
 void* searchThread(void* args) {
     pthread_mutex_lock(&searchMutex);
-    alphaBeta(gameState, 4, -FITNESS_MAX, FITNESS_MAX, gameState->turn == WHITE, &bestMove);
+    alphaBeta(gameState, 6, -FITNESS_MAX, FITNESS_MAX, gameState->turn == WHITE, &bestMove);
     pthread_mutex_unlock(&searchMutex);
 
     info("Search done");
+    if (bestMove != NULL) {
+        sendCommand("bestmove %s\n", moveToLongAlg(bestMove));
+    }
 
     // Indicate that thread is done
     threadId = -1;

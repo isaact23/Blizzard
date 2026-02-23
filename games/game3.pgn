@@ -1,0 +1,23 @@
+[Event "Computer chess game"]
+[Site "shuffles-arch"]
+[Date "2026.02.22"]
+[Round "?"]
+[White "Elizabeth"]
+[Black "Blizzard"]
+[Result "0-1"]
+[BlackElo "2000"]
+[ECO "A40"]
+[Opening "Queen's Pawn"]
+[Time "13:38:32"]
+[Variation "1...e6"]
+[WhiteElo "2400"]
+[Termination "normal"]
+[PlyCount "40"]
+[WhiteType "human"]
+[BlackType "program"]
+
+1. d4 e6 2. Nc3 Bb4 3. e3 Bxc3+ 4. bxc3 Qh4 5. g3 Qe4 6. Bg2 Qxg2 7. Qe2
+Qxh1 8. Kf1 Qxh2 9. Nf3 Qh1+ 10. Ng1 Qc6 11. Nf3 Qxc3 12. Rb1 Nf6 13. Qd2
+Qc4+ 14. Ke1 Qxa2 15. Ne5 Qxb1 16. c3 Nc6 17. Nxc6 bxc6 18. Ke2 Ba6+ 19.
+Qd3 Qxd3+ 20. Kf3 Qe4# 0-1
+
