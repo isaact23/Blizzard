@@ -133,24 +133,24 @@ void applyMoveToGameState(GameState* state, Move* move) {
             if (move->to_x == 6) {
                 state -> pieces[7][0] = EMPTY;
                 state -> pieces[5][0] = WHITE | ROOK;
-                state -> castleFlags &= ~CAN_CASTLE_WHITE_KINGSIDE
+                state -> castleFlags &= ~CAN_CASTLE_WHITE_KINGSIDE;
             }
             else if (move->to_x == 2) {
                 state -> pieces[0][0] = EMPTY;
                 state -> pieces[2][0] = WHITE | ROOK;
-                state -> castleFlags &= ~CAN_CASTLE_WHITE_QUEENSIDE
+                state -> castleFlags &= ~CAN_CASTLE_WHITE_QUEENSIDE;
             }
         }
         else if (move->from_y == 7 && move->to_y == 7) {
             if (move->to_x == 6) {
                 state -> pieces[7][7] = EMPTY;
                 state -> pieces[5][7] = BLACK | ROOK;
-                state -> castleFlags &= ~CAN_CASTLE_BLACK_KINGSIDE
+                state -> castleFlags &= ~CAN_CASTLE_BLACK_KINGSIDE;
             }
             else if (move->to_x == 2) {
                 state -> pieces[0][7] = EMPTY;
                 state -> pieces[2][7] = BLACK | ROOK;
-                state -> castleFlags &= ~CAN_CASTLE_BLACK_QUEENSIDE
+                state -> castleFlags &= ~CAN_CASTLE_BLACK_QUEENSIDE;
             }
         }
     }
