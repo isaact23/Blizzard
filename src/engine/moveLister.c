@@ -361,4 +361,32 @@ static void listKingMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
             }
         }
     }
+
+    // Castling
+    if (x == 4) {
+        if (y == 0) {
+            if (state -> castleFlags & CAN_CASTLE_WHITE_KINGSIDE) {
+                if (state -> pieces[5][0] == EMPTY && state -> pieces[6][0] == EMPTY) {
+                    addMove(moveList, 4, 0, 6, 0, 0);
+                }
+            }
+            if (state -> castleFlags & CAN_CASTLE_WHITE_QUEENSIDE) {
+                if (state -> pieces[2][0] == EMPTY && state -> pieces[3][0] == EMPTY) {
+                    addMove(moveList, 4, 0, 2, 0, 0);
+                }
+            }
+        }
+        else if (y == 7) {
+            if (state -> castleFlags & CAN_CASTLE_BLACK_KINGSIDE) {
+                if (state -> pieces[5][7] == EMPTY && state -> pieces[6][7] == EMPTY) {
+                    addMove(moveList, 4, 7, 6, 7, 0);
+                }
+            }
+            if (state -> castleFlags & CAN_CASTLE_BLACK_QUEENSIDE) {
+                if (state -> pieces[2][7] == EMPTY && state -> pieces[3][7] == EMPTY) {
+                    addMove(moveList, 4, 7, 2, 7, 0);
+                }
+            }
+        }
+    }
 };

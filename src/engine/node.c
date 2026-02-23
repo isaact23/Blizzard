@@ -1,7 +1,13 @@
 #include "engine/node.h"
 
 int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** moveOutput) {
-    if (depth == 0 || state->isTerminal) {
+    if (state -> winner == WHITE) {
+        return FITNESS_MAX;
+    }
+    if (state -> winner == BLACK) {
+        return -FITNESS_MAX;
+    }
+    if (depth == 0) {
         return getFitness(state);
     }
     MoveList* moves = listMoves(state);

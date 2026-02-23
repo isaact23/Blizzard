@@ -3,46 +3,6 @@
 // Returns pointer to dynamically allocated board in opening state.
 GameState* openingGameState() {
     return gameStateFromFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-
-    /*
-    // Initialize empty board
-    GameState* state = malloc(sizeof(GameState));
-
-    // Convention is pieces[x][y].
-    state->pieces[0][0] = WR;
-    state->pieces[1][0] = WN;
-    state->pieces[2][0] = WB;
-    state->pieces[3][0] = WQ;
-    state->pieces[4][0] = WK;
-    state->pieces[5][0] = WB;
-    state->pieces[6][0] = WN;
-    state->pieces[7][0] = WR;
-    for (int i = 0; i < 8; i++) {
-        state->pieces[i][1] = WP;
-        for (int j = 2; j < 6; j++) {
-            state->pieces[i][j] = EE;
-        }
-        state->pieces[i][6] = BP;
-    }
-    state->pieces[0][7] = BR;
-    state->pieces[1][7] = BN;
-    state->pieces[2][7] = BB;
-    state->pieces[3][7] = BQ;
-    state->pieces[4][7] = BK;
-    state->pieces[5][7] = BB;
-    state->pieces[6][7] = BN;
-    state->pieces[7][7] = BR;
-
-    // Initialize default FEN
-    state -> turn = WHITE;
-    state -> castleFlags = CAN_CASTLE_ALL;
-    state -> enPassantFile = 8;
-    state -> isTerminal = false;
-    state -> halfMoves = 0;
-    state -> fullMoves = 0;
-
-    return state;
-    */
 }
 
 // Create a GameState from a given FEN (Forsyth-Edwards Notation)
@@ -140,6 +100,8 @@ GameState* gameStateFromFen(char* fen) {
     numString[j] = '\0';
     state -> fullMoves = (uint16_t) atoi(numString);
 
+    state -> winner = EMPTY;
+
     return state;
 }
 
@@ -147,8 +109,13 @@ GameState* gameStateFromFen(char* fen) {
 void applyMoveToGameState(GameState* state, Move* move) {
     // If king is captured, game is over.
     uint8_t captured = state -> pieces[move -> to_x][move -> to_y];
-    if (captured == WK || captured == BK) {
-        state -> isTerminal = true;
+    if (captured == WK) {
+        state -> winner = BLACK;
+        return;
+    }
+    else if (captured == BK) {
+        state -> winner = WHITE;
+        return;
     }
 
     // Move the piece
@@ -158,6 +125,34 @@ void applyMoveToGameState(GameState* state, Move* move) {
         state -> turn = BLACK;
     } else {
         state -> turn = WHITE;
+    }
+
+    // Castling
+    if (move->from_x == 4) {
+        if (move->from_y == 0 && move->to_y == 0) {
+            if (move->to_x == 6) {
+                state -> pieces[7][0] = EMPTY;
+                state -> pieces[5][0] = WHITE | ROOK;
+                state -> castleFlags &= ~CAN_CASTLE_WHITE_KINGSIDE
+            }
+            else if (move->to_x == 2) {
+                state -> pieces[0][0] = EMPTY;
+                state -> pieces[2][0] = WHITE | ROOK;
+                state -> castleFlags &= ~CAN_CASTLE_WHITE_QUEENSIDE
+            }
+        }
+        else if (move->from_y == 7 && move->to_y == 7) {
+            if (move->to_x == 6) {
+                state -> pieces[7][7] = EMPTY;
+                state -> pieces[5][7] = BLACK | ROOK;
+                state -> castleFlags &= ~CAN_CASTLE_BLACK_KINGSIDE
+            }
+            else if (move->to_x == 2) {
+                state -> pieces[0][7] = EMPTY;
+                state -> pieces[2][7] = BLACK | ROOK;
+                state -> castleFlags &= ~CAN_CASTLE_BLACK_QUEENSIDE
+            }
+        }
     }
 }
 

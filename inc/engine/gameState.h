@@ -25,7 +25,7 @@ struct _GameState {
     uint8_t enPassantFile; // Column of en passant. Greater than 7 if unavailable.
     uint16_t halfMoves;
     uint16_t fullMoves;
-    bool isTerminal;
+    uint8_t winner; // WHITE, BLACK, or 0 (EMPTY).
 };
 typedef struct _GameState GameState;
 
