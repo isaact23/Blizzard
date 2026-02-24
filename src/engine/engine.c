@@ -95,9 +95,6 @@ void shutdown() {
     if (gameState != NULL) {
         freeGameState(gameState);
     }
-    if (bestMove != NULL) {
-        freeMove(bestMove);
-    }
     pthread_mutex_unlock(&searchMutex);
 
     exit(0);
