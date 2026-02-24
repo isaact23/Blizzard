@@ -1,4 +1,4 @@
-# Blizzard
+# :snowflake: Blizzard
 
 A chess engine. Very cold. Brr.
 

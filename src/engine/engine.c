@@ -8,17 +8,22 @@
 #include "interface/readWrite.h"
 #include "pthread.h"
 
-// Search mutex protects GameState and best Move
+// Search mutex protects everything
 static pthread_mutex_t searchMutex;
 static GameState* gameState;
 static Move* bestMove;
+
+static pthread_cond_t searchDoneCond;
+static bool stopFlag;
 
 static pthread_t threadId;
 
 void initialize() {
     pthread_mutex_init(&searchMutex, NULL);
+    pthread_cond_init(&searchDoneCond, NULL);
     gameState = NULL;
     bestMove = NULL;
+    stopFlag = false;
     threadId = -1;
 }
 
@@ -54,23 +59,45 @@ void* searchThread(void* args) {
         sendCommand("bestmove %s\n", moveToLongAlg(bestMove));
     }
 
+    pthread_mutex_lock(&searchMutex);
+    if (stopFlag) {
+        stopFlag = false;
+        pthread_cond_signal(&searchDoneCond); // Signal that search is terminated
+    }
+    pthread_mutex_unlock(&searchMutex);
+
     // Indicate that thread is done
     threadId = -1;
 }
 
+// Initiate search thread if it isn't already running.
 void startSearch() {
     if (threadId != -1) return;
     pthread_create(&threadId, NULL, &searchThread, NULL);
 }
 
+// Signal search thread to stop, and wait until it has fully stopped.
 void stopSearch() {
-    //if (threadId == -1) return;
+    pthread_mutex_lock(&searchMutex);
+    stopFlag = true;
 
+    // Wait until searching thread signals that it has stopped
+    while (stopFlag == true) {
+        pthread_cond_wait(&searchDoneCond, &searchMutex);
+    }
+
+    pthread_mutex_unlock(&searchMutex);
 }
 
+// Clean up memory and stop Blizzard program.
 void shutdown() {
     pthread_mutex_lock(&searchMutex);
-    freeGameState(gameState);
+    if (gameState != NULL) {
+        freeGameState(gameState);
+    }
+    if (bestMove != NULL) {
+        freeMove(bestMove);
+    }
     pthread_mutex_unlock(&searchMutex);
 
     exit(0);
