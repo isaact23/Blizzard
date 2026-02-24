@@ -50,13 +50,15 @@ void setPosition(char* fen, char** moves, int moveCount) {
 }
 
 void* searchThread(void* args) {
+
     pthread_mutex_lock(&searchMutex);
     alphaBeta(gameState, 4, -FITNESS_MAX, FITNESS_MAX, gameState->turn == WHITE, &bestMove);
     pthread_mutex_unlock(&searchMutex);
 
-    info("Search done");
     if (bestMove != NULL) {
         sendCommand("bestmove %s\n", moveToLongAlg(bestMove));
+    } else {
+        error("No move found");
     }
 
     pthread_mutex_lock(&searchMutex);
@@ -72,13 +74,20 @@ void* searchThread(void* args) {
 
 // Initiate search thread if it isn't already running.
 void startSearch() {
-    if (threadId != -1) return;
-    pthread_create(&threadId, NULL, &searchThread, NULL);
+    pthread_mutex_lock(&searchMutex);
+    if (threadId == -1) {
+        pthread_create(&threadId, NULL, &searchThread, NULL);
+    }
+    pthread_mutex_unlock(&searchMutex);
 }
 
 // Signal search thread to stop, and wait until it has fully stopped.
 void stopSearch() {
     pthread_mutex_lock(&searchMutex);
+    if (threadId == -1) {
+        pthread_mutex_unlock(&searchMutex);
+        return;
+    }
     stopFlag = true;
 
     // Wait until searching thread signals that it has stopped

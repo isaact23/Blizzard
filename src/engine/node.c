@@ -11,8 +11,11 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
         return getFitness(state);
     }
     MoveList* moves = listMoves(state);
+    Move* chosenMove = NULL;
+    int32_t value;
+
     if (isMax) {
-        int32_t value = -FITNESS_MAX;
+        value = -FITNESS_MAX;
         for (int i = 0; i < moves->moveCount; i++) {
 
             // Create the child game state
@@ -26,19 +29,16 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
 
             if (childValue > value) {
                 value = childValue;
-                if (moveOutput != NULL)
-                    *moveOutput = moves->moveArray[i];
+                chosenMove = moves->moveArray[i];
             }
             if (value >= b)
                 break;
             if (value > a)
                 a = value;
         }
-        //freeMoveList(moves);
-        return value;
     }
     else {
-        int32_t value = FITNESS_MAX;
+        value = FITNESS_MAX;
         for (int i = 0; i < moves->moveCount; i++) {
 
             // Create the child game state
@@ -52,15 +52,23 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
 
             if (childValue < value) {
                 value = childValue;
-                if (moveOutput != NULL)
-                    *moveOutput = moves->moveArray[i];
+                chosenMove = moves->moveArray[i];
             }
             if (value <= a)
                 break;
             if (value < b)
                 b = value;
         }
-        //freeMoveList(moves);
-        return value;
     }
+
+    if (moveOutput != NULL) {
+        
+        // If no move was chosen and moves are available, choose randomly.
+        //if (chosenMove == NULL && moves -> moveCount > 0) {
+        //    chosenMove = moves -> moveArray[random() % (moves -> moveCount)];
+        //}
+
+        *moveOutput = chosenMove;
+    }
+    return value;
 }

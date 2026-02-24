@@ -6,6 +6,7 @@
 #include "engine/moveLister.h"
 #include "engine/settings.h"
 #include <stdint.h>
+#include <stdlib.h>
 
 struct _Node {
     Move* move; // Move to get to this state
