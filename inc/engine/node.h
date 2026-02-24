@@ -2,19 +2,28 @@
 #define __NODE_H__
 
 #include "engine/gameState.h"
+#include "engine/move.h"
 #include "engine/moveList.h"
 #include "engine/moveLister.h"
+#include "engine/pieces.h"
 #include "engine/settings.h"
 #include <stdint.h>
 
 struct _Node {
+    GameState* state;
     Move* move; // Move to get to this state
-    int fitness;
-    int child_count;
     struct _Node* children;
+    int childCount;
+    bool isDraw;
+
+    int whiteWins;
+    int blackWins;
+    int draws;
 };
 typedef struct _Node Node;
 
-int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** moveOutput);
+int monteCarlo(Node* root);
+Move* getBestMove(Node* root);
+void freeTree(Node* root);
 
 #endif

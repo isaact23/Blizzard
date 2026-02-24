@@ -1,66 +1,54 @@
 #include "engine/node.h"
 
-int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** moveOutput) {
-    if (state -> winner == WHITE) {
-        return FITNESS_MAX;
-    }
-    if (state -> winner == BLACK) {
-        return -FITNESS_MAX;
-    }
-    if (depth == 0) {
-        return getFitness(state);
-    }
-    MoveList* moves = listMoves(state);
-    if (isMax) {
-        int32_t value = -FITNESS_MAX;
-        for (int i = 0; i < moves->moveCount; i++) {
+int monteCarlo(Node* root) {
+    if (root == NULL) return 0;
+    if (root -> isDraw) return OUTCOME_DRAW;
 
-            // Create the child game state
-            GameState* newState = copyGameState(state);
-            applyMoveToGameState(newState, moves->moveArray[i]);
+    int outcome = root -> gameState -> winner;
+    if (outcome != OUTCOME_EMPTY) return outcome;
 
-            // Evaluate the child tree
-            int32_t childValue = alphaBeta(newState, depth - 1, a, b, false, NULL);
-
-            freeGameState(newState);
-
-            if (childValue > value) {
-                value = childValue;
-                if (moveOutput != NULL)
-                    *moveOutput = moves->moveArray[i];
-            }
-            if (value >= b)
-                break;
-            if (value > a)
-                a = value;
+    // Expand the node if it hasn't already been expanded
+    if (root -> children == NULL) {
+        MoveList* list = listMoves(root -> state);
+        if (list -> moveCount == 0) {
+            freeMoveList(list);
+            root -> isDraw = true;
+            return OUTCOME_DRAW;
         }
-        //freeMoveList(moves);
-        return value;
-    }
-    else {
-        int32_t value = FITNESS_MAX;
-        for (int i = 0; i < moves->moveCount; i++) {
 
-            // Create the child game state
-            GameState* newState = copyGameState(state);
-            applyMoveToGameState(newState, moves->moveArray[i]);
+        // Allocate memory for Move array
+        root -> children = malloc(sizeof(Node*) * (list -> moveCount));
+        root -> childCount = list -> moveCount;
 
-            // Evaluate the child tree
-            int32_t childValue = alphaBeta(newState, depth - 1, a, b, true, NULL);
+        // Create child nodes
+        for (int i = 0; i < list -> moveCount; i++) {
+            Node* newNode = malloc(sizeof(Node));
 
-            freeGameState(newState);
+            // Fetch the move and create an updated GameState
+            Move* move = list -> moveArray[i];
+            newNode -> move = move;
+            GameState* newState = copyGameState(root -> state);
+            applyMoveToGameState(newState, move);
+            newNode -> state = newState;
 
-            if (childValue < value) {
-                value = childValue;
-                if (moveOutput != NULL)
-                    *moveOutput = moves->moveArray[i];
-            }
-            if (value <= a)
-                break;
-            if (value < b)
-                b = value;
+            newNode -> children = NULL;
+            newNode -> childCount = 0;
+            newNode -> isDraw = false;
+
+            newNode -> whiteWins = 0;
+            newNode -> blackWins = 0;
+            newNode -> draws = 0;
         }
-        //freeMoveList(moves);
-        return value;
     }
+
+    // Choose a child node to evaluate
+    
+}
+
+Move* getBestMove(Node* root) {
+    if (root == NULL) return NULL;
+}
+
+void freeTree(Node* root) {
+
 }
