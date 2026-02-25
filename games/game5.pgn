@@ -1,0 +1,25 @@
+[Event "Computer chess game"]
+[Site "shuffles-arch"]
+[Date "2026.02.24"]
+[Round "?"]
+[White "shuffles"]
+[Black "Blizzard"]
+[Result "1-0"]
+[BlackElo "2200"]
+[ECO "C00"]
+[Opening "French"]
+[Time "00:16:07"]
+[Variation "2.Nf3"]
+[WhiteElo "2400"]
+[TimeControl "3600+60"]
+[Termination "rules infraction"]
+[PlyCount "51"]
+[WhiteType "human"]
+[BlackType "program"]
+
+1. Nf3 e6 2. e4 Qf6 3. d4 d5 4. e5 Qf5 5. Nc3 Bb4 6. Bd2 Bxc3 7. Bxc3 Qe4+
+8. Be2 Na6 9. Qd3 Qg4 10. O-O-O Qxg2 11. Qe3 c5 12. Nh4 cxd4 13. Bxa6 Qxh1
+14. Rxh1 dxe3 15. Bb5+ Bd7 16. a4 a6 17. Bd3 Rb8 18. Rg1 b6 19. Rxg7 b5 20.
+a5 b4 21. Bd4 b3 22. c3 Ra8 23. Bxe3 Rb8 24. Bxh7 Ra8 25. Bxg8 Rc8 26. Bxf7
+{Arena Adjudication. Illegal move!} 1-0
+

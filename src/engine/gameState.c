@@ -127,7 +127,6 @@ void applyMoveToGameState(GameState* state, Move* move) {
         state -> turn = WHITE;
     }
 
-    // Castling (TODO: CHECK CASTLE FLAGS BEFORE ADDING MOVES)
     if (move->from_x == 4) {
         if (move->from_y == 0) {
             if (move->to_y == 0) {
@@ -137,7 +136,7 @@ void applyMoveToGameState(GameState* state, Move* move) {
                 }
                 else if (move->to_x == 2 && (state -> castleFlags & CAN_CASTLE_WHITE_QUEENSIDE)) {
                     state -> pieces[0][0] = EMPTY;
-                    state -> pieces[2][0] = WHITE | ROOK;
+                    state -> pieces[3][0] = WHITE | ROOK;
                 }
             }
             state -> castleFlags &= ~CAN_CASTLE_WHITE_KINGSIDE;
@@ -151,7 +150,7 @@ void applyMoveToGameState(GameState* state, Move* move) {
                 }
                 else if (move->to_x == 2 && (state -> castleFlags & CAN_CASTLE_BLACK_QUEENSIDE)) {
                     state -> pieces[0][7] = EMPTY;
-                    state -> pieces[2][7] = BLACK | ROOK;
+                    state -> pieces[3][7] = BLACK | ROOK;
                 }
             }
             state -> castleFlags &= ~CAN_CASTLE_BLACK_KINGSIDE;
@@ -173,6 +172,24 @@ void applyMoveToGameState(GameState* state, Move* move) {
             state -> castleFlags &= ~CAN_CASTLE_WHITE_KINGSIDE;
         }
         else if (move->from_y == 7) {
+            state -> castleFlags &= ~CAN_CASTLE_BLACK_KINGSIDE;
+        }
+    }
+
+    // Rook captures cancel castle eligibility
+    if (move->to_x == 0) {
+        if (move->to_y == 0) {
+            state -> castleFlags &= ~CAN_CASTLE_WHITE_QUEENSIDE;
+        }
+        else if (move->to_y == 7) {
+            state -> castleFlags &= ~CAN_CASTLE_BLACK_QUEENSIDE;
+        }
+    }
+    else if (move->to_x == 7) {
+        if (move->to_y == 0) {
+            state -> castleFlags &= ~CAN_CASTLE_WHITE_KINGSIDE;
+        }
+        else if (move->to_y == 7) {
             state -> castleFlags &= ~CAN_CASTLE_BLACK_KINGSIDE;
         }
     }
