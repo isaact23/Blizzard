@@ -85,7 +85,7 @@ int32_t minimax(Node* root, GameState* state) {
         Node* childNode = NULL;
 
         // Select best node for exploration
-        if (random() % 2 == 0) {
+        if (random() % 5 == 0) {
             childNode = root -> bestChild;
         }
         // Select random node for exploration
@@ -98,12 +98,28 @@ int32_t minimax(Node* root, GameState* state) {
         }
 
         int32_t newFitness = minimax(childNode, newState);
-        if ((isMax && (newFitness > (root -> fitness))) ||
-            ((!isMax) && (newFitness < (root -> fitness))))
-        {
-            root -> fitness = newFitness;
-            root -> bestChild = childNode;
+
+        // Update best fitness of parent node
+        // TODO: Only do if the childNode's fitness was the best but became worse
+        int32_t bestFitness;
+        Node* bestChild = NULL;
+        if (isMax) {
+            bestFitness = INT32_MIN;
+        } else {
+            bestFitness = INT32_MAX;
         }
+        for (int i = 0; i < root -> childCount; i++) {
+            Node* child = root -> children[i];
+            int32_t fitness = child -> fitness;
+            if ((isMax && (fitness > bestFitness)) ||
+                ((!isMax) && (fitness < bestFitness)))
+            {
+                bestFitness = fitness;
+                bestChild = child;
+            }
+        }
+        root -> fitness = bestFitness;
+        root -> bestChild = bestChild;
 
         freeGameState(newState);
     }

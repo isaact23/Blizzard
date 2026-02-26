@@ -1,0 +1,25 @@
+[Event "Computer chess game"]
+[Site "shuffles-arch"]
+[Date "2026.02.25"]
+[Round "?"]
+[White "Blizzard"]
+[Black "shuffles"]
+[Result "0-1"]
+[BlackElo "2400"]
+[ECO "A00"]
+[Opening "Van Kruij's Opening"]
+[Time "22:49:02"]
+[WhiteElo "2200"]
+[TimeControl "3600+60"]
+[Termination "rules infraction"]
+[PlyCount "60"]
+[WhiteType "program"]
+[BlackType "human"]
+
+1. e3 e6 2. Qh5 d6 3. Bc4 d5 4. Bb5+ c6 5. Bd3 Nf6 6. Qg5 h6 7. Qf4 Bd6 8.
+Qd4 Qe7 9. Nf3 Nfd7 10. Qxg7 Rf8 11. Qxh6 b6 12. Nd4 Bb7 13. Rg1 c5 14. Nb5
+a6 15. Nxd6+ Qxd6 16. Bh7 a5 17. Nc3 a4 18. Nb5 Qc6 19. Na3 Qd6 20. Nb5 Qc6
+21. Na3 Ba6 22. g4 Ne5 23. f4 Nc4 24. d3 Nxa3 25. bxa3 Qb5 26. Rg3 c4 27.
+d4 c3 28. Bd3 Qd7 29. Bh7 Qc6 30. Qg7 Nd7 {Arena Adjudication. Illegal
+move!} 0-1
+
