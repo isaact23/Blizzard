@@ -79,9 +79,9 @@ void* searchThread(void* args) {
     freeMinimaxTree(node);
 
     // Print all possible moves the engine could have made
-    MoveList* list = listMoves(gameState);
-    printMoves(list);
-    freeMoveList(list);
+    //MoveList* list = listMoves(gameState);
+    //printMoves(list);
+    //freeMoveList(list);
 
     pthread_mutex_lock(&searchMutex);
     if (stopFlag) {
@@ -92,6 +92,7 @@ void* searchThread(void* args) {
 
     // Indicate that thread is done
     threadId = -1;
+    //pthread_exit(NULL);
 }
 
 // Initiate search thread if it isn't already running.

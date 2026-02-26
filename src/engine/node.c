@@ -49,7 +49,7 @@ int32_t minimax(Node* root, GameState* state) {
             Node* newNode = malloc(sizeof(Node));
 
             // Fetch the move and create an updated GameState
-            Move* move = list -> moveArray[i];
+            Move* move = copyMove(list -> moveArray[i]);
             newNode -> move = move;
             GameState* newState = copyGameState(state);
             applyMoveToGameState(newState, move);
@@ -77,6 +77,8 @@ int32_t minimax(Node* root, GameState* state) {
 
         root -> fitness = bestFitness;
         root -> bestChild = bestChild;
+
+        freeMoveList(list);
     }
 
     // Traversal
@@ -153,5 +155,8 @@ void freeMinimaxTree(Node* root) {
         freeMinimaxTree(root -> children[i]);
     }
     free(root -> children);
+    if (root -> move != NULL) {
+        free(root -> move);
+    }
     free(root);
 }

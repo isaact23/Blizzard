@@ -87,34 +87,34 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
     if (oldState -> turn == WHITE) {
 
         // Knight check
-        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == BK) return;
-        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == BK) return;
-        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == BK) return;
-        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == BK) return;
-        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == BK) return;
-        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == BK) return;
-        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == BK) return;
-        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == BK) return;
+        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == BK) goto END;
+        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == BK) goto END;
+        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == BK) goto END;
+        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == BK) goto END;
+        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == BK) goto END;
+        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == BK) goto END;
+        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == BK) goto END;
+        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == BK) goto END;
 
         // Rook/queen check
         // West
         for (int i = x - 1; i >= 0; i--) {
-            if (state -> pieces[i][y] == BR || state -> pieces[i][y] == BQ) return;
+            if (state -> pieces[i][y] == BR || state -> pieces[i][y] == BQ) goto END;
             if (state -> pieces[i][y] != EMPTY) break;
         }
         // East
         for (int i = x + 1; i <= 7; i++) {
-            if (state -> pieces[i][y] == BR || state -> pieces[i][y] == BQ) return;
+            if (state -> pieces[i][y] == BR || state -> pieces[i][y] == BQ) goto END;
             if (state -> pieces[i][y] != EMPTY) break;
         }
         // South
         for (int j = y - 1; j >= 0; j--) {
-            if (state -> pieces[x][j] == BR || state -> pieces[x][j] == BQ) return;
+            if (state -> pieces[x][j] == BR || state -> pieces[x][j] == BQ) goto END;
             if (state -> pieces[x][j] != EMPTY) break;
         }
         // North
         for (int j = y + 1; j <= 7; j++) {
-            if (state -> pieces[x][j] == BR || state -> pieces[x][j] == BQ) return;
+            if (state -> pieces[x][j] == BR || state -> pieces[x][j] == BQ) goto END;
             if (state -> pieces[x][j] != EMPTY) break;
         }
 
@@ -122,61 +122,61 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
         // Southwest
         for (int i = 1; i <= 7; i++) {
             if (x - i < 0 || y - i < 0) break;
-            if (state -> pieces[x - i][y - i] == BB || state -> pieces[x - i][y - i] == BQ) return;
+            if (state -> pieces[x - i][y - i] == BB || state -> pieces[x - i][y - i] == BQ) goto END;
             if (state -> pieces[x - i][y - i] == EMPTY) break;
         }
         // Southeast
         for (int i = 1; i <= 7; i++) {
             if (x + i > 7 || y - i < 0) break;
-            if (state -> pieces[x + i][y - i] == BB || state -> pieces[x + i][y - i] == BQ) return;
+            if (state -> pieces[x + i][y - i] == BB || state -> pieces[x + i][y - i] == BQ) goto END;
             if (state -> pieces[x + i][y - i] == EMPTY) break;
         }
         // Northwest
         for (int i = 1; i <= 7; i++) {
             if (x - i < 0 || y + i > 7) break;
-            if (state -> pieces[x - i][y + i] == BB || state -> pieces[x - i][y + i] == BQ) return;
+            if (state -> pieces[x - i][y + i] == BB || state -> pieces[x - i][y + i] == BQ) goto END;
             if (state -> pieces[x - i][y + i] == EMPTY) break;
         }
         // Northeast
         for (int i = 1; i <= 7; i++) {
             if (x + i > 7 || y + i > 7) break;
-            if (state -> pieces[x + i][y + i] == BB || state -> pieces[x + i][y + i] == BQ) return;
+            if (state -> pieces[x + i][y + i] == BB || state -> pieces[x + i][y + i] == BQ) goto END;
             if (state -> pieces[x + i][y + i] == EMPTY) break;
         }
 
         // Pawn check
         if (y > 0) {
             if (x > 0) {
-                if (state -> pieces[x - 1][y - 1] == BP) return;
+                if (state -> pieces[x - 1][y - 1] == BP) goto END;
             }
             if (x < 7) {
-                if (state -> pieces[x + 1][y - 1] == BP) return;
+                if (state -> pieces[x + 1][y - 1] == BP) goto END;
             }
         }
 
         // King check
         if (x > 0) {
-            if (state -> pieces[x - 1][y] == BK) return;
+            if (state -> pieces[x - 1][y] == BK) goto END;
             if (y > 0) {
-                if (state -> pieces[x - 1][y - 1] == BK) return;
+                if (state -> pieces[x - 1][y - 1] == BK) goto END;
             }
             if (y < 7) {
-                if (state -> pieces[x - 1][y + 1] == BK) return;
+                if (state -> pieces[x - 1][y + 1] == BK) goto END;
             }
         }
         if (y > 0) {
-            if (state -> pieces[x][y - 1] == BK) return;
+            if (state -> pieces[x][y - 1] == BK) goto END;
         }
         if (y < 7) {
-            if (state -> pieces[x][y + 1] == BK) return;
+            if (state -> pieces[x][y + 1] == BK) goto END;
         }
         if (x < 7) {
-            if (state -> pieces[x + 1][y] == BK) return;
+            if (state -> pieces[x + 1][y] == BK) goto END;
             if (y > 0) {
-                if (state -> pieces[x + 1][y - 1] == BK) return;
+                if (state -> pieces[x + 1][y - 1] == BK) goto END;
             }
             if (y < 7) {
-                if (state -> pieces[x + 1][y + 1] == BK) return;
+                if (state -> pieces[x + 1][y + 1] == BK) goto END;
             }
         }
     }
@@ -185,34 +185,34 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
     else {
 
         // Knight check
-        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == WK) return;
-        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == WK) return;
-        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == WK) return;
-        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == WK) return;
-        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == WK) return;
-        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == WK) return;
-        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == WK) return;
-        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == WK) return;
+        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == WK) goto END;
+        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == WK) goto END;
+        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == WK) goto END;
+        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == WK) goto END;
+        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == WK) goto END;
+        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == WK) goto END;
+        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == WK) goto END;
+        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == WK) goto END;
 
         // Rook/queen check
         // West
         for (int i = x - 1; i >= 0; i--) {
-            if (state -> pieces[i][y] == WR || state -> pieces[i][y] == WQ) return;
+            if (state -> pieces[i][y] == WR || state -> pieces[i][y] == WQ) goto END;
             if (state -> pieces[i][y] != EMPTY) break;
         }
         // East
         for (int i = x + 1; i <= 7; i++) {
-            if (state -> pieces[i][y] == WR || state -> pieces[i][y] == WQ) return;
+            if (state -> pieces[i][y] == WR || state -> pieces[i][y] == WQ) goto END;
             if (state -> pieces[i][y] != EMPTY) break;
         }
         // South
         for (int j = y - 1; j >= 0; j--) {
-            if (state -> pieces[x][j] == WR || state -> pieces[x][j] == WQ) return;
+            if (state -> pieces[x][j] == WR || state -> pieces[x][j] == WQ) goto END;
             if (state -> pieces[x][j] != EMPTY) break;
         }
         // North
         for (int j = y + 1; j <= 7; j++) {
-            if (state -> pieces[x][j] == WR || state -> pieces[x][j] == WQ) return;
+            if (state -> pieces[x][j] == WR || state -> pieces[x][j] == WQ) goto END;
             if (state -> pieces[x][j] != EMPTY) break;
         }
 
@@ -220,67 +220,69 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
         // Southwest
         for (int i = 1; i <= 7; i++) {
             if (x - i < 0 || y - i < 0) break;
-            if (state -> pieces[x - i][y - i] == WB || state -> pieces[x - i][y - i] == WQ) return;
+            if (state -> pieces[x - i][y - i] == WB || state -> pieces[x - i][y - i] == WQ) goto END;
             if (state -> pieces[x - i][y - i] == EMPTY) break;
         }
         // Southeast
         for (int i = 1; i <= 7; i++) {
             if (x + i > 7 || y - i < 0) break;
-            if (state -> pieces[x + i][y - i] == WB || state -> pieces[x + i][y - i] == WQ) return;
+            if (state -> pieces[x + i][y - i] == WB || state -> pieces[x + i][y - i] == WQ) goto END;
             if (state -> pieces[x + i][y - i] == EMPTY) break;
         }
         // Northwest
         for (int i = 1; i <= 7; i++) {
             if (x - i < 0 || y + i > 7) break;
-            if (state -> pieces[x - i][y + i] == WB || state -> pieces[x - i][y + i] == WQ) return;
+            if (state -> pieces[x - i][y + i] == WB || state -> pieces[x - i][y + i] == WQ) goto END;
             if (state -> pieces[x - i][y + i] == EMPTY) break;
         }
         // Northeast
         for (int i = 1; i <= 7; i++) {
             if (x + i > 7 || y + i > 7) break;
-            if (state -> pieces[x + i][y + i] == WB || state -> pieces[x + i][y + i] == WQ) return;
+            if (state -> pieces[x + i][y + i] == WB || state -> pieces[x + i][y + i] == WQ) goto END;
             if (state -> pieces[x + i][y + i] == EMPTY) break;
         }
 
         // Pawn check
         if (y > 0) {
             if (x > 0) {
-                if (state -> pieces[x - 1][y - 1] == WP) return;
+                if (state -> pieces[x - 1][y - 1] == WP) goto END;
             }
             if (x < 7) {
-                if (state -> pieces[x + 1][y - 1] == WP) return;
+                if (state -> pieces[x + 1][y - 1] == WP) goto END;
             }
         }
 
         // King check
         if (x > 0) {
-            if (state -> pieces[x - 1][y] == WK) return;
+            if (state -> pieces[x - 1][y] == WK) goto END;
             if (y > 0) {
-                if (state -> pieces[x - 1][y - 1] == WK) return;
+                if (state -> pieces[x - 1][y - 1] == WK) goto END;
             }
             if (y < 7) {
-                if (state -> pieces[x - 1][y + 1] == WK) return;
+                if (state -> pieces[x - 1][y + 1] == WK) goto END;
             }
         }
         if (y > 0) {
-            if (state -> pieces[x][y - 1] == WK) return;
+            if (state -> pieces[x][y - 1] == WK) goto END;
         }
         if (y < 7) {
-            if (state -> pieces[x][y + 1] == WK) return;
+            if (state -> pieces[x][y + 1] == WK) goto END;
         }
         if (x < 7) {
-            if (state -> pieces[x + 1][y] == WK) return;
+            if (state -> pieces[x + 1][y] == WK) goto END;
             if (y > 0) {
-                if (state -> pieces[x + 1][y - 1] == WK) return;
+                if (state -> pieces[x + 1][y - 1] == WK) goto END;
             }
             if (y < 7) {
-                if (state -> pieces[x + 1][y + 1] == WK) return;
+                if (state -> pieces[x + 1][y + 1] == WK) goto END;
             }
         }
     }
 
     // All checks passed, add the move to the list of valid moves.
     addMove(moveList, from_x, from_y, to_x, to_y, promotion);
+
+END:
     freeGameState(state);
 }
 

@@ -21,6 +21,9 @@ typedef struct _Move Move;
 // (longAlgConvert and move cross-reference; this ordering is needed for compilation)
 #include "engine/longAlgConvert.h"
 
+// Duplicate a move
+Move* copyMove(Move* move);
+
 // Print a move
 void printMove(Move* move);
 
