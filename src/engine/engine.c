@@ -52,9 +52,19 @@ void setPosition(char* fen, char** moves, int moveCount) {
 void* searchThread(void* args) {
 
     pthread_mutex_lock(&searchMutex);
-    alphaBeta(gameState, 5, -FITNESS_MAX, FITNESS_MAX, gameState->turn == WHITE, &bestMove);
+
+    Node* node = createRoot(NULL, gameState->turn == WHITE);
+    for (int i = 0; i < 100000; i++) {
+        minimax(node, gameState);
+    }
+    freeMinimaxTree(node);
+
     pthread_mutex_unlock(&searchMutex);
 
+    Move* bestMove = NULL;
+    if (node -> bestChild != NULL) {
+        bestMove = node -> bestChild -> move;
+    }
     if (bestMove != NULL) {
         sendCommand("bestmove %s\n", moveToLongAlg(bestMove));
     } else {

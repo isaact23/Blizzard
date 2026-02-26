@@ -10,14 +10,16 @@
 
 struct _Node {
     Move* move; // Move to get to this state
-    struct _Node* children;
-    int child_count;
+    struct _Node** children;
+    struct _Node* bestChild;
+    int childCount;
+    bool isTerminal;
     int32_t fitness;
-    int32_t alpha;
-    int32_t beta;
 };
 typedef struct _Node Node;
 
-int32_t alphaBeta(Node* root, GameState* state);
+Node* createRoot(Move* move, bool isMax);
+int32_t minimax(Node* root, GameState* state);
+void freeMinimaxTree(Node* root);
 
 #endif
