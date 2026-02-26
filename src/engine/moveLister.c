@@ -68,7 +68,11 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
     bool found = false;
     for (x = 0; x < 8; x++) {
         for (y = 0; y < 8; y++) {
-            if (state -> pieces[x][y] == WK || state -> pieces[x][y] == BK) {
+            if (state -> pieces[x][y] == WK || oldState -> turn == WHITE) {
+                found = true;
+                break;
+            }
+            if (state -> pieces[x][y] == BK || oldState -> turn == BLACK) {
                 found = true;
                 break;
             }
