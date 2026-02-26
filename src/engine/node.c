@@ -65,8 +65,8 @@ int32_t minimax(Node* root, GameState* state) {
             freeGameState(newState);
 
             // Keep track of the best child
-            if ((isMax && fitness > bestFitness) ||
-                ((!isMax) && fitness < bestFitness))
+            if ((isMax && (fitness > bestFitness)) ||
+                ((!isMax) && (fitness < bestFitness)))
             {
                 bestFitness = fitness;
                 bestChild = newNode;
@@ -82,10 +82,6 @@ int32_t minimax(Node* root, GameState* state) {
     // Traversal
     else {
         GameState* newState = copyGameState(state);
-        if (root -> move != NULL) {
-            applyMoveToGameState(newState, root -> move);
-        }
-
         Node* childNode = NULL;
 
         // Select best node for exploration
@@ -97,9 +93,13 @@ int32_t minimax(Node* root, GameState* state) {
             childNode = root -> children[random() % (root -> childCount)];
         }
 
+        if (childNode -> move != NULL) {
+            applyMoveToGameState(newState, childNode -> move);
+        }
+
         int32_t newFitness = minimax(childNode, newState);
-        if ((isMax && newFitness > (root -> fitness)) ||
-            ((!isMax) && newFitness < (root -> fitness)))
+        if ((isMax && (newFitness > (root -> fitness))) ||
+            ((!isMax) && (newFitness < (root -> fitness))))
         {
             root -> fitness = newFitness;
             root -> bestChild = childNode;
@@ -109,6 +109,27 @@ int32_t minimax(Node* root, GameState* state) {
     }
 
     return root -> fitness;
+}
+
+void printMinimaxTree(Node* root, int depth) {
+    char* moveStr = NULL;
+    if (root -> move != NULL) {
+        moveStr = moveToLongAlg(root -> move);
+    }
+    for (int i = 0; i < root -> childCount; i++) {
+        printMinimaxTree(root -> children[i], depth + 1);
+    }
+
+    for (int i = 0; i < depth; i++) {
+        printf("  ");
+    }
+    if (moveStr != NULL) {
+        printf("%s\n", moveStr);
+        free(moveStr);
+    }
+    else {
+        printf("\n");
+    }
 }
 
 void freeMinimaxTree(Node* root) {
