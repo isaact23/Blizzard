@@ -7,6 +7,7 @@ void fatalError(char* message, ...) {
     vsnprintf(buf, 512, message, args);
     fprintf(stdout, "[Fatal Error] %s\n", buf);
     va_end(args);
+    exit(1);
 }
 
 void error(char* message, ...) {

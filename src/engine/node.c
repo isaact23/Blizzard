@@ -102,6 +102,7 @@ int32_t minimax(Node* root, GameState* state) {
             ((!isMax) && newFitness < (root -> fitness)))
         {
             root -> fitness = newFitness;
+            root -> bestChild = childNode;
         }
 
         freeGameState(newState);

@@ -3,10 +3,13 @@
 
 #include "engine/move.h"
 #include "engine/pieces.h"
+#include "error.h"
 #include <stdlib.h>
 
 int fileCharToNum(char file);
 int rankCharToNum(char rank);
+char numToFileChar(int file);
+char numToRankChar(int rank);
 
 /* Convert internal move representation to long algebraic notation. */
 char* moveToLongAlg(Move* move);

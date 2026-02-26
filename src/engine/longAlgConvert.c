@@ -1,19 +1,39 @@
 #include "engine/longAlgConvert.h"
 
 int fileCharToNum(char file) {
-    return file - 97;
+    int res = file - 97;
+    if (res < 0 || res > 7) {
+        fatalError("Invalid file char %s\n", file);
+    }
+    return res;
 }
 int rankCharToNum(char rank) {
-    return rank - 49;
+    int res = rank - 49;
+    if (res < 0 || res > 7) {
+        fatalError("Invalid rank char %s\n", rank);
+    }
+    return res;
+}
+char numToFileChar(int file) {
+    if (file < 0 || file > 7) {
+        fatalError("Invalid file number %d\n", file);
+    }
+    return file + 97;
+}
+char numToRankChar(int rank) {
+    if (rank < 0 || rank > 7) {
+        fatalError("Invalid rank number %d\n", rank);
+    }
+    return rank + 49;
 }
 
 /* Convert internal move representation to long algebraic notation. */
 char* moveToLongAlg(Move* move) {
     char* longAlg = malloc(6 * sizeof(char));
-    longAlg[0] = move->from_x + 97;
-    longAlg[1] = move->from_y + 49;
-    longAlg[2] = move->to_x + 97;
-    longAlg[3] = move->to_y + 49;
+    longAlg[0] = numToFileChar(move->from_x);
+    longAlg[1] = numToRankChar(move->from_y);
+    longAlg[2] = numToFileChar(move->to_x);
+    longAlg[3] = numToRankChar(move->to_y);
     if (move->promotion) {
         switch(move->promotion) {
             case QUEEN: {longAlg[4] = 'q'; break;}

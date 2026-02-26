@@ -54,10 +54,10 @@ void* searchThread(void* args) {
     pthread_mutex_lock(&searchMutex);
 
     Node* node = createRoot(NULL, gameState->turn == WHITE);
-    for (int i = 0; i < 100000; i++) {
+    for (int i = 0; i < 100; i++) {
         minimax(node, gameState);
     }
-    freeMinimaxTree(node);
+    info("Evaluation %d", minimax(node, gameState));
 
     pthread_mutex_unlock(&searchMutex);
 
@@ -70,6 +70,7 @@ void* searchThread(void* args) {
     } else {
         error("No move found");
     }
+    freeMinimaxTree(node);
 
     pthread_mutex_lock(&searchMutex);
     if (stopFlag) {

@@ -3,6 +3,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void fatalError(char* message, ...);
 void error(char* message, ...);
