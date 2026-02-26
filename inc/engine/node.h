@@ -10,12 +10,14 @@
 
 struct _Node {
     Move* move; // Move to get to this state
-    int fitness;
-    int child_count;
     struct _Node* children;
+    int child_count;
+    int32_t fitness;
+    int32_t alpha;
+    int32_t beta;
 };
 typedef struct _Node Node;
 
-int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** moveOutput);
+int32_t alphaBeta(Node* root, GameState* state);
 
 #endif

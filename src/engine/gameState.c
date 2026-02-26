@@ -100,7 +100,7 @@ GameState* gameStateFromFen(char* fen) {
     numString[j] = '\0';
     state -> fullMoves = (uint16_t) atoi(numString);
 
-    state -> winner = EMPTY;
+    state -> outcome = OUTCOME_NONE;
 
     return state;
 }
@@ -110,11 +110,11 @@ void applyMoveToGameState(GameState* state, Move* move) {
     // If king is captured, game is over.
     uint8_t captured = state -> pieces[move -> to_x][move -> to_y];
     if (captured == WK) {
-        state -> winner = BLACK;
+        state -> outcome = OUTCOME_BLACK;
         return;
     }
     else if (captured == BK) {
-        state -> winner = WHITE;
+        state -> outcome = OUTCOME_WHITE;
         return;
     }
 
@@ -127,6 +127,7 @@ void applyMoveToGameState(GameState* state, Move* move) {
         state -> turn = WHITE;
     }
 
+    // King movements, including castling, cancel castle eligibility
     if (move->from_x == 4) {
         if (move->from_y == 0) {
             if (move->to_y == 0) {

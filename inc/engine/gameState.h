@@ -17,6 +17,11 @@
 #define CAN_CASTLE_BLACK_QUEENSIDE (1 << 4)
 #define CAN_CASTLE_ALL 0xF
 
+#define OUTCOME_NONE 0
+#define OUTCOME_WHITE 1
+#define OUTCOME_BLACK 2
+#define OUTCOME_DRAW 3
+
 // Store all data in FEN for game state
 struct _GameState {
     uint8_t pieces[8][8]; // 8x8 board (indexed by x then y)
@@ -25,7 +30,8 @@ struct _GameState {
     uint8_t enPassantFile; // Column of en passant. Greater than 7 if unavailable.
     uint16_t halfMoves;
     uint16_t fullMoves;
-    uint8_t winner; // WHITE, BLACK, or 0 (EMPTY).
+    uint8_t outcome; // OUTCOME_NONE, OUTCOME_WHITE, OUTCOME_BLACK, or OUTCOME_DRAW
+    int32_t material;
 };
 typedef struct _GameState GameState;
 
