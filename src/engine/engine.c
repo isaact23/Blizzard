@@ -36,6 +36,11 @@ void setPosition(char* fen, char** moves, int moveCount) {
     if (gameState != NULL) freeGameState(gameState);
 
     gameState = gameStateFromFen(fen);
+    if (gameState -> turn == WHITE) {
+        info("White's turn");
+    } else {
+        info("Black's turn");
+    }
 
     // Apply all moves to the game state
     MoveSequence* moveSeq = createMoveSequence(moves, moveCount);
@@ -72,6 +77,11 @@ void* searchThread(void* args) {
         error("No move found");
     }
     freeMinimaxTree(node);
+
+    // Print all possible moves the engine could have made
+    MoveList* list = listMoves(gameState);
+    printMoves(list);
+    freeMoveList(list);
 
     pthread_mutex_lock(&searchMutex);
     if (stopFlag) {

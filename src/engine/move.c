@@ -2,6 +2,7 @@
 
 // Print a move
 void printMove(Move* move) {
-    printf("From (%d, %d) to (%d, %d) promotion %d\n",
-        move -> from_x, move -> from_y, move -> to_x, move -> to_y, move -> promotion);
+    char* moveStr = moveToLongAlg(move);
+    printf("%s\n", moveStr);
+    free(moveStr);
 };

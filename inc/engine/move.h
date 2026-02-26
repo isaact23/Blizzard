@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 // Store data for a move
 struct _Move {
@@ -15,6 +16,10 @@ struct _Move {
         /* For no promotion, use 0 or EMPTY */
 };
 typedef struct _Move Move;
+
+// Just haphazardly putting an include statement after the Move struct nothing to see here
+// (longAlgConvert and move cross-reference; this ordering is needed for compilation)
+#include "engine/longAlgConvert.h"
 
 // Print a move
 void printMove(Move* move);

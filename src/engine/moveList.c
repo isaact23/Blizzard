@@ -3,7 +3,6 @@
 // Print all moves in a MoveList
 void printMoves(MoveList* moveList) {
     for (int i = 0; i < moveList -> moveCount; i++) {
-        printf("%d: ", i + 1);
         printMove(moveList -> moveArray[i]);
     }
 }
