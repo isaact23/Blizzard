@@ -7,7 +7,7 @@ GameState* openingGameState() {
 
 // Create a GameState from a given FEN (Forsyth-Edwards Notation)
 GameState* gameStateFromFen(char* fen) {
-    GameState* state = malloc(sizeof(GameState));
+    GameState* state = calloc(1, sizeof(GameState));
     int y = 7;
     int x = 0;
     int i = 0;

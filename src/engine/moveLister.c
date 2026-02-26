@@ -79,8 +79,7 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
         //info("Found king at %d %d\n", x, y);
     } else {
         error("Could not find king");
-        freeGameState(state);
-        return;
+        goto END;
     }
 
     // If white moves, check white king's safety
