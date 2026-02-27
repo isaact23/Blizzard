@@ -68,11 +68,11 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
     bool found = false;
     for (x = 0; x < 8; x++) {
         for (y = 0; y < 8; y++) {
-            if (state -> pieces[x][y] == WK || oldState -> turn == WHITE) {
+            if (state -> pieces[x][y] == WK && oldState -> turn == WHITE) {
                 found = true;
                 break;
             }
-            if (state -> pieces[x][y] == BK || oldState -> turn == BLACK) {
+            if (state -> pieces[x][y] == BK && oldState -> turn == BLACK) {
                 found = true;
                 break;
             }
@@ -90,14 +90,14 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
     if (oldState -> turn == WHITE) {
 
         // Knight check
-        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == BK) goto END;
-        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == BK) goto END;
-        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == BK) goto END;
-        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == BK) goto END;
-        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == BK) goto END;
-        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == BK) goto END;
-        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == BK) goto END;
-        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == BK) goto END;
+        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == BN) goto END;
+        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == BN) goto END;
+        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == BN) goto END;
+        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == BN) goto END;
+        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == BN) goto END;
+        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == BN) goto END;
+        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == BN) goto END;
+        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == BN) goto END;
 
         // Rook/queen check
         // West
@@ -188,14 +188,14 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
     else {
 
         // Knight check
-        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == WK) goto END;
-        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == WK) goto END;
-        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == WK) goto END;
-        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == WK) goto END;
-        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == WK) goto END;
-        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == WK) goto END;
-        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == WK) goto END;
-        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == WK) goto END;
+        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == WN) goto END;
+        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == WN) goto END;
+        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == WN) goto END;
+        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == WN) goto END;
+        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == WN) goto END;
+        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == WN) goto END;
+        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == WN) goto END;
+        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == WN) goto END;
 
         // Rook/queen check
         // West
