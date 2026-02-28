@@ -47,11 +47,202 @@ MoveList* listMoves(GameState* state) {
     return moveList;
 }
 
-static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from_x, uint8_t from_y, uint8_t to_x, uint8_t to_y, uint8_t promotion) {
+static bool isAttackedBy(GameState* state, uint8_t x, uint8_t y, uint8_t turn) {
+    if (turn == WHITE) {
+        // Knight check
+        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == WN) return true;
+        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == WN) return true;
+        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == WN) return true;
+        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == WN) return true;
+        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == WN) return true;
+        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == WN) return true;
+        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == WN) return true;
+        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == WN) return true;
 
-    // uncomment to disable check
-    //addMove(moveList, from_x, from_y, to_x, to_y, promotion);
-    //return;
+        // Rook/queen check
+        // West
+        for (int i = x - 1; i >= 0; i--) {
+            if (state -> pieces[i][y] == WR || state -> pieces[i][y] == WQ) return true;
+            if (state -> pieces[i][y] != EMPTY) break;
+        }
+        // East
+        for (int i = x + 1; i <= 7; i++) {
+            if (state -> pieces[i][y] == WR || state -> pieces[i][y] == WQ) return true;
+            if (state -> pieces[i][y] != EMPTY) break;
+        }
+        // South
+        for (int j = y - 1; j >= 0; j--) {
+            if (state -> pieces[x][j] == WR || state -> pieces[x][j] == WQ) return true;
+            if (state -> pieces[x][j] != EMPTY) break;
+        }
+        // North
+        for (int j = y + 1; j <= 7; j++) {
+            if (state -> pieces[x][j] == WR || state -> pieces[x][j] == WQ) return true;
+            if (state -> pieces[x][j] != EMPTY) break;
+        }
+
+        // Bishop/queen check
+        // Southwest
+        for (int i = 1; i <= 7; i++) {
+            if (x - i < 0 || y - i < 0) break;
+            if (state -> pieces[x - i][y - i] == WB || state -> pieces[x - i][y - i] == WQ) return true;
+            if (state -> pieces[x - i][y - i] == EMPTY) break;
+        }
+        // Southeast
+        for (int i = 1; i <= 7; i++) {
+            if (x + i > 7 || y - i < 0) break;
+            if (state -> pieces[x + i][y - i] == WB || state -> pieces[x + i][y - i] == WQ) return true;
+            if (state -> pieces[x + i][y - i] == EMPTY) break;
+        }
+        // Northwest
+        for (int i = 1; i <= 7; i++) {
+            if (x - i < 0 || y + i > 7) break;
+            if (state -> pieces[x - i][y + i] == WB || state -> pieces[x - i][y + i] == WQ) return true;
+            if (state -> pieces[x - i][y + i] == EMPTY) break;
+        }
+        // Northeast
+        for (int i = 1; i <= 7; i++) {
+            if (x + i > 7 || y + i > 7) break;
+            if (state -> pieces[x + i][y + i] == WB || state -> pieces[x + i][y + i] == WQ) return true;
+            if (state -> pieces[x + i][y + i] == EMPTY) break;
+        }
+
+        // Pawn check
+        if (y > 0) {
+            if (x > 0) {
+                if (state -> pieces[x - 1][y - 1] == WP) return true;
+            }
+            if (x < 7) {
+                if (state -> pieces[x + 1][y - 1] == WP) return true;
+            }
+        }
+
+        // King check
+        if (x > 0) {
+            if (state -> pieces[x - 1][y] == WK) return true;
+            if (y > 0) {
+                if (state -> pieces[x - 1][y - 1] == WK) return true;
+            }
+            if (y < 7) {
+                if (state -> pieces[x - 1][y + 1] == WK) return true;
+            }
+        }
+        if (y > 0) {
+            if (state -> pieces[x][y - 1] == WK) return true;
+        }
+        if (y < 7) {
+            if (state -> pieces[x][y + 1] == WK) return true;
+        }
+        if (x < 7) {
+            if (state -> pieces[x + 1][y] == WK) return true;
+            if (y > 0) {
+                if (state -> pieces[x + 1][y - 1] == WK) return true;
+            }
+            if (y < 7) {
+                if (state -> pieces[x + 1][y + 1] == WK) return true;
+            }
+        }
+    }
+    else {
+        // Knight check
+        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == BN) return true;
+        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == BN) return true;
+        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == BN) return true;
+        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == BN) return true;
+        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == BN) return true;
+        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == BN) return true;
+        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == BN) return true;
+        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == BN) return true;
+
+        // Rook/queen check
+        // West
+        for (int i = x - 1; i >= 0; i--) {
+            if (state -> pieces[i][y] == BR || state -> pieces[i][y] == BQ) return true;
+            if (state -> pieces[i][y] != EMPTY) break;
+        }
+        // East
+        for (int i = x + 1; i <= 7; i++) {
+            if (state -> pieces[i][y] == BR || state -> pieces[i][y] == BQ) return true;
+            if (state -> pieces[i][y] != EMPTY) break;
+        }
+        // South
+        for (int j = y - 1; j >= 0; j--) {
+            if (state -> pieces[x][j] == BR || state -> pieces[x][j] == BQ) return true;
+            if (state -> pieces[x][j] != EMPTY) break;
+        }
+        // North
+        for (int j = y + 1; j <= 7; j++) {
+            if (state -> pieces[x][j] == BR || state -> pieces[x][j] == BQ) return true;
+            if (state -> pieces[x][j] != EMPTY) break;
+        }
+
+        // Bishop/queen check
+        // Southwest
+        for (int i = 1; i <= 7; i++) {
+            if (x - i < 0 || y - i < 0) break;
+            if (state -> pieces[x - i][y - i] == BB || state -> pieces[x - i][y - i] == BQ) return true;
+            if (state -> pieces[x - i][y - i] == EMPTY) break;
+        }
+        // Southeast
+        for (int i = 1; i <= 7; i++) {
+            if (x + i > 7 || y - i < 0) break;
+            if (state -> pieces[x + i][y - i] == BB || state -> pieces[x + i][y - i] == BQ) return true;
+            if (state -> pieces[x + i][y - i] == EMPTY) break;
+        }
+        // Northwest
+        for (int i = 1; i <= 7; i++) {
+            if (x - i < 0 || y + i > 7) break;
+            if (state -> pieces[x - i][y + i] == BB || state -> pieces[x - i][y + i] == BQ) return true;
+            if (state -> pieces[x - i][y + i] == EMPTY) break;
+        }
+        // Northeast
+        for (int i = 1; i <= 7; i++) {
+            if (x + i > 7 || y + i > 7) break;
+            if (state -> pieces[x + i][y + i] == BB || state -> pieces[x + i][y + i] == BQ) return true;
+            if (state -> pieces[x + i][y + i] == EMPTY) break;
+        }
+
+        // Pawn check
+        if (y > 0) {
+            if (x > 0) {
+                if (state -> pieces[x - 1][y - 1] == BP) return true;
+            }
+            if (x < 7) {
+                if (state -> pieces[x + 1][y - 1] == BP) return true;
+            }
+        }
+
+        // King check
+        if (x > 0) {
+            if (state -> pieces[x - 1][y] == BK) return true;
+            if (y > 0) {
+                if (state -> pieces[x - 1][y - 1] == BK) return true;
+            }
+            if (y < 7) {
+                if (state -> pieces[x - 1][y + 1] == BK) return true;
+            }
+        }
+        if (y > 0) {
+            if (state -> pieces[x][y - 1] == BK) return true;
+        }
+        if (y < 7) {
+            if (state -> pieces[x][y + 1] == BK) return true;
+        }
+        if (x < 7) {
+            if (state -> pieces[x + 1][y] == BK) return true;
+            if (y > 0) {
+                if (state -> pieces[x + 1][y - 1] == BK) return true;
+            }
+            if (y < 7) {
+                if (state -> pieces[x + 1][y + 1] == BK) return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from_x, uint8_t from_y, uint8_t to_x, uint8_t to_y, uint8_t promotion) {
 
     GameState* state = copyGameState(oldState);
     Move move;
@@ -79,207 +270,18 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
         }
         if (found) break;
     }
-    if (found) {
-        //info("Found king at %d %d\n", x, y);
-    } else {
+
+    if (!found) {
         error("Could not find king");
         goto END;
     }
 
-    // If white moves, check white king's safety
+    // If king is attacked by opponent in this position, invalidate the move.
     if (oldState -> turn == WHITE) {
-
-        // Knight check
-        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == BN) goto END;
-        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == BN) goto END;
-        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == BN) goto END;
-        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == BN) goto END;
-        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == BN) goto END;
-        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == BN) goto END;
-        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == BN) goto END;
-        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == BN) goto END;
-
-        // Rook/queen check
-        // West
-        for (int i = x - 1; i >= 0; i--) {
-            if (state -> pieces[i][y] == BR || state -> pieces[i][y] == BQ) goto END;
-            if (state -> pieces[i][y] != EMPTY) break;
-        }
-        // East
-        for (int i = x + 1; i <= 7; i++) {
-            if (state -> pieces[i][y] == BR || state -> pieces[i][y] == BQ) goto END;
-            if (state -> pieces[i][y] != EMPTY) break;
-        }
-        // South
-        for (int j = y - 1; j >= 0; j--) {
-            if (state -> pieces[x][j] == BR || state -> pieces[x][j] == BQ) goto END;
-            if (state -> pieces[x][j] != EMPTY) break;
-        }
-        // North
-        for (int j = y + 1; j <= 7; j++) {
-            if (state -> pieces[x][j] == BR || state -> pieces[x][j] == BQ) goto END;
-            if (state -> pieces[x][j] != EMPTY) break;
-        }
-
-        // Bishop/queen check
-        // Southwest
-        for (int i = 1; i <= 7; i++) {
-            if (x - i < 0 || y - i < 0) break;
-            if (state -> pieces[x - i][y - i] == BB || state -> pieces[x - i][y - i] == BQ) goto END;
-            if (state -> pieces[x - i][y - i] == EMPTY) break;
-        }
-        // Southeast
-        for (int i = 1; i <= 7; i++) {
-            if (x + i > 7 || y - i < 0) break;
-            if (state -> pieces[x + i][y - i] == BB || state -> pieces[x + i][y - i] == BQ) goto END;
-            if (state -> pieces[x + i][y - i] == EMPTY) break;
-        }
-        // Northwest
-        for (int i = 1; i <= 7; i++) {
-            if (x - i < 0 || y + i > 7) break;
-            if (state -> pieces[x - i][y + i] == BB || state -> pieces[x - i][y + i] == BQ) goto END;
-            if (state -> pieces[x - i][y + i] == EMPTY) break;
-        }
-        // Northeast
-        for (int i = 1; i <= 7; i++) {
-            if (x + i > 7 || y + i > 7) break;
-            if (state -> pieces[x + i][y + i] == BB || state -> pieces[x + i][y + i] == BQ) goto END;
-            if (state -> pieces[x + i][y + i] == EMPTY) break;
-        }
-
-        // Pawn check
-        if (y > 0) {
-            if (x > 0) {
-                if (state -> pieces[x - 1][y - 1] == BP) goto END;
-            }
-            if (x < 7) {
-                if (state -> pieces[x + 1][y - 1] == BP) goto END;
-            }
-        }
-
-        // King check
-        if (x > 0) {
-            if (state -> pieces[x - 1][y] == BK) goto END;
-            if (y > 0) {
-                if (state -> pieces[x - 1][y - 1] == BK) goto END;
-            }
-            if (y < 7) {
-                if (state -> pieces[x - 1][y + 1] == BK) goto END;
-            }
-        }
-        if (y > 0) {
-            if (state -> pieces[x][y - 1] == BK) goto END;
-        }
-        if (y < 7) {
-            if (state -> pieces[x][y + 1] == BK) goto END;
-        }
-        if (x < 7) {
-            if (state -> pieces[x + 1][y] == BK) goto END;
-            if (y > 0) {
-                if (state -> pieces[x + 1][y - 1] == BK) goto END;
-            }
-            if (y < 7) {
-                if (state -> pieces[x + 1][y + 1] == BK) goto END;
-            }
-        }
+        if (isAttackedBy(state, x, y, BLACK)) goto END;
     }
-
-    // If black moves, check black king's safety
-    else {
-
-        // Knight check
-        if (x > 1 && y > 0 && state -> pieces[x - 2][y - 1] == WN) goto END;
-        if (x > 0 && y > 1 && state -> pieces[x - 1][y - 2] == WN) goto END;
-        if (x < 6 && y > 0 && state -> pieces[x + 2][y - 1] == WN) goto END;
-        if (x < 7 && y > 1 && state -> pieces[x + 1][y - 2] == WN) goto END;
-        if (x > 1 && y < 7 && state -> pieces[x - 2][y + 1] == WN) goto END;
-        if (x > 0 && y < 6 && state -> pieces[x - 1][y + 2] == WN) goto END;
-        if (x < 6 && y < 7 && state -> pieces[x + 2][y + 1] == WN) goto END;
-        if (x < 7 && y < 6 && state -> pieces[x + 1][y + 2] == WN) goto END;
-
-        // Rook/queen check
-        // West
-        for (int i = x - 1; i >= 0; i--) {
-            if (state -> pieces[i][y] == WR || state -> pieces[i][y] == WQ) goto END;
-            if (state -> pieces[i][y] != EMPTY) break;
-        }
-        // East
-        for (int i = x + 1; i <= 7; i++) {
-            if (state -> pieces[i][y] == WR || state -> pieces[i][y] == WQ) goto END;
-            if (state -> pieces[i][y] != EMPTY) break;
-        }
-        // South
-        for (int j = y - 1; j >= 0; j--) {
-            if (state -> pieces[x][j] == WR || state -> pieces[x][j] == WQ) goto END;
-            if (state -> pieces[x][j] != EMPTY) break;
-        }
-        // North
-        for (int j = y + 1; j <= 7; j++) {
-            if (state -> pieces[x][j] == WR || state -> pieces[x][j] == WQ) goto END;
-            if (state -> pieces[x][j] != EMPTY) break;
-        }
-
-        // Bishop/queen check
-        // Southwest
-        for (int i = 1; i <= 7; i++) {
-            if (x - i < 0 || y - i < 0) break;
-            if (state -> pieces[x - i][y - i] == WB || state -> pieces[x - i][y - i] == WQ) goto END;
-            if (state -> pieces[x - i][y - i] == EMPTY) break;
-        }
-        // Southeast
-        for (int i = 1; i <= 7; i++) {
-            if (x + i > 7 || y - i < 0) break;
-            if (state -> pieces[x + i][y - i] == WB || state -> pieces[x + i][y - i] == WQ) goto END;
-            if (state -> pieces[x + i][y - i] == EMPTY) break;
-        }
-        // Northwest
-        for (int i = 1; i <= 7; i++) {
-            if (x - i < 0 || y + i > 7) break;
-            if (state -> pieces[x - i][y + i] == WB || state -> pieces[x - i][y + i] == WQ) goto END;
-            if (state -> pieces[x - i][y + i] == EMPTY) break;
-        }
-        // Northeast
-        for (int i = 1; i <= 7; i++) {
-            if (x + i > 7 || y + i > 7) break;
-            if (state -> pieces[x + i][y + i] == WB || state -> pieces[x + i][y + i] == WQ) goto END;
-            if (state -> pieces[x + i][y + i] == EMPTY) break;
-        }
-
-        // Pawn check
-        if (y > 0) {
-            if (x > 0) {
-                if (state -> pieces[x - 1][y - 1] == WP) goto END;
-            }
-            if (x < 7) {
-                if (state -> pieces[x + 1][y - 1] == WP) goto END;
-            }
-        }
-
-        // King check
-        if (x > 0) {
-            if (state -> pieces[x - 1][y] == WK) goto END;
-            if (y > 0) {
-                if (state -> pieces[x - 1][y - 1] == WK) goto END;
-            }
-            if (y < 7) {
-                if (state -> pieces[x - 1][y + 1] == WK) goto END;
-            }
-        }
-        if (y > 0) {
-            if (state -> pieces[x][y - 1] == WK) goto END;
-        }
-        if (y < 7) {
-            if (state -> pieces[x][y + 1] == WK) goto END;
-        }
-        if (x < 7) {
-            if (state -> pieces[x + 1][y] == WK) goto END;
-            if (y > 0) {
-                if (state -> pieces[x + 1][y - 1] == WK) goto END;
-            }
-            if (y < 7) {
-                if (state -> pieces[x + 1][y + 1] == WK) goto END;
-            }
-        }
+    if (oldState -> turn == BLACK) {
+        if (isAttackedBy(state, x, y, WHITE)) goto END;
     }
 
     // All checks passed, add the move to the list of valid moves.
