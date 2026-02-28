@@ -10,9 +10,6 @@ void uci() {
     sendCommand("id author Isaac Thompson");
     sendCommand("uciok");
 
-    // Initialize engine
-    initialize();
-
     //sendCommand("copyprotection checking");
     //sendCommand("copyprotection ok");
     //sendCommand("registration checking");

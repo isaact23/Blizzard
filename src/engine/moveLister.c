@@ -86,25 +86,25 @@ static bool isAttackedBy(GameState* state, uint8_t x, uint8_t y, uint8_t turn) {
         for (int i = 1; i <= 7; i++) {
             if (x - i < 0 || y - i < 0) break;
             if (state -> pieces[x - i][y - i] == WB || state -> pieces[x - i][y - i] == WQ) return true;
-            if (state -> pieces[x - i][y - i] == EMPTY) break;
+            if (state -> pieces[x - i][y - i] != EMPTY) break;
         }
         // Southeast
         for (int i = 1; i <= 7; i++) {
             if (x + i > 7 || y - i < 0) break;
             if (state -> pieces[x + i][y - i] == WB || state -> pieces[x + i][y - i] == WQ) return true;
-            if (state -> pieces[x + i][y - i] == EMPTY) break;
+            if (state -> pieces[x + i][y - i] != EMPTY) break;
         }
         // Northwest
         for (int i = 1; i <= 7; i++) {
             if (x - i < 0 || y + i > 7) break;
             if (state -> pieces[x - i][y + i] == WB || state -> pieces[x - i][y + i] == WQ) return true;
-            if (state -> pieces[x - i][y + i] == EMPTY) break;
+            if (state -> pieces[x - i][y + i] != EMPTY) break;
         }
         // Northeast
         for (int i = 1; i <= 7; i++) {
             if (x + i > 7 || y + i > 7) break;
             if (state -> pieces[x + i][y + i] == WB || state -> pieces[x + i][y + i] == WQ) return true;
-            if (state -> pieces[x + i][y + i] == EMPTY) break;
+            if (state -> pieces[x + i][y + i] != EMPTY) break;
         }
 
         // Pawn check
@@ -181,25 +181,25 @@ static bool isAttackedBy(GameState* state, uint8_t x, uint8_t y, uint8_t turn) {
         for (int i = 1; i <= 7; i++) {
             if (x - i < 0 || y - i < 0) break;
             if (state -> pieces[x - i][y - i] == BB || state -> pieces[x - i][y - i] == BQ) return true;
-            if (state -> pieces[x - i][y - i] == EMPTY) break;
+            if (state -> pieces[x - i][y - i] != EMPTY) break;
         }
         // Southeast
         for (int i = 1; i <= 7; i++) {
             if (x + i > 7 || y - i < 0) break;
             if (state -> pieces[x + i][y - i] == BB || state -> pieces[x + i][y - i] == BQ) return true;
-            if (state -> pieces[x + i][y - i] == EMPTY) break;
+            if (state -> pieces[x + i][y - i] != EMPTY) break;
         }
         // Northwest
         for (int i = 1; i <= 7; i++) {
             if (x - i < 0 || y + i > 7) break;
             if (state -> pieces[x - i][y + i] == BB || state -> pieces[x - i][y + i] == BQ) return true;
-            if (state -> pieces[x - i][y + i] == EMPTY) break;
+            if (state -> pieces[x - i][y + i] != EMPTY) break;
         }
         // Northeast
         for (int i = 1; i <= 7; i++) {
             if (x + i > 7 || y + i > 7) break;
             if (state -> pieces[x + i][y + i] == BB || state -> pieces[x + i][y + i] == BQ) return true;
-            if (state -> pieces[x + i][y + i] == EMPTY) break;
+            if (state -> pieces[x + i][y + i] != EMPTY) break;
         }
 
         // Pawn check
@@ -253,7 +253,7 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
     move.promotion = promotion;
     applyMoveToGameState(state, &move);
 
-    // Find king
+    // Find king in the new position
     int x = 0;
     int y = 0;
     bool found = false;
@@ -276,12 +276,44 @@ static void addMoveIfValid(GameState* oldState, MoveList* moveList, uint8_t from
         goto END;
     }
 
-    // If king is attacked by opponent in this position, invalidate the move.
+    // If king is attacked by opponent in the NEW position, invalidate the move.
     if (oldState -> turn == WHITE) {
         if (isAttackedBy(state, x, y, BLACK)) goto END;
     }
     if (oldState -> turn == BLACK) {
         if (isAttackedBy(state, x, y, WHITE)) goto END;
+    }
+
+    uint8_t movingPiece = oldState -> pieces[from_x][from_y];
+
+    // Castling attacked squares check
+    if (from_x == 4) {
+        // Queenside
+        if (to_x == 2) {
+            // White
+            if (from_y == 0 && movingPiece == WK) {
+                if (isAttackedBy(oldState, 3, 0, BLACK)) goto END;
+                if (isAttackedBy(oldState, 4, 0, BLACK)) goto END; // King must not be attacked in old position either
+            }
+            // Black
+            else if (from_y == 7 && movingPiece == BK) {
+                if (isAttackedBy(oldState, 3, 7, WHITE)) goto END;
+                if (isAttackedBy(oldState, 4, 7, WHITE)) goto END; 
+            }
+        }
+        // Kingside
+        else if (to_x == 6) {
+            // White
+            if (from_y == 0 && movingPiece == WK) {
+                if (isAttackedBy(oldState, 4, 0, BLACK)) goto END;
+                if (isAttackedBy(oldState, 5, 0, BLACK)) goto END;
+            }
+            // Black
+            else if (from_y == 7 && movingPiece == BK) {
+                if (isAttackedBy(oldState, 4, 7, WHITE)) goto END; 
+                if (isAttackedBy(oldState, 5, 7, WHITE)) goto END; 
+            }
+        }
     }
 
     // All checks passed, add the move to the list of valid moves.
@@ -615,7 +647,7 @@ static void listKingMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
                 }
             }
             if (state -> castleFlags & CAN_CASTLE_WHITE_QUEENSIDE) {
-                if (state -> pieces[2][0] == EMPTY && state -> pieces[3][0] == EMPTY) {
+                if (state -> pieces[1][0] == EMPTY && state -> pieces[2][0] == EMPTY && state -> pieces[3][0] == EMPTY) {
                     addMoveIfValid(state, moveList, 4, 0, 2, 0, 0);
                 }
             }
@@ -627,7 +659,7 @@ static void listKingMoves(GameState* state, MoveList* moveList, uint8_t x, uint8
                 }
             }
             if (state -> castleFlags & CAN_CASTLE_BLACK_QUEENSIDE) {
-                if (state -> pieces[2][7] == EMPTY && state -> pieces[3][7] == EMPTY) {
+                if (state -> pieces[1][7] == EMPTY && state -> pieces[2][7] == EMPTY && state -> pieces[3][7] == EMPTY) {
                     addMoveIfValid(state, moveList, 4, 7, 2, 7, 0);
                 }
             }

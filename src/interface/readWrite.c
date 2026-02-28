@@ -73,6 +73,9 @@ void sendCommand(char* command, ...) {
 int main() {
     char buffer[BUF_SIZE];
 
+    // Initialize engine
+    initialize();
+
     while (1) {
         fgets(buffer, BUF_SIZE, stdin);
         int keywordCount;

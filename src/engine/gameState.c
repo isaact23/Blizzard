@@ -118,8 +118,22 @@ void applyMoveToGameState(GameState* state, Move* move) {
         return;
     }
 
+    uint8_t movingPiece = state -> pieces[move -> from_x][move -> from_y];
+
+    // En passant
+    if (movingPiece == WP || movingPiece == BP) {
+        bool changedX = move->from_x != move->to_x;
+        bool destinationEmpty = state -> pieces[move->to_x][move->to_y] == EMPTY;
+
+        // If both conditions are met, the move is en passant
+        if (changedX && destinationEmpty) {
+            // Remove the captured pawn, which is not at the destination tile
+            state -> pieces[move->to_x][move->from_y] = EMPTY;
+        }
+    }
+
     // Move the piece
-    state -> pieces[move -> to_x][move -> to_y] = state -> pieces[move -> from_x][move -> from_y];
+    state -> pieces[move -> to_x][move -> to_y] = movingPiece;
     state -> pieces[move -> from_x][move -> from_y] = EMPTY;
     if (state -> turn == WHITE) {
         state -> turn = BLACK;
