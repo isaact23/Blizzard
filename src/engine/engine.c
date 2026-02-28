@@ -17,14 +17,19 @@ static pthread_cond_t searchDoneCond;
 static bool stopFlag;
 
 static pthread_t threadId;
+static bool didInitialize = false;
 
 void initialize() {
+    if (didInitialize) return;
+
     pthread_mutex_init(&searchMutex, NULL);
     pthread_cond_init(&searchDoneCond, NULL);
     gameState = NULL;
     bestMove = NULL;
     stopFlag = false;
     threadId = -1;
+
+    didInitialize = true;
 }
 
 void setPosition(char* fen, char** moves, int moveCount) {
@@ -59,10 +64,17 @@ void* searchThread(void* args) {
     pthread_mutex_lock(&searchMutex);
 
     Node* node = createRoot(NULL, gameState->turn == WHITE);
-    for (int i = 0; i < 100000; i++) {
-        minimax(node, gameState);
+    for (int i = 1; i < 100000; i++) {
+        int32_t fitness = minimax(node, gameState);
+        if (i % 10000 == 0) {
+            if (gameState -> turn == WHITE) {
+                sendCommand("info score cp %d", fitness);
+            } else {
+                sendCommand("info score cp %d", -fitness);
+            }
+        }
     }
-    info("Evaluation %d", minimax(node, gameState));
+    //info("Evaluation %d", minimax(node, gameState));
     //printMinimaxTree(node, 0);
 
     pthread_mutex_unlock(&searchMutex);
