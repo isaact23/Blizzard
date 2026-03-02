@@ -63,32 +63,25 @@ void* searchThread(void* args) {
 
     pthread_mutex_lock(&searchMutex);
 
-    Node* node = createRoot(NULL, gameState->turn == WHITE);
-    for (int i = 1; i < 100000; i++) {
-        int32_t fitness = minimax(node, gameState);
-        if (i % 10000 == 0) {
-            if (gameState -> turn == WHITE) {
-                sendCommand("info score cp %d", fitness);
-            } else {
-                sendCommand("info score cp %d", -fitness);
-            }
-        }
-    }
+    //Node* node = createRoot(NULL, gameState->turn == WHITE);
+    int32_t evaluation = alphaBeta(gameState, 5, INT32_MIN, INT32_MAX, gameState->turn == WHITE, &bestMove);
     //info("Evaluation %d", minimax(node, gameState));
     //printMinimaxTree(node, 0);
 
     pthread_mutex_unlock(&searchMutex);
 
-    Move* bestMove = NULL;
+    /*Move* bestMove = NULL;
     if (node -> bestChild != NULL) {
         bestMove = node -> bestChild -> move;
-    }
+    }*/
     if (bestMove != NULL) {
         sendCommand("bestmove %s\n", moveToLongAlg(bestMove));
     } else {
         error("No move found");
     }
+    /*
     freeMinimaxTree(node);
+    */
 
     // Print all possible moves the engine could have made
     //MoveList* list = listMoves(gameState);

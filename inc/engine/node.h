@@ -20,6 +20,7 @@ typedef struct _Node Node;
 
 Node* createRoot(Move* move, bool isMax);
 int32_t minimax(Node* root, GameState* state);
+int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** moveOutput);
 void printMinimaxTree(Node* root, int depth);
 void freeMinimaxTree(Node* root);
 
