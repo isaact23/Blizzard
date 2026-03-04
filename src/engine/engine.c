@@ -60,33 +60,22 @@ void setPosition(char* fen, char** moves, int moveCount) {
 }
 
 void* searchThread(void* args) {
-
     pthread_mutex_lock(&searchMutex);
 
-    //Node* node = createRoot(NULL, gameState->turn == WHITE);
+    //printGameState(gameState);
+
     int32_t evaluation = alphaBeta(gameState, 5, INT32_MIN, INT32_MAX, gameState->turn == WHITE, &bestMove);
     info("Evaluation %d", evaluation);
-    //printMinimaxTree(node, 0);
 
     pthread_mutex_unlock(&searchMutex);
 
-    /*Move* bestMove = NULL;
-    if (node -> bestChild != NULL) {
-        bestMove = node -> bestChild -> move;
-    }*/
     if (bestMove != NULL) {
         sendCommand("bestmove %s", moveToLongAlg(bestMove));
+        free(bestMove);
+        bestMove = NULL;
     } else {
         error("No move found");
     }
-    /*
-    freeMinimaxTree(node);
-    */
-
-    // Print all possible moves the engine could have made
-    //MoveList* list = listMoves(gameState);
-    //printMoves(list);
-    //freeMoveList(list);
 
     pthread_mutex_lock(&searchMutex);
     if (stopFlag) {

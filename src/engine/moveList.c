@@ -1,7 +1,7 @@
 #include "engine/moveList.h"
 
 // Print all moves in a MoveList
-void printMoves(MoveList* moveList) {
+void printMoveList(MoveList* moveList) {
     for (int i = 0; i < moveList -> moveCount; i++) {
         printMove(moveList -> moveArray[i]);
     }

@@ -8,6 +8,7 @@ GameState* openingGameState() {
 // Create a GameState from a given FEN (Forsyth-Edwards Notation)
 GameState* gameStateFromFen(char* fen) {
     GameState* state = calloc(1, sizeof(GameState));
+    state -> enPassantFile = -1;
     int y = 7;
     int x = 0;
     int i = 0;
@@ -68,6 +69,7 @@ GameState* gameStateFromFen(char* fen) {
             case 'Q': {state -> castleFlags |= CAN_CASTLE_WHITE_QUEENSIDE; break;}
             case 'k': {state -> castleFlags |= CAN_CASTLE_BLACK_KINGSIDE; break;}
             case 'q': {state -> castleFlags |= CAN_CASTLE_BLACK_QUEENSIDE; break;}
+            case '-': break;
             default: {
                 error("Could not identify castling status in FEN string");
             }
@@ -112,33 +114,43 @@ GameState* gameStateFromFen(char* fen) {
 
 // Apply a move to the GameState.
 void applyMoveToGameState(GameState* state, Move* move) {
+    state -> enPassantFile = -1;
+
     // If king is captured, game is over.
-    uint8_t captured = state -> pieces[move -> to_x][move -> to_y];
-    if (captured == WK) {
+    uint8_t capturedPiece = state -> pieces[move -> to_x][move -> to_y];
+    if (capturedPiece == WK) {
         state -> outcome = OUTCOME_BLACK;
         return;
     }
-    else if (captured == BK) {
+    else if (capturedPiece == BK) {
         state -> outcome = OUTCOME_WHITE;
         return;
     }
 
     uint8_t movingPiece = state -> pieces[move -> from_x][move -> from_y];
-    uint8_t capturedPiece = state -> pieces[move -> to_x][move -> to_y];
+    uint8_t movingPieceColor = getPieceColor(movingPiece);
     
     if (capturedPiece != EMPTY) {
         state -> halfMoves = 0;
     }
 
     // Pawn
-    if (movingPiece == WP || movingPiece == BP) {
+    if (movingPiece & PAWN) {
         state -> halfMoves = 0;
 
         bool changedX = move->from_x != move->to_x;
         bool destinationEmpty = state -> pieces[move->to_x][move->to_y] == EMPTY;
 
+        // Set en passant file
+        if (move->from_y==1 && move->to_y==3) {
+            state -> enPassantFile = move -> to_x;
+        }
+        else if (move->from_y==6 && move->to_y==4) {
+            state -> enPassantFile = move -> to_x;
+        }
+
         // If both conditions are met, the move is en passant
-        if (changedX && destinationEmpty) {
+        else if (changedX && destinationEmpty) {
             // Remove the captured pawn, which is not at the destination tile
             state -> pieces[move->to_x][move->from_y] = EMPTY;
         }
@@ -147,8 +159,12 @@ void applyMoveToGameState(GameState* state, Move* move) {
         state -> halfMoves++;
     }
 
-    // Move the piece
-    state -> pieces[move -> to_x][move -> to_y] = movingPiece;
+    // Move the piece / handle promotion
+    if (move->promotion) {
+        state -> pieces[move->to_x][move->to_y] = (move->promotion) | movingPieceColor;
+    } else {
+        state -> pieces[move -> to_x][move -> to_y] = movingPiece;
+    }
     state -> pieces[move -> from_x][move -> from_y] = EMPTY;
 
     // Flip turn

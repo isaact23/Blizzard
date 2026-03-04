@@ -17,7 +17,7 @@ struct _MoveList {
 typedef struct _MoveList MoveList;
 
 // Print all moves in a MoveList
-void printMoves(MoveList* moveList);
+void printMoveList(MoveList* moveList);
 
 // Get empty MoveList
 MoveList* createMoveList();

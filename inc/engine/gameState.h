@@ -28,7 +28,7 @@ struct _GameState {
     uint8_t pieces[8][8]; // 8x8 board (indexed by x then y)
     uint8_t turn; // WHITE or BLACK
     uint8_t castleFlags; // Castling availability (indicated by 1 bits)
-    uint8_t enPassantFile; // Column of en passant. Greater than 7 if unavailable.
+    int8_t enPassantFile; // Column of en passant. -1 if unavailable.
     uint16_t halfMoves;
     uint8_t outcome; // OUTCOME_NONE, OUTCOME_WHITE, OUTCOME_BLACK, or OUTCOME_DRAW
 };
