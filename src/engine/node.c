@@ -27,7 +27,7 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
     int32_t value;
 
     if (isMax) {
-        value = -FITNESS_MAX;
+        value = INT32_MIN;
         for (int i = 0; i < moves->moveCount; i++) {
 
             // Create the child game state
@@ -50,7 +50,7 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
         }
     }
     else {
-        value = FITNESS_MAX;
+        value = INT32_MAX;
         for (int i = 0; i < moves->moveCount; i++) {
 
             // Create the child game state

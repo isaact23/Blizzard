@@ -98,7 +98,7 @@ GameState* gameStateFromFen(char* fen) {
         i++; j++;
     }
     numString[j] = '\0';
-    state -> fullMoves = (uint16_t) atoi(numString);
+    //state -> fullMoves = (uint16_t) atoi(numString);
 
     state -> outcome = OUTCOME_NONE;
 
@@ -119,9 +119,16 @@ void applyMoveToGameState(GameState* state, Move* move) {
     }
 
     uint8_t movingPiece = state -> pieces[move -> from_x][move -> from_y];
+    uint8_t capturedPiece = state -> pieces[move -> to_x][move -> to_y];
+    
+    if (capturedPiece != EMPTY) {
+        state -> halfMoves = 0;
+    }
 
-    // En passant
+    // Pawn
     if (movingPiece == WP || movingPiece == BP) {
+        state -> halfMoves = 0;
+
         bool changedX = move->from_x != move->to_x;
         bool destinationEmpty = state -> pieces[move->to_x][move->to_y] == EMPTY;
 
@@ -131,10 +138,15 @@ void applyMoveToGameState(GameState* state, Move* move) {
             state -> pieces[move->to_x][move->from_y] = EMPTY;
         }
     }
+    else if (capturedPiece == EMPTY) {
+        state -> halfMoves++;
+    }
 
     // Move the piece
     state -> pieces[move -> to_x][move -> to_y] = movingPiece;
     state -> pieces[move -> from_x][move -> from_y] = EMPTY;
+
+    // Flip turn
     if (state -> turn == WHITE) {
         state -> turn = BLACK;
     } else {
@@ -212,6 +224,8 @@ void applyMoveToGameState(GameState* state, Move* move) {
 
 // Get fitness level for a GameState.
 int32_t getFitness(GameState* state) {
+    if (state -> halfMoves >= 100) return 0;
+
     int32_t fitness = 0;
     for (uint8_t x = 0; x < 8; x++) {
         for (uint8_t y = 0; y < 8; y++) {

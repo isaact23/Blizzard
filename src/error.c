@@ -5,7 +5,7 @@ void fatalError(char* message, ...) {
     va_list args;
     va_start(args, message);
     vsnprintf(buf, 512, message, args);
-    fprintf(stdout, "[Fatal Error] %s\n", buf);
+    //fprintf(stderr, "[Fatal Error] %s\n", buf);
     va_end(args);
     exit(1);
 }
@@ -15,7 +15,7 @@ void error(char* message, ...) {
     va_list args;
     va_start(args, message);
     vsnprintf(buf, 512, message, args);
-    fprintf(stdout, "[Error] %s\n", buf);
+    //fprintf(stderr, "[Error] %s\n", buf);
     va_end(args);
 }
 
@@ -24,6 +24,6 @@ void info(char* message, ...) {
     va_list args;
     va_start(args, message);
     vsnprintf(buf, 512, message, args);
-    fprintf(stdout, "[Info] %s\n", buf);
+    //fprintf(stderr, "[Info] %s\n", buf);
     va_end(args);
 }

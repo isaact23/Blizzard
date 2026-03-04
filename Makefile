@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-ggdb3 -O2 -pthread
+CFLAGS=-ggdb3 -O2 -pthread -std=c11
 
 all: bin blizzard
 

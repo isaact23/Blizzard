@@ -36,11 +36,13 @@ static void evaluate(char** keywords, int keywordCount) {
         char* fen;
         if (strcmp(keywords[1], "startpos") == 0) {
             fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-            moveIndex = 3;
+            moveIndex = 3; // position startpos moves e2e4
         }
         else if (strcmp(keywords[1], "fen") == 0) {
-            error("Fen not supported yet");
-            moveIndex = 4;
+            fen = malloc(512 * sizeof(char));
+            snprintf(fen, 512, "%s %s %s %s %s %s", keywords[2], keywords[3], keywords[4], keywords[5], keywords[6], keywords[7]);
+
+            moveIndex = 9; // position fen fen1 fen2 fen3 fen4 fen5 fen6 moves e2e4
         }
 
         // Set position to given FEN and use the remaining arguments as moves (long algebraic form).
@@ -66,7 +68,8 @@ void sendCommand(char* command, ...) {
     va_list args;
     va_start(args, command);
     vsnprintf(buf, 512, command, args);
-    fprintf(stderr, "%s\n", buf);
+    fprintf(stdout, "%s\n", buf);
+    fflush(stdout);
     va_end(args);
 }
 

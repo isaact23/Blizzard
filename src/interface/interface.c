@@ -8,6 +8,15 @@ void uci() {
     info("Received UCI command");
     sendCommand("id name Blizzard");
     sendCommand("id author Isaac Thompson");
+
+    sendCommand("option name Move Overhead type spin default 10 min 0 max 5000");
+    sendCommand("option name Threads type spin default 1 min 1 max 128");
+    sendCommand("option name Hash type spin default 16 min 1 max 4096"); // Allowed RAM usage in MB
+    sendCommand("option name MultiPV type spin default 1 min 1 max 500");
+    sendCommand("option name SyzygyPath type string default <empty>");
+    sendCommand("option name UCI_ShowWDL type check default false");
+
+
     sendCommand("uciok");
 
     //sendCommand("copyprotection checking");
