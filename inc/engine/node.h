@@ -5,6 +5,7 @@
 #include "engine/moveList.h"
 #include "engine/moveLister.h"
 #include "engine/settings.h"
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 

@@ -1,6 +1,7 @@
 #ifndef __READ_WRITE_H__
 #define __READ_WRITE_H__
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include "error.h"

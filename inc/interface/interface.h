@@ -5,6 +5,7 @@
 #include "error.h"
 #include "interface/readWrite.h"
 #include "interface/searchSettings.h"
+#include <stdbool.h>
 
 void uci();
 void debug(bool value);

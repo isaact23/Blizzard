@@ -64,7 +64,7 @@ void* searchThread(void* args) {
     pthread_mutex_lock(&searchMutex);
 
     //Node* node = createRoot(NULL, gameState->turn == WHITE);
-    int32_t evaluation = alphaBeta(gameState, 4, INT32_MIN, INT32_MAX, gameState->turn == WHITE, &bestMove);
+    int32_t evaluation = alphaBeta(gameState, 5, INT32_MIN, INT32_MAX, gameState->turn == WHITE, &bestMove);
     //info("Evaluation %d", minimax(node, gameState));
     //printMinimaxTree(node, 0);
 

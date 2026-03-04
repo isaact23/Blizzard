@@ -1,6 +1,7 @@
 #ifndef __SPLIT_H__
 #define __SPLIT_H__
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 

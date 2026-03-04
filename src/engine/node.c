@@ -152,12 +152,12 @@ int32_t minimax(Node* root, GameState* state) {
         Node* childNode = NULL;
 
         // Select best node for exploration
-        if (random() % 5 == 0) {
+        if (rand() % 5 == 0) {
             childNode = root -> bestChild;
         }
         // Select random node for exploration
         else {
-            childNode = root -> children[random() % (root -> childCount)];
+            childNode = root -> children[rand() % (root -> childCount)];
         }
 
         if (childNode -> move != NULL) {

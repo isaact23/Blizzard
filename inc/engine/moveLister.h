@@ -4,6 +4,7 @@
 #include "engine/pieces.h"
 #include "engine/moveList.h"
 #include "engine/gameState.h"
+#include <stdbool.h>
 
 // Return pointer to list of all possible moves for gameState state, or NULL if failed.
 MoveList* listMoves(GameState* gameState);
