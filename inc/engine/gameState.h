@@ -31,7 +31,6 @@ struct _GameState {
     uint8_t enPassantFile; // Column of en passant. Greater than 7 if unavailable.
     uint16_t halfMoves;
     uint8_t outcome; // OUTCOME_NONE, OUTCOME_WHITE, OUTCOME_BLACK, or OUTCOME_DRAW
-    int32_t material;
 };
 typedef struct _GameState GameState;
 

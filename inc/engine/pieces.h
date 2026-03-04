@@ -4,16 +4,24 @@
 #include <stdint.h>
 
 // Piece colors
-#define WHITE 1 << 3
-#define BLACK 1 << 4
+#define WHITE 1 << 0
+#define BLACK 1 << 1
 
 // Piece types
-#define KING 0
-#define QUEEN 1
-#define BISHOP 2
-#define KNIGHT 3
-#define ROOK 4
-#define PAWN 5
+#define KING 1 << 2
+#define QUEEN 1 << 3
+#define BISHOP 1 << 4
+#define KNIGHT 1 << 5
+#define ROOK 1 << 6
+#define PAWN 1 << 7
+
+// Piece values defined in centipawns
+#define KING_VALUE 100000000
+#define QUEEN_VALUE 900
+#define ROOK_VALUE 500
+#define BISHOP_VALUE 300
+#define KNIGHT_VALUE 300
+#define PAWN_VALUE 100
 
 // Piece type colors
 #define EMPTY 0
@@ -36,5 +44,8 @@ uint8_t getPieceColor(uint8_t piece);
 
 // Get piece character from piece number
 char getPieceCharacter(uint8_t piece);
+
+// Get the value of a piece in centipawns.
+int32_t getPieceValue(uint8_t piece);
 
 #endif

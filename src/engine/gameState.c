@@ -14,6 +14,7 @@ GameState* gameStateFromFen(char* fen) {
 
     // Read piece layout
     while (fen[i] != ' ') {
+        uint8_t piece = EMPTY;
         switch (fen[i]) {
             case '0': { break; }
             case '1': { break; }
@@ -24,24 +25,28 @@ GameState* gameStateFromFen(char* fen) {
             case '6': { x += 5; break; }
             case '7': { x += 6; break; }
             case '8': { x += 7; break; }
-            case 'k': { state->pieces[x][y] = KING | BLACK; break; }
-            case 'q': { state->pieces[x][y] = QUEEN | BLACK; break; }
-            case 'r': { state->pieces[x][y] = ROOK | BLACK; break; }
-            case 'b': { state->pieces[x][y] = BISHOP | BLACK; break; }
-            case 'n': { state->pieces[x][y] = KNIGHT | BLACK; break; }
-            case 'p': { state->pieces[x][y] = PAWN | BLACK; break; }
-            case 'K': { state->pieces[x][y] = KING | WHITE; break; }
-            case 'Q': { state->pieces[x][y] = QUEEN | WHITE; break; }
-            case 'R': { state->pieces[x][y] = ROOK | WHITE; break; }
-            case 'B': { state->pieces[x][y] = BISHOP | WHITE; break; }
-            case 'N': { state->pieces[x][y] = KNIGHT | WHITE; break; }
-            case 'P': { state->pieces[x][y] = PAWN | WHITE; break; }
-            case '/': { x = -1; y--; break; }
+            case 'k': { piece = KING | BLACK; break; }
+            case 'q': { piece = QUEEN | BLACK; break; }
+            case 'r': { piece = ROOK | BLACK; break; }
+            case 'b': { piece = BISHOP | BLACK; break; }
+            case 'n': { piece = KNIGHT | BLACK; break; }
+            case 'p': { piece = PAWN | BLACK; break; }
+            case 'K': { piece = KING | WHITE; break; }
+            case 'Q': { piece = QUEEN | WHITE; break; }
+            case 'R': { piece = ROOK | WHITE; break; }
+            case 'B': { piece = BISHOP | WHITE; break; }
+            case 'N': { piece = KNIGHT | WHITE; break; }
+            case 'P': { piece = PAWN | WHITE; break; }
+            case '/': { i++; continue; }
             default: {
                 error("Encountered unknown character %s in FEN string", fen[i]);
             }
         }
+        state -> pieces[x][y] = piece;
         x++;
+        if (x >= 8) {
+            x = 0; y--;
+        }
         i++;
     }
     i++;
@@ -229,19 +234,10 @@ int32_t getFitness(GameState* state) {
     int32_t fitness = 0;
     for (uint8_t x = 0; x < 8; x++) {
         for (uint8_t y = 0; y < 8; y++) {
-            switch (state -> pieces[x][y]) {
-                case WP: { fitness += (100 + y); break; }
-                case WB: { fitness += (300 + (y * 2)); break; }
-                case WN: { fitness += (300 + (y * 2)); break; }
-                case WR: { fitness += (500 + (y * 3)); break; }
-                case WQ: { fitness += (900 + (y * 3)); break; }
-                case WK: { fitness += FITNESS_MAX; break; }
-                case BP: { fitness -= (100 - y); break; }
-                case BB: { fitness -= (300 - (y * 2)); break; }
-                case BN: { fitness -= (300 - (y * 2)); break; }
-                case BR: { fitness -= (500 - (y * 3)); break; }
-                case BQ: { fitness -= (900 - (y * 3)); break; }
-                case BK: { fitness -= FITNESS_MAX; break; }
+            uint8_t piece = state->pieces[x][y];
+            fitness += getPieceValue(piece);
+            if (piece != EMPTY) {
+                fitness += y * 3;
             }
         }
     }

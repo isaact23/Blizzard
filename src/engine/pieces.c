@@ -26,3 +26,17 @@ char getPieceCharacter(uint8_t piece) {
         default: { return ' '; }
     }
 };
+
+// Get the value of a piece in centipawns.
+int32_t getPieceValue(uint8_t piece) {
+    int32_t value = 0;
+    if (piece == EMPTY) return 0;
+    if (piece & KING) value = KING_VALUE;
+    if (piece & QUEEN) value = QUEEN_VALUE;
+    if (piece & ROOK) value = ROOK_VALUE;
+    if (piece & BISHOP) value = BISHOP_VALUE;
+    if (piece & KNIGHT) value = KNIGHT_VALUE;
+    if (piece & PAWN) value = PAWN_VALUE;
+    if (piece & BLACK) value *= -1;
+    return value;
+}

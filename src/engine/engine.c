@@ -65,7 +65,7 @@ void* searchThread(void* args) {
 
     //Node* node = createRoot(NULL, gameState->turn == WHITE);
     int32_t evaluation = alphaBeta(gameState, 5, INT32_MIN, INT32_MAX, gameState->turn == WHITE, &bestMove);
-    //info("Evaluation %d", minimax(node, gameState));
+    info("Evaluation %d", evaluation);
     //printMinimaxTree(node, 0);
 
     pthread_mutex_unlock(&searchMutex);
@@ -75,7 +75,7 @@ void* searchThread(void* args) {
         bestMove = node -> bestChild -> move;
     }*/
     if (bestMove != NULL) {
-        sendCommand("bestmove %s\n", moveToLongAlg(bestMove));
+        sendCommand("bestmove %s", moveToLongAlg(bestMove));
     } else {
         error("No move found");
     }

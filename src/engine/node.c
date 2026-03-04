@@ -74,8 +74,12 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
     }
 
     if (moveOutput != NULL) {
-        *moveOutput = chosenMove;
+        if (chosenMove == NULL)
+            *moveOutput = NULL;
+        else
+            *moveOutput = copyMove(chosenMove);
     }
+    freeMoveList(moves);
     return value;
 }
 
