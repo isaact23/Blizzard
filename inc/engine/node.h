@@ -1,6 +1,7 @@
 #ifndef __NODE_H__
 #define __NODE_H__
 
+#include "engine/chromosome.h"
 #include "engine/gameState.h"
 #include "engine/moveList.h"
 #include "engine/moveLister.h"
@@ -21,10 +22,6 @@ struct _Node {
 };
 typedef struct _Node Node;
 
-Node* createRoot(Move* move, bool isMax);
-int32_t minimax(Node* root, GameState* state);
-int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** moveOutput);
-void printMinimaxTree(Node* root, int depth);
-void freeMinimaxTree(Node* root);
+int32_t alphaBeta(GameState* state, int depth, int a, int b, Chromosome* c, Move** moveOutput);
 
 #endif

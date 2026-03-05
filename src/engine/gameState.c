@@ -244,17 +244,32 @@ void applyMoveToGameState(GameState* state, Move* move) {
 }
 
 // Get fitness level for a GameState.
-int32_t getFitness(GameState* state) {
+int32_t getFitness(GameState* state, Chromosome* c) {
     if (state -> halfMoves >= 100) return 0;
 
     int32_t fitness = 0;
     for (uint8_t x = 0; x < 8; x++) {
         for (uint8_t y = 0; y < 8; y++) {
             uint8_t piece = state->pieces[x][y];
-            fitness += getPieceValue(piece);
+            
+            switch (piece) {
+                case WP: {fitness += c->whitePawnCP[x][y]; break;}
+                case WN: {fitness += c->whiteKnightCP[x][y]; break;}
+                case WB: {fitness += c->whiteBishopCP[x][y]; break;}
+                case WR: {fitness += c->whiteRookCP[x][y]; break;}
+                case WQ: {fitness += c->whiteQueenCP[x][y]; break;}
+                case BP: {fitness += c->blackPawnCP[x][y]; break;}
+                case BN: {fitness += c->blackKnightCP[x][y]; break;}
+                case BB: {fitness += c->blackBishopCP[x][y]; break;}
+                case BR: {fitness += c->blackRookCP[x][y]; break;}
+                case BQ: {fitness += c->blackQueenCP[x][y]; break;}
+                default: break;
+            }
+
+            /*fitness += getPieceValue(piece);
             if (piece != EMPTY) {
                 fitness += y * 3;
-            }
+            }*/
         }
     }
     return fitness;

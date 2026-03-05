@@ -19,6 +19,8 @@ static bool stopFlag;
 static pthread_t threadId;
 static bool didInitialize = false;
 
+static Chromosome* c = NULL;
+
 void initialize() {
     if (didInitialize) return;
 
@@ -30,6 +32,7 @@ void initialize() {
     threadId = -1;
 
     didInitialize = true;
+    c = initChromosome();
 }
 
 void setPosition(char* fen, char** moves, int moveCount) {
@@ -64,7 +67,7 @@ void* searchThread(void* args) {
 
     //printGameState(gameState);
 
-    int32_t evaluation = alphaBeta(gameState, 5, INT32_MIN, INT32_MAX, gameState->turn == WHITE, &bestMove);
+    int32_t evaluation = alphaBeta(gameState, 5, INT32_MIN, INT32_MAX, c, &bestMove);
 
     if (gameState->turn == BLACK)
         evaluation *= -1;
@@ -125,7 +128,9 @@ void shutdown() {
         freeGameState(gameState);
     }
     pthread_mutex_unlock(&searchMutex);
-
+    if (c != NULL) {
+        free(c);
+    }
     exit(0);
 }
 

@@ -16,7 +16,7 @@
 #define PAWN 1 << 7
 
 // Piece values defined in centipawns
-#define KING_VALUE 100000000
+#define KING_VALUE 0
 #define QUEEN_VALUE 900
 #define ROOK_VALUE 500
 #define BISHOP_VALUE 300

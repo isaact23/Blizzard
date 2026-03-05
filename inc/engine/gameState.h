@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "interface/readWrite.h"
+#include "engine/chromosome.h"
 #include "engine/longAlgConvert.h"
 #include "engine/pieces.h"
 #include "engine/moveList.h"
@@ -44,7 +45,7 @@ GameState* gameStateFromFen(char* fen);
 void applyMoveToGameState(GameState* state, Move* move);
 
 // Get fitness level for a GameState.
-int32_t getFitness(GameState* state);
+int32_t getFitness(GameState* state, Chromosome* c);
 
 // Return a pointer to an identical gameState to the provided one.
 GameState* copyGameState(GameState* state);
