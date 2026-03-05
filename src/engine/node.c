@@ -16,8 +16,8 @@ Node* createRoot(Move* move, bool isMax) {
 }
 
 int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** moveOutput) {
-    if (state -> outcome == OUTCOME_WHITE) return INT32_MAX;
-    if (state -> outcome == OUTCOME_BLACK) return INT32_MIN;
+    if (state -> outcome == OUTCOME_WHITE) return LARGE_NUM;
+    if (state -> outcome == OUTCOME_BLACK) return -LARGE_NUM;
     if (state -> outcome == OUTCOME_DRAW) return 0;
     if (depth == 0) {
         return getFitness(state);
@@ -27,7 +27,7 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
     int32_t value;
 
     if (isMax) {
-        value = INT32_MIN;
+        value = -LARGE_NUM;
         for (int i = 0; i < moves->moveCount; i++) {
 
             // Create the child game state
@@ -35,7 +35,7 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
             applyMoveToGameState(newState, moves->moveArray[i]);
 
             // Evaluate the child tree
-            int32_t childValue = alphaBeta(newState, depth - 1, a, b, false, NULL);
+            int32_t childValue = alphaBeta(newState, depth - 1, a, b, false, NULL) - 10;
 
             freeGameState(newState);
 
@@ -50,7 +50,7 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
         }
     }
     else {
-        value = INT32_MAX;
+        value = LARGE_NUM;
         for (int i = 0; i < moves->moveCount; i++) {
 
             // Create the child game state
@@ -58,7 +58,7 @@ int32_t alphaBeta(GameState* state, int depth, int a, int b, bool isMax, Move** 
             applyMoveToGameState(newState, moves->moveArray[i]);
 
             // Evaluate the child tree
-            int32_t childValue = alphaBeta(newState, depth - 1, a, b, true, NULL);
+            int32_t childValue = alphaBeta(newState, depth - 1, a, b, true, NULL) + 10;
 
             freeGameState(newState);
 

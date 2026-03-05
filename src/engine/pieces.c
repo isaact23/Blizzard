@@ -31,7 +31,7 @@ char getPieceCharacter(uint8_t piece) {
 int32_t getPieceValue(uint8_t piece) {
     int32_t value = 0;
     if (piece == EMPTY) return 0;
-    if (piece & KING) value = KING_VALUE;
+    if (piece & KING) return 0;
     if (piece & QUEEN) value = QUEEN_VALUE;
     if (piece & ROOK) value = ROOK_VALUE;
     if (piece & BISHOP) value = BISHOP_VALUE;

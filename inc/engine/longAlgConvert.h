@@ -3,7 +3,7 @@
 
 #include "engine/move.h"
 #include "engine/pieces.h"
-#include "error.h"
+#include "interface/readWrite.h"
 #include <stdlib.h>
 
 int fileCharToNum(char file);

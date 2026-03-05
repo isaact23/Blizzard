@@ -68,8 +68,36 @@ void sendCommand(char* command, ...) {
     va_list args;
     va_start(args, command);
     vsnprintf(buf, 512, command, args);
-    fprintf(stdout, "%s\n", buf);
-    fflush(stdout);
+    fprintf(COMMAND_OUTPUT, "%s\n", buf);
+    fflush(COMMAND_OUTPUT);
+    va_end(args);
+}
+
+void fatalError(char* message, ...) {
+    char buf[512];
+    va_list args;
+    va_start(args, message);
+    vsnprintf(buf, 512, message, args);
+    fprintf(DEBUG_OUTPUT, "[Fatal Error] %s\n", buf);
+    va_end(args);
+    exit(1);
+}
+
+void error(char* message, ...) {
+    char buf[512];
+    va_list args;
+    va_start(args, message);
+    vsnprintf(buf, 512, message, args);
+    fprintf(DEBUG_OUTPUT, "[Error] %s\n", buf);
+    va_end(args);
+}
+
+void info(char* message, ...) {
+    char buf[512];
+    va_list args;
+    va_start(args, message);
+    vsnprintf(buf, 512, message, args);
+    fprintf(DEBUG_OUTPUT, "[Info] %s\n", buf);
     va_end(args);
 }
 

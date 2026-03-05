@@ -9,6 +9,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#define LARGE_NUM 100000000
+
 struct _Node {
     Move* move; // Move to get to this state
     struct _Node** children;

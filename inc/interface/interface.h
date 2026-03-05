@@ -2,7 +2,7 @@
 #define __INTERFACE_H__
 
 #include "engine.h"
-#include "error.h"
+#include "interface/readWrite.h"
 #include "interface/readWrite.h"
 #include "interface/searchSettings.h"
 #include <stdbool.h>

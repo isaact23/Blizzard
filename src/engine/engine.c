@@ -4,7 +4,7 @@
 #include "engine/longAlgConvert.h"
 #include "engine/moveSequence.h"
 #include "engine/settings.h"
-#include "error.h"
+#include "interface/readWrite.h"
 #include "interface/readWrite.h"
 #include "pthread.h"
 
@@ -65,7 +65,10 @@ void* searchThread(void* args) {
     //printGameState(gameState);
 
     int32_t evaluation = alphaBeta(gameState, 5, INT32_MIN, INT32_MAX, gameState->turn == WHITE, &bestMove);
-    info("Evaluation %d", evaluation);
+
+    if (gameState->turn == BLACK)
+        evaluation *= -1;
+    sendCommand("info score cp %d\n", evaluation);
 
     pthread_mutex_unlock(&searchMutex);
 
